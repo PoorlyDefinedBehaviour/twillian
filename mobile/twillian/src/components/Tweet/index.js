@@ -20,9 +20,9 @@ export default function Tweet({
         <Content>{content}</Content>
       </Body>
       <Actions>
-        <ActionIcon name="md-heart-empty" />
-        <ActionIcon name="md-repeat" />
-        <ActionIcon name="md-chatbubbles" />
+        <ActionIcon name="heart-outline" />
+        <ActionIcon name="repeat" />
+        <ActionIcon name="comment-multiple-outline" />
       </Actions>
     </Container>
   );

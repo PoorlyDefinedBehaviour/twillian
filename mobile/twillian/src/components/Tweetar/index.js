@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-import {
-  Container, Header, HeaderText, Message,
-} from './styles';
+import { Container, Header, Message } from './styles';
 import Avatar from '~/components/Avatar';
 
 export default function Tweetar() {
