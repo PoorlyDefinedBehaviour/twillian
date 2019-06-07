@@ -4,7 +4,7 @@
   "description": "twillian-porn-site-backend",
   "main": "index.js",
   "scripts": {
-    "test": "jest tests/index.js",
+    "test": "mocha -w --timeout 10000 __tests__",
     "start": "nodemon src/index.js"
   },
   "repository": {
@@ -23,6 +23,8 @@
     "mongoose": "^5.5.13"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1",
+    "randomstring": "^1.1.5"
   }
 }

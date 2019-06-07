@@ -1,11 +1,10 @@
 require("dotenv").config();
-const ICrud = require("../interfaces/ICrud.interface");
+const Crud = require("../../interfaces/Crud");
 const Mongoose = require("mongoose");
 
-class MongoDB extends ICrud {
-  constructor(connection, schema) {
+class MongoDB extends Crud {
+  constructor(schema) {
     super();
-    this.connection = connection;
     this.schema = schema;
   }
 
@@ -27,7 +26,7 @@ class MongoDB extends ICrud {
 
   static connect() {
     Mongoose.connect(
-      process.env.MONGODB_URL,
+      process.env.MONGODB_CONNECTION_URL,
       { useNewUrlParser: true },
       err => {
         if (err) throw err;
@@ -39,6 +38,10 @@ class MongoDB extends ICrud {
     });
 
     return Mongoose.connection;
+  }
+
+  static is_connected() {
+    return Mongoose.connection ? true : false;
   }
 }
 

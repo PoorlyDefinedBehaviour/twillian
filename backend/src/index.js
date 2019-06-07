@@ -1,6 +1,11 @@
 require("dotenv").config();
-const server = require("express")();
+const express = require("express");
+const server = express();
 
-server.listen(8080, () => console.log(`Listening on PORT ${process.env.PORT}`));
+server.use(express.json());
+
+server.listen(process.env.PORT, () =>
+  console.log(`Listening on PORT ${process.env.PORT}`)
+);
 
 server.get("/", (request, response) => response.send("gudang"));
