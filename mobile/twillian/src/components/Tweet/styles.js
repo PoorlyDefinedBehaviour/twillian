@@ -4,7 +4,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export const Container = styled.View`
   background-color: #f5f8fa;
-  border-radius: 4px;
+  elevation: 10;
+  box-shadow: 0px 10px 10px #000000;
+  border-radius: 5px;
+
+  margin: 15px;
   padding: 10px 15px;
 `;
 

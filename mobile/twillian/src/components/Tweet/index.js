@@ -8,8 +8,6 @@ import Avatar from '~/components/Avatar';
 export default function Tweet({
   author, content, likes, retweets, comments,
 }) {
-  function likeTweet() {}
-
   return (
     <Container>
       <Header>
