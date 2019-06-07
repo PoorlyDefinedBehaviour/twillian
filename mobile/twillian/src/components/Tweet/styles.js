@@ -2,14 +2,6 @@ import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export const Container = styled.View`
-  background-color: #f5f8fa;
-  border-radius: 5px;
-
-  margin: 5px 15px;
-  padding: 10px 15px;
-`;
-
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
@@ -42,8 +34,8 @@ export const Actions = styled.View`
   align-items: center;
 `;
 
-export const ActionIcon = styled(Icon).attrs({
-  name: props => props.name,
+export const ActionIcon = styled(Icon).attrs(props => ({
+  name: props.name,
   size: 25,
   color: '#3d3d3d',
-})``;
+}))``;

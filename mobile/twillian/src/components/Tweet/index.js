@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {
-  Container, Header, Author, Username, Body, Content, Actions, ActionIcon,
+  Header, Author, Username, Body, Content, Actions, ActionIcon,
 } from './styles';
+import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
 
 export default function Tweet({

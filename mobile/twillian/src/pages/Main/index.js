@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Container, Tweets } from './styles';
+import Tweetar from '~/components/Tweetar';
 import Tweet from '~/components/Tweet';
 
 export function navigationOptions({}) {
@@ -12,7 +13,7 @@ export function navigationOptions({}) {
 export default function Main({}) {
   const [tweets, setTweets] = useState([
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -25,7 +26,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -38,7 +39,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -51,7 +52,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -64,7 +65,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -77,7 +78,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -90,7 +91,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -103,7 +104,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -116,7 +117,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -129,7 +130,7 @@ export default function Main({}) {
       comments: 3,
     },
     {
-      id: 1,
+      id: Math.random(),
       author: {
         name: 'Willian Ferreira',
         username: '@willianferreira',
@@ -157,7 +158,8 @@ export default function Main({}) {
 
   return (
     <Container>
-      <Tweets data={tweets} keyExtractor={item => item.id} renderItem={renderTweet} />
+      <Tweetar />
+      <Tweets data={tweets} keyExtractor={item => `tweet-${item.id}`} renderItem={renderTweet} />
     </Container>
   );
 }
