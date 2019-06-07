@@ -2,10 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const server = express();
 
-server.use(express.json());
+module.exports = (async function main() {
+  server.use(express.json());
 
-server.listen(process.env.PORT, () =>
-  console.log(`Listening on PORT ${process.env.PORT}`)
-);
+  require("./controllers/Register")(server);
+  require("./controllers/Auth")(server);
+  require("./controllers/User")(server);
 
-server.get("/", (request, response) => response.send("gudang"));
+  server
+    .listen(process.env.PORT || 8080, () =>
+      console.log(`Listening on PORT ${process.env.PORT}`)
+    )
+    .on("error", error => console.log(error));
+
+  process.on("uncaughtException", error => console.log(error));
+})();

@@ -1,29 +1,57 @@
+const router = require("express").Router();
+const { check, validationResult } = require("express-validator/check");
 const UserModel = require("../models/User");
-const MongoDB = require("../database/mongodb/MongoDB");
 
-class UserController {
-  constructor() {
-    this.database = new MongoDB(UserModel);
+router.post("/user", async (request, response) => {
+  /*
+  check("username")
+    .trim()
+    .isAlphanumeric()
+    .not()
+    .isEmpty()
+    .isLength({ min: 5, max: 10 });
+
+  check("email")
+    .trim()
+    .isEmail()
+    .normalizeEmail()
+    .not()
+    .isEmpty();
+
+  check(password)
+    .not()
+    .isEmpty()
+    .isLength({ min: 6, max: 255 });
+
+  const errors = validationResult(request);
+
+  if (!errors.isEmpty()) response.status(422).json({ errors: errors.array() });
+  */
+
+  const result = await UserModel.create(request.body);
+  response.json({
+    id: result._id,
+    username: result.username,
+    email: result.email
+  });
+});
+
+router.get("/user/:id?", async (request, response) => {
+  const { id } = request.params;
+
+  response.send(await UserModel.find({ _id: id }));
+});
+
+router.delete("/user/:id", async (request, response) => {
+  const { id } = request.params;
+
+  if (!id) response.status(400).json({ error: "user id is required" });
+
+  try {
+    const result = await UserModel.deleteOne({ _id: id });
+  } catch (e) {
+    response.status(400).json({ error: "couldn't find use", databaseError: e });
   }
+});
 
-  create(document) {
-    return this.database.create(document);
-  }
-
-  read(id) {
-    return this.database.find(id);
-  }
-
-  update(id, data) {
-    return this.database.updateOne(
-      { _id: id },
-      { $set: { title: data.title } }
-    );
-  }
-
-  delete(id) {
-    return this.database.deleteOne({ _id: id });
-  }
-}
-
-module.exports = UserController;
+module.exports = server => server.use("/api", router);
