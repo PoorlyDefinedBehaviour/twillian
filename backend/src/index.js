@@ -5,7 +5,6 @@ const server = express();
 module.exports = (async function main() {
   server.use(express.json());
 
-  require("./controllers/Register")(server);
   require("./controllers/Auth")(server);
   require("./controllers/User")(server);
 
