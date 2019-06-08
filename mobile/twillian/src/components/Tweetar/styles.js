@@ -2,15 +2,13 @@ import styled from 'styled-components/native';
 
 import RawContainer from '~/components/Container';
 
-export const Container = styled(RawContainer)`
-  flex-direction: row;
-  align-items: flex-start;
-  height: 125px;
-`;
+export const Container = styled(RawContainer)``;
 
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
+
+  margin-bottom: 10px;
 `;
 
 export const Message = styled.TextInput`
@@ -19,4 +17,25 @@ export const Message = styled.TextInput`
 
   color: #14171a;
   text-decoration: none;
+`;
+
+export const Footer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+export const Characters = styled.Text`
+  color: #aab8c2;
+  margin-right: 15px;
+`;
+
+export const Send = styled.TouchableOpacity`
+  background-color: #1da1f2;
+  border-radius: 25px;
+  padding: 5px 10px;
+`;
+
+export const SendText = styled.Text`
+  color: #ffffff;
 `;
