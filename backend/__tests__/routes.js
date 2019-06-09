@@ -20,24 +20,44 @@ describe("routes test suite", function() {
   });
 
   it("should get a user by id from the database", async () => {
+    const { data: user } = await axios.post(
+      `${LOCAL_HOST}/api/user`,
+      UserFactory()
+    );
+
     const EXPECTED = {
-      _id: "5cfc2320f5df531b54d3bd30",
-      username: "eidewijiwidwjiee",
-      email: "keoekfofewkfoekee"
+      ...user
     };
 
-    const USER_ID = "5cfc2320f5df531b54d3bd30";
-    const { data } = await axios.get(`${LOCAL_HOST}/api/user/${USER_ID}`);
-    console.log(data);
+    const { data } = await axios.get(`${LOCAL_HOST}/api/user/${user._id}`);
     assert.deepEqual(data[0], EXPECTED);
   });
 
-  it("should delete a user from the database", async () => {
-    const MOCK_USER = UserFactory();
-
+  it("should update a user by id on the database", async () => {
     const { data: user } = await axios.post(
       `${LOCAL_HOST}/api/user`,
-      MOCK_USER
+      UserFactory()
+    );
+
+    const EXPECTED = {
+      ...user,
+      username: `${user.username}${Date.now()}`
+    };
+
+    const payload = { username: EXPECTED.username };
+
+    const { data } = await axios.patch(
+      `${LOCAL_HOST}/api/user/${user._id}`,
+      payload
+    );
+
+    assert.ok(data.nModified == 1);
+  });
+
+  it("should delete a user from the database", async () => {
+    const { data: user } = await axios.post(
+      `${LOCAL_HOST}/api/user`,
+      UserFactory()
     );
 
     const result = await axios.delete(`${LOCAL_HOST}/api/user/${user._id}`);

@@ -1,30 +1,9 @@
 const router = require("express").Router();
-const Joi = require("@hapi/joi");
+const UserValidator = require("../validators/User");
 const UserModel = require("../models/User");
 
-const validate = request => {
-  const schema = Joi.object()
-    .keys({
-      username: Joi.string()
-        .alphanum()
-        .min(5)
-        .max(30)
-        .required(),
-      email: Joi.string()
-        .email()
-        .required(),
-      password: Joi.string()
-        .min(5)
-        .max(30)
-        .required()
-    })
-    .without("password", "access_token");
-
-  return Joi.validate(request.body, schema);
-};
-
 router.post("/user", async (request, response) => {
-  const result = validate(request);
+  const result = UserValidator(request);
   if (result.error) {
     return response.status(422).json({ error: result.error.message });
   }
@@ -60,10 +39,24 @@ router.get("/user/:id?", async (request, response) => {
         email: user.email
       };
     });
-    console.log("filtered", filteredUsers);
+
     return response.send(filteredUsers);
   } catch (e) {
     return response.status(404).send({ error: "user not found", dbError: e });
+  }
+});
+
+router.patch("/user/:id", async (request, response) => {
+  const user = request.params.id || null;
+  if (!user) return response.status(400).json({ error: "user id is required" });
+
+  const { body: payload } = request;
+  try {
+    return response.send(await UserModel.update({ _id: user }, payload));
+  } catch (e) {
+    return response
+      .status(422)
+      .json({ message: "couldn't update user", dbError: e });
   }
 });
 
