@@ -19,17 +19,18 @@ describe("routes test suite", function() {
     assert.deepEqual(user, EXPECTED);
   });
 
-  it("should get a user by id from the database", async () => {
+  it("should get a user from the database", async () => {
     const { data: user } = await axios.post(
       `${LOCAL_HOST}/api/user`,
       UserFactory()
     );
 
-    const EXPECTED = {
-      ...user
-    };
+    const EXPECTED = user;
 
-    const { data } = await axios.get(`${LOCAL_HOST}/api/user/${user._id}`);
+    const { data } = await axios.get(`${LOCAL_HOST}/api/user`, {
+      query: { _id: user._id }
+    });
+
     assert.deepEqual(data[0], EXPECTED);
   });
 

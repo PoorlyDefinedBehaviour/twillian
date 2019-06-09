@@ -5,8 +5,8 @@ const server = express();
 module.exports = (async function main() {
   server.use(express.json());
 
-  require("./controllers/Auth")(server);
   require("./controllers/User")(server);
+  require("./controllers/File")(server);
 
   server
     .listen(process.env.PORT || 8080, () =>
