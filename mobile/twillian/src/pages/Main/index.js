@@ -4,13 +4,17 @@ import { Container, Tweets } from './styles';
 import Tweetar from '~/components/Tweetar';
 import Tweet from '~/components/Tweet';
 
-export function navigationOptions({}) {
+export function navigationOptions() {
   return {
     title: 'Últimos Tweets',
+    headerStyle: {
+      backgroundColor: '#1DA1F2',
+    },
+    headerTintColor: '#ffffff',
   };
 }
 
-export default function Main({}) {
+export default function Main() {
   const [tweets, setTweets] = useState([
     {
       id: Math.random(),

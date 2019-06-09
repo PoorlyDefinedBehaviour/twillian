@@ -1,24 +1,14 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
 import Main, { navigationOptions } from '~/pages/Main';
+import Home from '~/pages/Home';
 
-const Routes = createAppContainer(
-  createStackNavigator(
-    {
-      Main: {
-        screen: Main,
-        navigationOptions,
-      },
-    },
-    {
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#1DA1F2',
-        },
-        headerTintColor: '#ffffff',
-      },
-    },
-  ),
-);
+const Routes = createSwitchNavigator({
+  Home,
+  Main: {
+    screen: Main,
+    navigationOptions,
+  },
+});
 
-export default Routes;
+export default createAppContainer(Routes);
