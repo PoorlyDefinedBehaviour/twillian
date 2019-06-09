@@ -2,15 +2,10 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const router = require("express").Router();
-const UserValidator = require("../validators/User");
+const UserValidator = require("../middlewares/User");
 const UserModel = require("../models/User");
 
-router.post("/signup", async (request, response) => {
-  const result = UserValidator(request);
-  if (result.error) {
-    return response.status(422).json({ message: result.error.message });
-  }
-
+router.post("/signup", UserValidator, async (request, response) => {
   if (await UserModel.findOne({ email: request.body.email })) {
     return response.status(400).json({ message: "email already in use" });
   }

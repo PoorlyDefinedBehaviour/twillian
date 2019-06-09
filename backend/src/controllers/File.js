@@ -2,11 +2,11 @@ const router = require("express").Router();
 const multer = require("multer");
 const MulterConfig = require("../config/multer");
 const ImageModel = require("../models/Image");
-const TokenAuth = require("../middlewares/Auth");
+const TokenValidator = require("../middlewares/Auth");
 
 router.post(
   "/image",
-  TokenAuth,
+  TokenValidator,
   multer(MulterConfig).single("file"),
   async (request, response) => {
     const image = await ImageModel.create({
