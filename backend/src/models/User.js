@@ -1,5 +1,26 @@
 const Mongoose = require("../database/mongodb/MongoDB");
 const bcrypt = require("bcryptjs");
+/*
+User {
+    _id:  ... ,
+    username: String,
+    email: String,
+    password: String,
+    avatar: String (amazon link),
+    follows: [User Array],
+    followers: [User Array], 
+    tweets: [{
+                content: String,
+                media: String (amazon link),
+                retweets: [User Array],
+                likes: [User Array],
+                comments: [Comment Array]
+            }
+    ],
+    retweets: Array,
+    likes: Array
+}
+*/
 
 const User = new Mongoose.Schema({
   username: {

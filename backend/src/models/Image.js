@@ -11,4 +11,10 @@ const Image = new Mongoose.Schema({
   }
 });
 
+Image.pre("save", function() {
+  if (!this.url) {
+    this.url = `${process.env.HOST}${process.env.PORT}/files/${this.key}`;
+  }
+});
+
 module.exports = Mongoose.model("Image", Image);
