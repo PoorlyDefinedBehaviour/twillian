@@ -13,17 +13,15 @@ module.exports = new (class ImageController {
   }
 
   async delete(request, response) {
-    console.log(request.params.id);
-
     try {
       const image = await ImageModel.findById(request.params.id);
       await image.remove();
 
       return response.status(200).json({ message: "image removed" });
-    } catch (e) {
+    } catch (error) {
       return response
         .status(422)
-        .json({ message: "couldn't delete image", error: e });
+        .json({ message: "couldn't delete image", error });
     }
   }
 })();

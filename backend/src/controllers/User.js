@@ -19,10 +19,10 @@ module.exports = new (class UserController {
       });
 
       return response.send({ user, token });
-    } catch (e) {
+    } catch (error) {
       return response
         .status(400)
-        .json({ message: "couldnt create user", error: e });
+        .json({ message: "couldnt create user", error });
     }
   }
 
@@ -54,8 +54,8 @@ module.exports = new (class UserController {
       return response.send(
         await UserModel.find(id ? { _id: id } : null).select("-password")
       );
-    } catch (e) {
-      return response.status(404).send({ message: "user not found", error: e });
+    } catch (error) {
+      return response.status(404).send({ message: "user not found", error });
     }
   }
 
@@ -67,10 +67,10 @@ module.exports = new (class UserController {
     const { body: payload } = request;
     try {
       return response.send(await UserModel.update({ _id: id }, payload));
-    } catch (e) {
+    } catch (error) {
       return response
         .status(422)
-        .json({ message: "couldn't update user", error: e });
+        .json({ message: "couldn't update user", error });
     }
   }
 
@@ -83,10 +83,10 @@ module.exports = new (class UserController {
     try {
       const result = await UserModel.deleteOne({ _id: id });
       return response.status(200).json({ message: "user deleted" });
-    } catch (e) {
+    } catch (error) {
       return response
         .status(400)
-        .json({ message: "couldn't delete user", error: e });
+        .json({ message: "couldn't delete user", error });
     }
   }
 })();
