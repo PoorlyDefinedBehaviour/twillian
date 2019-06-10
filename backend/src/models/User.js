@@ -1,26 +1,7 @@
 const Mongoose = require("../database/mongodb/MongoDB");
 const bcrypt = require("bcryptjs");
-/*
-User {
-    _id:  ... ,
-    username: String,
-    email: String,
-    password: String,
-    avatar: String (amazon link),
-    follows: [User Array],
-    followers: [User Array], 
-    tweets: [{
-                content: String,
-                media: String (amazon link),
-                retweets: [User Array],
-                likes: [User Array],
-                comments: [Comment Array]
-            }
-    ],
-    retweets: Array,
-    likes: Array
-}
-*/
+const CompactUserModel = require("./CompactUser");
+const TweetModel = require("./Tweet");
 
 const User = new Mongoose.Schema({
   username: {
@@ -37,6 +18,30 @@ const User = new Mongoose.Schema({
     type: String,
     required: true,
     select: false
+  },
+  avatar: {
+    type: String,
+    required: true
+  },
+  follows: {
+    type: [CompactUserModel],
+    required: true
+  },
+  followers: {
+    type: [CompactUserModel],
+    required: true
+  },
+  tweets: {
+    type: [TweetModel],
+    required: true
+  },
+  retweets: {
+    type: [TweetModel],
+    required: true
+  },
+  likes: {
+    type: [TweetModel],
+    required: true
   }
 });
 

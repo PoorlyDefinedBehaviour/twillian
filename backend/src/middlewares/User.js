@@ -17,7 +17,8 @@ module.exports = async (request, response, next) => {
           .max(30)
           .required()
       })
-      .without("password", "access_token");
+      .without("password", "access_token")
+      .unknown();
 
     const { error } = Joi.validate(request.body, schema);
 
@@ -28,6 +29,7 @@ module.exports = async (request, response, next) => {
 
     next();
   } catch (error) {
+    console.log("error", error);
     return response.status(401).json({ message: "invalid user", error });
   }
 };
