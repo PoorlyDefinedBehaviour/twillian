@@ -51,15 +51,9 @@ module.exports = new (class UserController {
     const { id } = request.params;
 
     try {
-      const users = await UserModel.find(id ? { _id: id } : null);
-
-      const filteredUsers = users.map(user => ({
-        _id: user._id,
-        username: user.username,
-        email: user.email
-      }));
-
-      return response.send(filteredUsers);
+      return response.send(
+        await UserModel.find(id ? { _id: id } : null).select("-password")
+      );
     } catch (e) {
       return response.status(404).send({ message: "user not found", error: e });
     }

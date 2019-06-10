@@ -3,6 +3,7 @@ const CompactUserModel = require("./CompactUser");
 const CommentModel = require("./Comment");
 
 module.exports = new Mongoose.Schema({
+  _id: false,
   content: {
     type: String,
     required: true

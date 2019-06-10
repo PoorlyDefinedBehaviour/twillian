@@ -11,4 +11,6 @@ router.post(
   ImageController.upload
 );
 
+router.delete("/image/:id", ImageController.delete);
+
 module.exports = server => server.use("/api", router);
