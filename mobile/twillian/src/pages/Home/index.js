@@ -4,7 +4,7 @@ import {
   Container, Card, Input, Login, LoginText, Register, RegisterText,
 } from './styles';
 
-export default function Home() {
+export default function Home({ navigation }) {
   return (
     <Container>
       <Card>
@@ -16,7 +16,7 @@ export default function Home() {
           textContentType="password"
         />
         <Login>
-          <LoginText>Entrar</LoginText>
+          <LoginText onPress={() => navigation.navigate('Main')}>Entrar</LoginText>
         </Login>
         <Register>
           <RegisterText>Registrar-se</RegisterText>

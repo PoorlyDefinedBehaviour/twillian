@@ -3,12 +3,20 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 import Main, { navigationOptions } from '~/pages/Main';
 import Home from '~/pages/Home';
 
-const Routes = createSwitchNavigator({
+const HomeNavigator = createSwitchNavigator({
   Home,
+});
+
+const AppNavigator = createStackNavigator({
   Main: {
     screen: Main,
     navigationOptions,
   },
+});
+
+const Routes = createSwitchNavigator({
+  HomeNavigator,
+  AppNavigator,
 });
 
 export default createAppContainer(Routes);
