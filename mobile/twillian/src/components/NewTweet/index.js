@@ -5,15 +5,9 @@ import {
 } from './styles';
 import Avatar from '~/components/Avatar';
 
-export default function Tweetar() {
+export default function NewTweet() {
   const [content, setContent] = useState('');
-
   const maxCharacters = 128;
-  function handleContent(content) {
-    if (content.length < 128) {
-      setContent(content);
-    }
-  }
 
   return (
     <Container>
@@ -22,8 +16,9 @@ export default function Tweetar() {
         <Message
           multiline
           placeholder="Escreva o que você está pensando..."
+          maxLength={maxCharacters}
           value={content}
-          onChangeText={handleContent}
+          onChangeText={setContent}
         />
       </Header>
       <Footer>

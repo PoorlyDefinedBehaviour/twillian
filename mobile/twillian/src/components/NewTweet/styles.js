@@ -2,7 +2,9 @@ import styled from 'styled-components/native';
 
 import RawContainer from '~/components/Container';
 
-export const Container = styled(RawContainer)``;
+export const Container = styled(RawContainer)`
+  margin-bottom: 10px;
+`;
 
 export const Header = styled.View`
   flex-direction: row;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Container, Tweets } from './styles';
-import Tweetar from '~/components/Tweetar';
+import NewTweet from '~/components/NewTweet';
 import Tweet from '~/components/Tweet';
 
 export function navigationOptions() {
@@ -162,7 +162,7 @@ export default function Main() {
 
   return (
     <Container>
-      <Tweetar />
+      <NewTweet />
       <Tweets data={tweets} keyExtractor={item => `tweet-${item.id}`} renderItem={renderTweet} />
     </Container>
   );
