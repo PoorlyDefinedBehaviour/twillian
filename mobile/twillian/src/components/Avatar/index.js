@@ -1,11 +1,19 @@
 import React from 'react';
 
-import { Touchable, Image } from './styles';
+import { Container, Touchable, Image } from './styles';
 
 export default function Avatar({ source, large, onPress }) {
+  if (onPress) {
+    return (
+      <Touchable onPress={onPress} large={large}>
+        <Image source={{ uri: source }} large={large} />
+      </Touchable>
+    );
+  }
+
   return (
-    <Touchable onPress={onPress} large={large}>
+    <Container>
       <Image source={{ uri: source }} large={large} />
-    </Touchable>
+    </Container>
   );
 }
