@@ -14,7 +14,7 @@ import {
   RegisterText,
 } from './styles';
 
-export default function Home({ navigation }) {
+function Home({ navigation }) {
   const refs = {};
 
   return (
@@ -36,8 +36,8 @@ export default function Home({ navigation }) {
           autoCompleteType="password"
           textContentType="password"
         />
-        <Login>
-          <LoginText onPress={() => navigation.navigate('Main')}>Entrar</LoginText>
+        <Login onPress={() => navigation.navigate('Main')}>
+          <LoginText>Entrar</LoginText>
         </Login>
         <OrContainer>
           <OrText>ou</OrText>
@@ -49,3 +49,10 @@ export default function Home({ navigation }) {
     </Container>
   );
 }
+
+export default {
+  screen: Home,
+  navigationOptions: {
+    header: null,
+  },
+};
