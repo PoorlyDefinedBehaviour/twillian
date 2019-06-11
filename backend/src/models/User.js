@@ -21,27 +21,33 @@ const User = new Mongoose.Schema({
   },
   avatar: {
     type: String,
-    required: true
+    required: true,
+    unique: false
   },
   follows: {
     type: [CompactUserModel],
-    required: true
+    required: true,
+    unique: false
   },
   followers: {
     type: [CompactUserModel],
-    required: true
+    required: true,
+    unique: false
   },
   tweets: {
     type: [TweetModel],
-    required: true
+    required: true,
+    unique: false
   },
   retweets: {
     type: [TweetModel],
-    required: true
+    required: true,
+    unique: false
   },
   likes: {
     type: [TweetModel],
-    required: true
+    required: true,
+    unique: false
   }
 });
 

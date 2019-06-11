@@ -13,10 +13,10 @@ const init = server => {
   );
 
   io.on("connection", socket => {
-    console.log("socket connected");
-    /**
-     * Controller events
-     */
+    socket.on("newuser", SocketController.saveConnection);
+    socket.on("disconnect", () => SocketController.removeConnection(socket.id));
+
+    socket.on("notify-tweet", data => SocketController.tweet(socket, data));
   });
 };
 
