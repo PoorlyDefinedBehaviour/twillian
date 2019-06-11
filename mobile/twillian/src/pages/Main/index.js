@@ -14,7 +14,7 @@ export function navigationOptions() {
   };
 }
 
-export default function Main() {
+function Main({ navigation }) {
   const [tweets, setTweets] = useState([
     {
       id: Math.random(),
@@ -156,14 +156,22 @@ export default function Main() {
         likes={item.likes}
         retweets={item.retweets}
         comments={item.comments}
+        navigation={navigation}
       />
     );
   }
 
   return (
     <Container>
-      <NewTweet />
+      <NewTweet navigation={navigation} />
       <Tweets data={tweets} keyExtractor={item => `tweet-${item.id}`} renderItem={renderTweet} />
     </Container>
   );
 }
+
+export default {
+  screen: Main,
+  navigationOptions: {
+    title: 'Últimos tweets',
+  },
+};
