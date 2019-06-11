@@ -1,18 +1,27 @@
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-import Main, { navigationOptions } from '~/pages/Main';
+import Main from '~/pages/Main';
 import Home from '~/pages/Home';
+import Profile from '~/pages/Profile';
 
-const HomeNavigator = createSwitchNavigator({
+const HomeNavigator = createStackNavigator({
   Home,
 });
 
-const AppNavigator = createStackNavigator({
-  Main: {
-    screen: Main,
-    navigationOptions,
+const AppNavigator = createStackNavigator(
+  {
+    Main,
+    Profile,
   },
-});
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#1DA1F2',
+      },
+      headerTintColor: '#ffffff',
+    },
+  },
+);
 
 const Routes = createSwitchNavigator({
   HomeNavigator,
