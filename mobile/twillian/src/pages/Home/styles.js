@@ -18,6 +18,7 @@ export const Logo = styled.Image`
 
 export const Card = styled.View`
   background-color: #ffffff;
+  elevation: 5;
 
   border-radius: 5px;
   margin: 25px;
@@ -48,6 +49,16 @@ export const LoginText = styled.Text`
   text-align: center;
   font-weight: bold;
   color: #ffffff;
+`;
+
+export const OrContainer = styled.View`
+  align-items: center;
+
+  margin-top: 10px;
+`;
+
+export const OrText = styled.Text`
+  color: #aab8c2;
 `;
 
 export const Register = styled.TouchableOpacity`

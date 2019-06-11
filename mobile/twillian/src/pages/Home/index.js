@@ -3,11 +3,13 @@ import logo from '~/assets/images/logo.png';
 import {
   Card,
   Container,
+  Logo,
+  LogoContainer,
   Input,
   Login,
   LoginText,
-  Logo,
-  LogoContainer,
+  OrContainer,
+  OrText,
   Register,
   RegisterText,
 } from './styles';
@@ -37,6 +39,9 @@ export default function Home({ navigation }) {
         <Login>
           <LoginText onPress={() => navigation.navigate('Main')}>Entrar</LoginText>
         </Login>
+        <OrContainer>
+          <OrText>ou</OrText>
+        </OrContainer>
         <Register>
           <RegisterText>Registrar-se</RegisterText>
         </Register>
