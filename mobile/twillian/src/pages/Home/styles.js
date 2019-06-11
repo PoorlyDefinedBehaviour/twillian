@@ -7,6 +7,15 @@ export const Container = styled.View`
   background-color: #1da1f2;
 `;
 
+export const LogoContainer = styled.View`
+  align-items: center;
+`;
+
+export const Logo = styled.Image`
+  width: 100px;
+  height: 100px;
+`;
+
 export const Card = styled.View`
   background-color: #ffffff;
 

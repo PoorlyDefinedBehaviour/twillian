@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-
+import React from 'react';
+import logo from '~/assets/images/logo.png';
 import {
-  Container, Card, Input, Login, LoginText, Register, RegisterText,
+  Card,
+  Container,
+  Input,
+  Login,
+  LoginText,
+  Logo,
+  LogoContainer,
+  Register,
+  RegisterText,
 } from './styles';
 
 export default function Home({ navigation }) {
@@ -9,6 +17,9 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
+      <LogoContainer>
+        <Logo source={logo} />
+      </LogoContainer>
       <Card>
         <Input
           placeholder="Usuário"
