@@ -27,9 +27,7 @@ module.exports = new (class UserController {
 
       user.password = null;
 
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: 3600
-      });
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
       return response.send({ user, token });
     } catch (error) {
@@ -53,9 +51,7 @@ module.exports = new (class UserController {
 
     user.password = null;
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: 3600
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     return response.send({ user, token });
   }
