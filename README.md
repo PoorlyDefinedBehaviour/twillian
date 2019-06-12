@@ -1,38 +1,16 @@
-## Table of Contents
+- [User]
+  <p><strong>GET</strong>    /user</p>
+  <p><strong>POST</strong>   /signup</p>
+  <p><strong>POST</strong>   /login</p>
+  <p><strong>POST</strong>   /user/:user_id/follow</p>
+  <p><strong>PATCH</strong>  /user</p>
+  <p><strong>DELETE</strong> /user</p>
 
-- [About the Project](#about-the-project)
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-- [Usage](#usage)
-
-<!-- ABOUT THE PROJECT -->
-
-## About The Project
-
-Twitter minimum viable product clone
-
-### Built With
-
-React
-React Native
-Node.js
-Express
-MongoDB
-
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-### Installation
-
-```sh
-git clone https://github.com/PoorlyDefinedBehaviour/twillian.git
-cd twillian
-npm install
-```
-
-<!-- USAGE EXAMPLES -->
-
-## Usage
-
-WIP
+* [Tweet]
+  <p><strong>GET</strong>    /tweet/:user_id/:page?</p>
+  <p><strong>GET</strong>    /tweet/:user_id/following:page</p>
+  <p><strong>POST</strong>   /tweet</p>
+  <p><strong>POST</strong>   /tweet/:tweet_id/like</p>
+  <p><strong>POST</strong>   /tweet/:tweet_id/comment</p>
+  <p><strong>POST</strong>   /tweet/:tweet_id/retweet</p>
+  <p><strong>DELETE</strong> /tweet/:tweet_id</p>
