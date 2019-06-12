@@ -157,7 +157,6 @@ function Profile({ navigation }) {
         likes={item.likes}
         retweets={item.retweets}
         comments={item.comments}
-        navigation={navigation}
       />
     );
   }

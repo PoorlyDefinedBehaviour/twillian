@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+import { withNavigation } from 'react-navigation';
+
 import {
   Container, Header, Message, Footer, Characters, Send, SendText,
 } from './styles';
 import Avatar from '~/components/Avatar';
 
-export default function NewTweet({ navigation }) {
+function NewTweet({ navigation }) {
   const [content, setContent] = useState('');
   const maxCharacters = 128;
 
@@ -35,3 +37,5 @@ export default function NewTweet({ navigation }) {
     </Container>
   );
 }
+
+export default withNavigation(NewTweet);

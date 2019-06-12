@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withNavigation } from 'react-navigation';
+
 import {
   Header, Author, Username, Body, Content, Actions,
 } from './styles';
@@ -7,7 +9,7 @@ import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
 import Action from '~/components/Action';
 
-export default function Tweet({
+function Tweet({
   author, content, likes, retweets, comments, navigation,
 }) {
   const user = {
@@ -36,3 +38,5 @@ export default function Tweet({
     </Container>
   );
 }
+
+export default withNavigation(Tweet);

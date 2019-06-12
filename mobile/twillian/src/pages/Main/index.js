@@ -4,16 +4,6 @@ import { Container, Tweets } from './styles';
 import NewTweet from '~/components/NewTweet';
 import Tweet from '~/components/Tweet';
 
-export function navigationOptions() {
-  return {
-    title: 'Últimos Tweets',
-    headerStyle: {
-      backgroundColor: '#1DA1F2',
-    },
-    headerTintColor: '#ffffff',
-  };
-}
-
 function Main({ navigation }) {
   const [tweets, setTweets] = useState([
     {
@@ -156,14 +146,13 @@ function Main({ navigation }) {
         likes={item.likes}
         retweets={item.retweets}
         comments={item.comments}
-        navigation={navigation}
       />
     );
   }
 
   return (
     <Container>
-      <NewTweet navigation={navigation} />
+      <NewTweet />
       <Tweets data={tweets} keyExtractor={item => `tweet-${item.id}`} renderItem={renderTweet} />
     </Container>
   );
