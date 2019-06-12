@@ -15,7 +15,7 @@ module.exports = (async function main() {
   require("./socket/socketio")(server);
 
   server
-    .listen(process.env.PORT || 8080, () =>
+    .listen(process.env.PORT || 8080, process.env.HOST || "0.0.0.0", () =>
       console.log(`Listening on PORT ${process.env.PORT}`)
     )
     .on("error", error => console.log(error));
