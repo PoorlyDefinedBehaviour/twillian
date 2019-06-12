@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Card = styled.View`
   align-items: center;
 
-  background-color: #ffffff;
+  background-color: #f5f8fa;
 
   border-radius: 5px;
   margin: 0 15px;
