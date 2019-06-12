@@ -11,14 +11,14 @@ export const Header = styled.View`
 
 export const Author = styled.Text`
   color: #14171a;
-  margin-left: 10px;
+  margin-left: 5px;
   font-weight: bold;
   font-size: 16px;
 `;
 
 export const Username = styled.Text`
-  color: #aab8c2;
-  margin-left: 10px;
+  color: #657786;
+  margin-left: 5px;
 `;
 
 export const Body = styled.View``;
