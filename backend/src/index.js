@@ -12,6 +12,7 @@ module.exports = (async function main() {
 
   require("./routes/User")(server);
   require("./routes/Image")(server);
+  require("./routes/Tweet")(server);
   require("./socket/socketio")(server);
 
   server

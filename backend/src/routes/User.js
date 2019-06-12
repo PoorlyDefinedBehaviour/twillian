@@ -1,4 +1,3 @@
-require("dotenv").config();
 const router = require("express").Router();
 const UserValidator = require("../middlewares/User");
 const UserController = require("../controllers/User");

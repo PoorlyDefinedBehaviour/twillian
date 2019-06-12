@@ -1,7 +1,6 @@
 const Mongoose = require("../database/mongodb/MongoDB");
 const bcrypt = require("bcryptjs");
 const CompactUserModel = require("./CompactUser");
-const TweetModel = require("./Tweet");
 
 const User = new Mongoose.Schema({
   username: {
@@ -31,21 +30,6 @@ const User = new Mongoose.Schema({
   },
   followers: {
     type: [CompactUserModel],
-    required: true,
-    unique: false
-  },
-  tweets: {
-    type: [TweetModel],
-    required: true,
-    unique: false
-  },
-  retweets: {
-    type: [TweetModel],
-    required: true,
-    unique: false
-  },
-  likes: {
-    type: [TweetModel],
     required: true,
     unique: false
   }
