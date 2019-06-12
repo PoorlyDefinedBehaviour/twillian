@@ -1,17 +1,23 @@
 - [User]
 
-  <h1>GET</h1>    /user
-  <h1>POST</h1>   /signup
-  <h1>POST</h1>   /login
-  <h1>POST</h1>   /user/:id/follow
-  <h1>PATCH</h1>  /user
-  <h1>DELETE</h1> /user
+```diff
++ this will be highlighted in green
+- this will be highlighted in red
+  + GET
+      /user
+  + POST   /signup
+  + POST   /login
+  + POST   /user/:user_id/follow
+  + PATCH  /user
+  - DELETE /user
 
 * [Tweet]
-  <h1>GET</h1>    /tweet/:user_id/:page?
-  <h1>GET</h1>    /tweet/:user_id/following:page
-  <h1>POST</h1>   /tweet
-  <h1>POST</h1>   /tweet/:tweet_id/like
-  <h1>POST</h1>   /tweet/:tweet_id/comment
-  <h1>POST</h1>   /tweet/:tweet_id/retweet
-  <h1>DELETE</h1> /tweet/:tweet_id
+  + GET    /tweet/:user_id/:page?
+  + GET    /tweet/:user_id/following:page
+  + POST   /tweet
+  + POST   /tweet/:tweet_id/like
+  + POST   /tweet/:tweet_id/comment
+  + POST   /tweet/:tweet_id/retweet
+  - DELETE /tweet/:tweet_id
+
+```
