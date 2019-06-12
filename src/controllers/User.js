@@ -4,10 +4,13 @@ const UserModel = require("../models/User");
 
 module.exports = new (class UserController {
   async get(request, response) {
-    const { id } = request.userId;
+    console.log(request.params);
 
     try {
-      return response.send(await UserModel.findById(id).select("-password"));
+      const user = await UserModel.findById(request.params.id).select(
+        "-password"
+      );
+      return response.json(user);
     } catch (error) {
       return response.status(404).send({ message: "user not found", error });
     }
