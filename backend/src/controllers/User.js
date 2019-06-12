@@ -3,9 +3,23 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
 
 module.exports = new (class UserController {
+  async get(request, response) {
+    const { id } = request.userId;
+
+    try {
+      return response.send(await UserModel.findById(id).select("-password"));
+    } catch (error) {
+      return response.status(404).send({ message: "user not found", error });
+    }
+  }
+
   async signup(request, response) {
     if (await UserModel.findOne({ email: request.body.email })) {
-      return response.status(400).json({ message: "email already in use" });
+      return response.status(422).json({ message: "email already in use" });
+    }
+
+    if (await UserModel.findOne({ username: request.body.username })) {
+      return response.status(422).json({ message: "username already in use" });
     }
 
     try {
@@ -46,20 +60,41 @@ module.exports = new (class UserController {
     return response.send({ user, token });
   }
 
-  async get(request, response) {
-    const { id } = request.params;
-
+  async follow(request, response) {
     try {
-      return response.send(
-        await UserModel.find(id ? { _id: id } : null).select("-password")
-      );
+      const currentUser = await UserModel.findById(request.userId);
+      if (currentUser.following.includes(request.params.id)) {
+        currentUser.following.splice(
+          currentUser.following.indexOf(request.params.id),
+          1
+        );
+      } else {
+        currentUser.following.push(request.params.id);
+      }
+      await currentUser.save();
+
+      const followedUser = await UserModel.findById(request.params.id);
+      if (followedUser.followers.includes(request.userId)) {
+        followedUser.followers.splice(
+          followedUser.followers.indexOf(request.userId),
+          1
+        );
+      } else {
+        followedUser.followers.push(request.userId);
+      }
+
+      await followedUser.save();
+
+      return response.status(200).json({ message: "user updated" });
     } catch (error) {
-      return response.status(404).send({ message: "user not found", error });
+      return response
+        .status(422)
+        .json({ message: "couldn't follow user", error });
     }
   }
 
   async patch(request, response) {
-    const id = request.params.id;
+    const id = request.userId;
     if (!id)
       return response.status(400).json({ message: "user id is required" });
 
@@ -74,7 +109,7 @@ module.exports = new (class UserController {
   }
 
   async delete(request, response) {
-    const { id } = request.params;
+    const { id } = request.userId;
 
     if (!id)
       return response.status(400).json({ message: "user id is required" });

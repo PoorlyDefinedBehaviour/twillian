@@ -1,6 +1,4 @@
 const Mongoose = require("../database/mongodb/MongoDB");
-const CompactUserModel = require("./CompactUser");
-const CommentModel = require("./Comment");
 
 module.exports = Mongoose.model(
   "Tweet",
@@ -15,17 +13,40 @@ module.exports = Mongoose.model(
       required: true
     },
     media: String,
-    retweets: {
-      type: [CompactUserModel],
-      required: true
-    },
-    likes: {
-      type: [CompactUserModel],
-      required: true
-    },
-    comments: {
-      type: [CommentModel],
-      required: true
+    retweets: [
+      {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false
+      }
+    ],
+    likes: [
+      {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false
+      }
+    ],
+    comments: [
+      {
+        content: {
+          type: String,
+          required: true
+        },
+        user: {
+          type: Mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
+    timestamp: {
+      type: Date,
+      default: Date.now
     }
   })
 );

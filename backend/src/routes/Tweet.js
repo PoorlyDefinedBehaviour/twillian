@@ -1,21 +1,27 @@
 const router = require("express").Router();
 const TweetController = require("../controllers/Tweet");
-const TweetValidator = require("../middlewares/Tweet");
+const TokenValidator = require("../middlewares/Auth");
 
-/**
- * TODO: Validate tweets
- */
+router.get(
+  "/tweet/:user_id/:page?",
+  TokenValidator,
+  TweetController.getFromUser
+);
 
-router.get("tweet/:id", TweetController.getFromUser);
+router.get(
+  "/tweet/:user_id/following/:page",
+  TokenValidator,
+  TweetController.getFromFollowing
+);
 
-router.get("tweet/:id/following/:page", TweetController.getFollowing);
+router.post("/tweet", TokenValidator, TweetController.create);
 
-router.post("/tweet", TweetValidator, TweetController.create);
+router.post("/tweet/:id/like", TokenValidator, TweetController.like);
 
-router.post("tweet/:id/like", TweetController.like);
+router.post("/tweet/:id/comment", TokenValidator, TweetController.comment);
 
-router.post("tweet/:id/comment", TweetController.comment);
+router.post("/tweet/:id/retweet", TokenValidator, TweetController.retweet);
 
-router.delete("/tweet/:id", TweetController.delete);
+router.delete("/tweet/:id", TokenValidator, TweetController.delete);
 
 module.exports = server => server.use("/api", router);

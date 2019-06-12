@@ -1,22 +1,39 @@
 const TweetModel = require("../models/Tweet");
+const UserModel = require("../models/User");
+const TWEETS_PER_PAGE = 20;
 
 module.exports = new (class TweetController {
   async getFromUser(request, response) {
+    const { user_id, page = 0 } = request.params;
     try {
-      return response.json(await TweetModel.find({ _id: request.params.id }));
+      const tweets = await TweetModel.find({
+        user: {
+          _id: user_id
+        }
+      })
+        .skip(parseInt(page) * TWEETS_PER_PAGE)
+        .limit(TWEETS_PER_PAGE);
+
+      return response.json(tweets);
     } catch (error) {
-      return response
-        .status(422)
-        .json({ message: "couldn't get tweets", error });
+      return response.json({ message: "couldn't get tweets", error });
     }
   }
 
-  async getFollowing(request, response) {
-    /**
-     * Get by id and page
-     */
+  async getFromFollowing(request, response) {
     try {
-      //const user = await UserModel.find({ _id: request.params.id });
+      const { user_id, page } = request.params;
+      const currentUser = await UserModel.findById(user_id)
+        .populate("following")
+        .skip(parseInt(page) * TWEETS_PER_PAGE)
+        .limit(TWEETS_PER_PAGE);
+
+      const tweets = [];
+      currentUser.following.forEach(user => {
+        tweets = [...tweets, ...following.tweets];
+      });
+
+      return response.status(200).json(tweets);
     } catch (error) {
       return response
         .status(422)
@@ -26,10 +43,12 @@ module.exports = new (class TweetController {
 
   async create(request, response) {
     try {
-      /**
-       * Link tweet to user before saving
-       */
-      return response.json(await TweetModel.create(request.body));
+      const tweet = await TweetModel.create({
+        ...request.body,
+        user: request.userId
+      });
+
+      return response.send(tweet);
     } catch (error) {
       return response
         .status(422)
@@ -39,7 +58,8 @@ module.exports = new (class TweetController {
 
   async delete(request, response) {
     try {
-      return await TweetModel.delete({});
+      await TweetModel.findByIdAndDelete(request.params.id);
+      return response.json({ message: "tweet deleted" });
     } catch (error) {
       return response
         .status(422)
@@ -48,14 +68,52 @@ module.exports = new (class TweetController {
   }
 
   async like(request, response) {
-    /**
-     * Toggle tweet like by id
-     */
+    try {
+      const tweet = await TweetModel.findById(request.params.id);
+
+      if (tweet.likes.includes(request.userId)) {
+        tweet.likes.splice(tweet.likes.indexOf(request.userId), 1);
+      } else {
+        tweet.likes.push(request.userId);
+      }
+
+      return response.json(await tweet.save());
+    } catch (error) {
+      return response
+        .status(422)
+        .json({ message: "couldn't like tweet", error });
+    }
   }
 
   async comment(request, response) {
-    /**
-     * Comment on tweet by id
-     */
+    try {
+      const tweet = await TweetModel.findById(request.params.id);
+
+      tweet.comments.push({ ...request.body, user: request.userId });
+
+      return response.json(await tweet.save());
+    } catch (error) {
+      return response
+        .status(422)
+        .json({ message: "couldn't comment on tweet", error });
+    }
+  }
+
+  async retweet(request, response) {
+    try {
+      const tweet = await TweetModel.findById(request.params.id);
+
+      if (tweet.retweets.includes(request.userId)) {
+        tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
+      } else {
+        tweet.retweets.push(request.userId);
+      }
+
+      return response.json(await tweet.save());
+    } catch (error) {
+      return response
+        .status(422)
+        .json({ message: "couldn't comment on tweet", error });
+    }
   }
 })();

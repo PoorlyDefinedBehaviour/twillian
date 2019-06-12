@@ -1,6 +1,5 @@
 const Mongoose = require("../database/mongodb/MongoDB");
 const bcrypt = require("bcryptjs");
-const CompactUserModel = require("./CompactUser");
 
 const User = new Mongoose.Schema({
   username: {
@@ -23,20 +22,31 @@ const User = new Mongoose.Schema({
     required: true,
     unique: false
   },
-  follows: {
-    type: [CompactUserModel],
-    required: true,
-    unique: false
-  },
-  followers: {
-    type: [CompactUserModel],
-    required: true,
-    unique: false
+  following: [
+    {
+      type: Mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false
+    }
+  ],
+  followers: [
+    {
+      type: Mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false
+    }
+  ],
+  timestamp: {
+    type: Date,
+    default: Date.now
   }
 });
 
 User.pre("save", async function(next) {
-  this.password = await bcrypt.hash(this.password, 10);
+  if (this.password && this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
   next();
 });
 
