@@ -4,8 +4,6 @@ const UserModel = require("../models/User");
 
 module.exports = new (class UserController {
   async get(request, response) {
-    console.log(request.params);
-
     try {
       const user = await UserModel.findById(request.params.id).select(
         "-password"
@@ -99,7 +97,7 @@ module.exports = new (class UserController {
 
     const { body: payload } = request;
     try {
-      return response.send(await UserModel.update({ _id: id }, payload));
+      return response.send(await UserModel.updateOne({ _id: id }, payload));
     } catch (error) {
       return response
         .status(422)
@@ -108,15 +106,11 @@ module.exports = new (class UserController {
   }
 
   async delete(request, response) {
-    const { id } = request.userId;
-
-    if (!id)
-      return response.status(400).json({ message: "user id is required" });
-
     try {
-      const result = await UserModel.deleteOne({ _id: id });
+      await UserModel.deleteOne({ _id: request.userId });
       return response.status(200).json({ message: "user deleted" });
     } catch (error) {
+      console.log(error);
       return response
         .status(400)
         .json({ message: "couldn't delete user", error });
