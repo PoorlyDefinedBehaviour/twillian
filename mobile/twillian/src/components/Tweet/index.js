@@ -31,9 +31,9 @@ function Tweet({
         <Content>{content}</Content>
       </Body>
       <Actions>
-        <Action name="heart-outline" color="#14171a" quantity={likes} />
-        <Action name="repeat" color="#14171a" quantity={retweets} />
-        <Action name="comment-multiple-outline" color="#14171a" quantity={comments} />
+        <Action name="heart" solid color="#14171a" quantity={likes} />
+        <Action name="retweet" color="#14171a" quantity={retweets} />
+        <Action name="comment-alt" color="#14171a" quantity={comments} />
       </Actions>
     </Container>
   );
