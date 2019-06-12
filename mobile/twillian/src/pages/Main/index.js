@@ -19,8 +19,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -32,8 +32,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -45,8 +45,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -58,8 +58,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -71,8 +71,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -84,8 +84,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -97,8 +97,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -110,8 +110,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -123,8 +123,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
@@ -136,8 +136,8 @@ function Main({ navigation }) {
     {
       id: Math.random(),
       author: {
-        name: 'Willian Ferreira',
-        username: '@willianferreira',
+        name: 'Willian',
+        username: '@jett',
         avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
       },
       content:
