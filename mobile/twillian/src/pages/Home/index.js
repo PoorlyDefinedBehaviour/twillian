@@ -42,7 +42,7 @@ function Home({ navigation }) {
         <OrContainer>
           <OrText>ou</OrText>
         </OrContainer>
-        <Register>
+        <Register onPress={() => navigation.push('Register')}>
           <RegisterText>Registrar-se</RegisterText>
         </Register>
       </Card>
