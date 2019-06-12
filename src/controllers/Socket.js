@@ -10,6 +10,7 @@ function getSocketId({ email }) {
 module.exports = new (class SocketController {
   saveConnection(user) {
     connectedUsers.push(user);
+    console.log(connectedUsers);
   }
 
   removeConnection(id) {

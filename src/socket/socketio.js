@@ -4,13 +4,7 @@ const SocketController = require("../controllers/Socket");
 
 const init = server => {
   const httpServer = http.createServer(server);
-  const io = socketIO(httpServer);
-
-  httpServer.listen(process.env.HTTP_PORT, () =>
-    console.log(
-      `Web socket http server listening on port: ${process.env.HTTP_PORT}`
-    )
-  );
+  const io = socketIO.listen(httpServer);
 
   io.on("connection", socket => {
     socket.on("newuser", SocketController.saveConnection);

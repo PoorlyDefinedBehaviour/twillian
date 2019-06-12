@@ -8,7 +8,6 @@ module.exports = (async function main() {
   server.use(express.json());
   server.use(cors);
   server.use("/files", express.static(path.resolve(__dirname, "uploads")));
-  server.use("/socket", express.static(path.resolve(__dirname, "public")));
 
   require("./routes/User")(server);
   require("./routes/Image")(server);
@@ -16,8 +15,8 @@ module.exports = (async function main() {
   require("./socket/socketio")(server);
 
   server
-    .listen(process.env.EXPRESS_PORT || 8080, () =>
-      console.log(`Listening on PORT ${process.env.EXPRESS_PORT}`)
+    .listen(process.env.PORT || 8080, () =>
+      console.log(`Listening on PORT ${process.env.PORT}`)
     )
     .on("error", error => console.log(error));
 
