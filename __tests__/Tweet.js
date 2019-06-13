@@ -6,21 +6,13 @@ const UserFactory = require("./factories/User");
 
 const server = require("../src/index");
 
-let MOCK_USER = {};
-let MOCK_TWEET = {};
+const { MOCK_USER, token } = UserFactory.registerOne();
+axios.defaults.headers.common = {
+  Authorization: `Bearer ${token}`
+};
 
 describe("tweet routes test suite", function() {
-  this.beforeAll(async () => {
-    const { data, status } = await axios.post(
-      `${LOCAL_HOST}/api/signup`,
-      UserFactory()
-    );
-    MOCK_USER = data.user;
-
-    axios.defaults.headers.common = {
-      Authorization: `Bearer ${data.token}`
-    };
-  });
+  this.beforeAll(async () => {});
 
   it("should post a new tweet", async () => {
     const tweet = {
