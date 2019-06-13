@@ -6,21 +6,22 @@ const UserFactory = require("./factories/User");
 
 const server = require("../src/index");
 
-const { MOCK_USER, token } = UserFactory.registerOne();
-axios.defaults.headers.common = {
-  Authorization: `Bearer ${token}`
-};
+let MOCK_USER = {};
 
 describe("user routes test suite", function() {
   this.beforeAll(async () => {});
 
   it("should add a user to the database", async () => {
-    const { status } = await axios.post(
+    const { data, status } = await axios.post(
       `${LOCAL_HOST}/api/signup`,
-      UserFactory.generateUser()
+      UserFactory()
     );
-
+    MOCK_USER = data.user;
     assert.ok(status === 200);
+
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${data.token}`
+    };
   });
 
   it("should get a user from the database", async () => {
@@ -32,7 +33,7 @@ describe("user routes test suite", function() {
 
   it("should update a user by id on the database", async () => {
     const payload = {
-      username: UserFactory.generateUser().username
+      username: UserFactory().username
     };
     const { data } = await axios.patch(`${LOCAL_HOST}/api/user`, payload);
     assert.ok(data.nModified === 1);
@@ -41,7 +42,7 @@ describe("user routes test suite", function() {
   it("should follow a user", async () => {
     const { data } = await axios.post(
       `${LOCAL_HOST}/api/signup`,
-      UserFactory.generateUser()
+      UserFactory()
     );
 
     const { status } = await axios.post(
