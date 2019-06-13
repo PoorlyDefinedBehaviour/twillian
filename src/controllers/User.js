@@ -60,6 +60,7 @@ module.exports = new (class UserController {
   async follow(request, response) {
     try {
       const currentUser = await UserModel.findById(request.userId);
+
       if (currentUser.following.includes(request.params.id)) {
         currentUser.following.splice(
           currentUser.following.indexOf(request.params.id),
@@ -84,6 +85,7 @@ module.exports = new (class UserController {
 
       return response.status(200).json({ message: "user updated" });
     } catch (error) {
+      console.log(error);
       return response
         .status(422)
         .json({ message: "couldn't follow user", error });

@@ -7,15 +7,14 @@ module.exports = new (class TweetController {
     const { user_id, page = 0 } = request.params;
     try {
       const tweets = await TweetModel.find({
-        user: {
-          _id: user_id
-        }
+        user: user_id
       })
         .skip(parseInt(page) * TWEETS_PER_PAGE)
         .limit(TWEETS_PER_PAGE);
 
       return response.json(tweets);
     } catch (error) {
+      console.log(error);
       return response.json({ message: "couldn't get tweets", error });
     }
   }
@@ -35,6 +34,7 @@ module.exports = new (class TweetController {
 
       return response.status(200).json(tweets);
     } catch (error) {
+      console.log(error);
       return response
         .status(422)
         .json({ message: "couldn't get tweets", error });
@@ -50,6 +50,7 @@ module.exports = new (class TweetController {
 
       return response.send(tweet);
     } catch (error) {
+      console.log(error);
       return response
         .status(422)
         .json({ message: "couldn't create tweet", error });
@@ -61,6 +62,7 @@ module.exports = new (class TweetController {
       await TweetModel.findByIdAndDelete(request.params.id);
       return response.json({ message: "tweet deleted" });
     } catch (error) {
+      console.log(error);
       return response
         .status(422)
         .json({ message: "couldn't delete tweet", error });
@@ -79,6 +81,7 @@ module.exports = new (class TweetController {
 
       return response.json(await tweet.save());
     } catch (error) {
+      console.log(error);
       return response
         .status(422)
         .json({ message: "couldn't like tweet", error });

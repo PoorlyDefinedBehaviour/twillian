@@ -8,7 +8,7 @@ const server = require("../src/index");
 
 let MOCK_USER = {};
 
-describe("routes test suite", function() {
+describe("user routes test suite", function() {
   this.beforeAll(async () => {});
 
   it("should add a user to the database", async () => {
@@ -25,7 +25,6 @@ describe("routes test suite", function() {
   });
 
   it("should get a user from the database", async () => {
-    console.log(MOCK_USER._id);
     const { data: user } = await axios.get(
       `${LOCAL_HOST}/api/user/${MOCK_USER._id}`
     );
@@ -38,6 +37,19 @@ describe("routes test suite", function() {
     };
     const { data } = await axios.patch(`${LOCAL_HOST}/api/user`, payload);
     assert.ok(data.nModified === 1);
+  });
+
+  it("should follow a user", async () => {
+    const { data } = await axios.post(
+      `${LOCAL_HOST}/api/signup`,
+      UserFactory()
+    );
+
+    const { status } = await axios.post(
+      `${LOCAL_HOST}/api/user/${data.user._id}/follow`
+    );
+
+    assert.ok(status === 200);
   });
 
   it("should delete a user from the database", async () => {
