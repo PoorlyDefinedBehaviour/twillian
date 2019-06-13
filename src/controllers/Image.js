@@ -13,6 +13,8 @@ module.exports = new (class ImageController {
     const user = await UserModel.findById(request.userId);
     user.avatar = url;
 
+    await user.save();
+
     return response.json({ message: "image uploaded", url });
   }
 
