@@ -38,15 +38,13 @@ module.exports = Mongoose.model(
           ref: "User",
           required: true
         },
-        timestamp: {
+        createdAt: {
           type: Date,
           default: Date.now
         }
       }
     ],
-    timestamp: {
-      type: Date,
-      default: Date.now
-    }
+  },{
+    timestamps: true
   })
 );

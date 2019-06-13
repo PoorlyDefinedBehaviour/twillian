@@ -6,16 +6,21 @@ const { promisify } = require("util");
 
 const s3 = new aws.S3();
 
-const Image = new Mongoose.Schema({
-  name: String,
-  size: Number,
-  key: String,
-  url: String,
-  timestamp: {
-    type: Date,
-    default: Date.now
+const Image = new Mongoose.Schema(
+  {
+    name: String,
+    size: Number,
+    key: String,
+    url: String,
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  {
+    timestamps: true
   }
-});
+);
 
 Image.pre("save", function() {
   if (!this.url) {
