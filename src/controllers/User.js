@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
+const ImageModel = require("../models/Image");
 
 module.exports = new (class UserController {
   async get(request, response) {
@@ -24,7 +25,17 @@ module.exports = new (class UserController {
     }
 
     try {
-      const user = await UserModel.create(request.body);
+      const { url } = await ImageModel.create({
+        name: request.file.originalname,
+        size: request.file.size,
+        key: request.file.key,
+        url: request.file.location || ""
+      });
+
+      const user = await UserModel.create({
+        ...request.body,
+        avatar: url
+      });
 
       user.password = null;
 
@@ -32,6 +43,7 @@ module.exports = new (class UserController {
 
       return response.send({ user, token });
     } catch (error) {
+      console.log(error);
       return response
         .status(400)
         .json({ message: "couldnt create user", error });
