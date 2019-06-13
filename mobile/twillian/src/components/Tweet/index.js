@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { withNavigation } from 'react-navigation';
 
@@ -7,6 +7,7 @@ import {
 } from './styles';
 import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
+import Like from '~/components/Like';
 import Action from '~/components/Action';
 
 function Tweet({
@@ -19,6 +20,7 @@ function Tweet({
     following: 5,
     tweets: ['', ''],
   };
+  const [liked, setLiked] = useState(false);
 
   return (
     <Container>
@@ -31,7 +33,14 @@ function Tweet({
         <Content>{content}</Content>
       </Body>
       <Actions>
-        <Action name="heart" solid color="#14171a" quantity={likes} />
+        <Like
+          onPress={() => {
+            setLiked(!liked);
+            console.log(liked);
+          }}
+          liked={liked}
+          quantity={likes}
+        />
         <Action name="retweet" color="#14171a" quantity={retweets} />
         <Action name="comment-alt" color="#14171a" quantity={comments} />
       </Actions>
