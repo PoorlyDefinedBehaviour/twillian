@@ -20,8 +20,7 @@ module.exports = new (class ImageController {
 
   async delete(request, response) {
     try {
-      const image = await ImageModel.findById(request.params.id);
-      await image.remove();
+      await ImageModel.findByIdAndDelete(request.params.id);
 
       return response.status(200).json({ message: "image removed" });
     } catch (error) {
