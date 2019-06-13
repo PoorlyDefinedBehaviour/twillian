@@ -1,6 +1,6 @@
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-import Main from '~/pages/Main';
+import Timeline from '~/pages/Timeline';
 import Home from '~/pages/Home';
 import Register from '~/pages/Register';
 import Profile from '~/pages/Profile';
@@ -18,7 +18,7 @@ const HomeNavigator = createStackNavigator(
 );
 
 const AppNavigator = createStackNavigator(
-  { Main, Profile },
+  { Timeline, Profile },
   {
     defaultNavigationOptions: {
       headerStyle: {
