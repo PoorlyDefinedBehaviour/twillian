@@ -20,7 +20,7 @@ const User = new Mongoose.Schema(
     },
     avatar: {
       type: String,
-      required: true,
+      required: false,
       unique: false
     },
     following: [
