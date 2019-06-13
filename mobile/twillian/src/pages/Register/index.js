@@ -44,7 +44,7 @@ function Register({ navigation }) {
           autoCompleteType="password"
           textContentType="password"
         />
-        <Login onPress={() => navigation.navigate('Main')}>
+        <Login onPress={() => navigation.navigate('Timeline')}>
           <LoginText>Registrar</LoginText>
         </Login>
       </Card>

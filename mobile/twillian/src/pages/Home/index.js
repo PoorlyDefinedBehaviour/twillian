@@ -36,7 +36,7 @@ function Home({ navigation }) {
           autoCompleteType="password"
           textContentType="password"
         />
-        <Login onPress={() => navigation.navigate('Main')}>
+        <Login onPress={() => navigation.navigate('Timeline')}>
           <LoginText>Entrar</LoginText>
         </Login>
         <OrContainer>
