@@ -10,7 +10,8 @@ module.exports = new (class TweetController {
         user: user_id
       })
         .skip(parseInt(page) * TWEETS_PER_PAGE)
-        .limit(TWEETS_PER_PAGE);
+        .limit(TWEETS_PER_PAGE)
+        .sort("-createdAt");
 
       return response.json(tweets);
     } catch (error) {
@@ -25,7 +26,8 @@ module.exports = new (class TweetController {
       const currentUser = await UserModel.findById(user_id)
         .populate("following")
         .skip(parseInt(page) * TWEETS_PER_PAGE)
-        .limit(TWEETS_PER_PAGE);
+        .limit(TWEETS_PER_PAGE)
+        .sort("-createdAt");
 
       const tweets = [];
       currentUser.following.forEach(user => {

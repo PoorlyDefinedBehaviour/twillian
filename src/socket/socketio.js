@@ -1,10 +1,8 @@
-const http = require("http");
-const socketIO = require("socket.io");
 const SocketController = require("../controllers/Socket");
 
-const init = server => {
-  const httpServer = http.createServer(server);
-  const io = socketIO.listen(httpServer);
+const init = app => {
+  const httpServer = require("http").Server(app);
+  const io = require("socket.io")(httpServer);
 
   io.on("connection", socket => {
     socket.on("newuser", SocketController.saveConnection);
@@ -12,6 +10,12 @@ const init = server => {
 
     socket.on("notify-tweet", data => SocketController.tweet(socket, data));
   });
+
+  httpServer
+    .listen(process.env.PORT || 8080, process.env.HOST || "0.0.0.0", () =>
+      console.log(`Listening on PORT ${process.env.PORT}`)
+    )
+    .on("error", error => console.log(error));
 };
 
 module.exports = server => init(server);
