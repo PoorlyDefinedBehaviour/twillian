@@ -1,6 +1,6 @@
 import React from "react";
-export default function Index(){
-    return(
-            <h1>Home Teste</h1>
-        );
+import { H1Test } from "./styles";
+
+export default function Index() {
+  return <H1Test>Home Teste</H1Test>;
 }
