@@ -59,7 +59,7 @@ export const PasswordInput = styled.input`
 export const RegisterButton = styled.button`
   font-family: "montserrat", sans-serif;
   font-weight: bold;
-  width: 70%;
+  width: 75%;
   color: #f1f1f1;
   background-color: #1da1f2;
   padding: 15px;
