@@ -28,16 +28,21 @@ module.exports = new (class TweetController {
   async getFromFollowing(request, response) {
     try {
       const { user_id, page } = request.params;
-      const currentUser = await UserModel.findById(user_id)
+      const [currentUser] = await UserModel.find({ _id: user_id })
         .populate("following")
         .skip(parseInt(page) * TWEETS_PER_PAGE)
         .limit(TWEETS_PER_PAGE)
         .sort("-createdAt");
 
-      const tweets = [];
-      currentUser.following.forEach(user => {
-        tweets = [...tweets, ...following.tweets];
-      });
+      //console.log(currentUser);
+      const tweets = await Promise.all(
+        currentUser.following.map(async user => ({
+          user,
+          tweets: await TweetModel.find({ user: user._id })
+        }))
+      );
+
+      console.log(tweets);
 
       return response.status(200).json(tweets);
     } catch (error) {
