@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../../services/api";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -45,8 +46,18 @@ export default function Register() {
       .oneOf([Yup.ref("password"), null], "As duas senhas devem ser iguais.")
   });
 
-  const handleSubmit = async event => {
-    console.log(event);
+  const handleSubmit = async (data, { setSubmitting }) => {
+    try {
+      setSubmitting(true);
+
+      const response = await api.post("signup", data);
+
+      const { user, token } = response.data;
+
+      console.log(user);
+
+      localStorage.setItem("@twillian:user", JSON.stringify(...user, token));
+    } catch (error) {}
   };
 
   return (
