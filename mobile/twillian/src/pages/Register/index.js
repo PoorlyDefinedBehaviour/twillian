@@ -47,11 +47,10 @@ function Register({ navigation }) {
 
       const response = await api.post('signup', data);
 
-      navigation.navigate('Timeline');
-
       const { user, token } = response.data;
-      await AsyncStorage.setItem('@twillian:token', token);
-      await AsyncStorage.setItem('@twillian:user', user);
+      await AsyncStorage.setItem('@twillian:user', JSON.stringify({ ...user, token }));
+
+      navigation.navigate('Timeline');
     } catch (ex) {
       // TODO: Handle exceptions
       setErrors(ex.response.data);
@@ -66,7 +65,9 @@ function Register({ navigation }) {
       validateOnBlur
       validateOnChange
     >
-      {({ values, handleChange, handleBlur, touched, errors, handleSubmit }) => (
+      {({
+        values, handleChange, handleBlur, touched, errors, handleSubmit, isSubmitting
+      }) => (
         <Container>
           <LogoContainer>
             <Logo source={logo} />
@@ -125,7 +126,7 @@ function Register({ navigation }) {
             />
             {touched.confirm && !!errors.confirm && <Error>{errors.confirm}</Error>}
             <Login
-              disabled={Object.entries(errors).length > 0 || Object.entries(touched).length == 0}
+              disabled={Object.entries(errors).length > 0 || Object.entries(touched).length == 0 || isSubmitting}
               onPress={handleSubmit}
             >
               <LoginText>Registrar</LoginText>
