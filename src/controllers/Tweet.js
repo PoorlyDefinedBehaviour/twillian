@@ -45,12 +45,19 @@ module.exports = new (class TweetController {
 
   async create(request, response) {
     try {
+      const user = await UserModel.find({ _id: request.userId });
+
+      if (!user) throw new Error("invalid user id");
+
       const tweet = await TweetModel.create({
         ...request.body,
         user: request.userId
       });
 
-      return response.send(tweet);
+      return response.json({
+        user,
+        tweet
+      });
     } catch (error) {
       console.log(error);
       return response
