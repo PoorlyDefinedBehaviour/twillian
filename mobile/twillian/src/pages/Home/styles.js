@@ -26,19 +26,25 @@ export const Card = styled.View`
 `;
 
 export const Input = styled.TextInput`
-  border-color: #1da1f2;
+  border-color: ${props => (props.error ? '#ff2d2d' : '#1da1f2')};
   border-width: 1px;
   border-radius: 5px;
 
   color: #14171a;
 
-  margin-bottom: 10px;
+  margin-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
 `;
 
+export const Error = styled.Text`
+  color: #ff2d2d;
+  font-weight: bold;
+`;
+
 export const Login = styled.TouchableOpacity`
   background-color: #1da1f2;
+  opacity: ${props => (props.disabled ? '0.7' : '1')};
 
   border-radius: 5px;
   padding: 10px;
