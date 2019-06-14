@@ -73,6 +73,8 @@ export const DownloadContainer = styled.div`
   background-color: #fff;
   width: 325px;
   display: flex;
+  margin-top: 15px;
+  border-radius: 5px;
 `;
 
 export const AppStoreImage = styled.img`

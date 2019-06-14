@@ -1,6 +1,20 @@
 import React from "react";
-import { H1Test } from "./styles";
+import {
+  Container,
+  SigUpForm,
+  UsernameInput,
+  PasswordInput,
+  SigUpButton
+} from "./styles";
 
 export default function Index() {
-  return <H1Test>Home</H1Test>;
+  return (
+    <Container>
+      <SigUpForm>
+        <UsernameInput placeholder="Nome de usuário" />
+        <PasswordInput placeholder="Senha" />
+        <SigUpButton>Entrar</SigUpButton>
+      </SigUpForm>
+    </Container>
+  );
 }
