@@ -6,19 +6,14 @@ module.exports = new (class TweetController {
   async getFromUser(request, response) {
     const { user_id, page = 0 } = request.params;
     try {
-      const user = await UserModel.find({ _id: user_id });
-
       const tweets = await TweetModel.find({
         user: user_id
       })
+        .sort("-createdAt")
         .skip(parseInt(page) * TWEETS_PER_PAGE)
-        .limit(TWEETS_PER_PAGE)
-        .sort("-createdAt");
+        .limit(TWEETS_PER_PAGE);
 
-      return response.json({
-        user,
-        tweets
-      });
+      return response.json(tweets);
     } catch (error) {
       console.log(error);
       return response.json({ message: "couldn't get tweets", error });
