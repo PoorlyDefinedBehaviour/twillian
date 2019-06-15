@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from '~/services/api';
+import { getUser } from '~/services/auth';
 
 import { withNavigation } from 'react-navigation';
 
@@ -11,13 +14,25 @@ function NewTweet({ navigation }) {
   const [content, setContent] = useState('');
   const maxCharacters = 128;
 
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    getUser().then(setUser);
+  }, []);
+
+  async function sendTweet() {
+    try {
+      await api.post('tweet', { content });
+      setContent('');
+    } catch (ex) {
+      // TODO: Handle exception
+    }
+  }
+
   return (
     <Container>
       <Header>
-        <Avatar
-          source="https://pbs.twimg.com/profile_images/561587399835127808/9DVFnm9G_400x400.jpeg"
-          onPress={() => navigation.push('Profile', { user })}
-        />
+        <Avatar source={user.avatar} onPress={() => navigation.push('Profile', { user })} />
         <Message
           multiline
           placeholder="Escreva o que você está pensando..."
@@ -30,7 +45,7 @@ function NewTweet({ navigation }) {
         <Characters>
           {content.length}/{maxCharacters}
         </Characters>
-        <Send>
+        <Send onPress={sendTweet} disabled={content.length == 0}>
           <SendText>Tweetar</SendText>
         </Send>
       </Footer>

@@ -35,6 +35,8 @@ export const Characters = styled.Text`
 
 export const Send = styled.TouchableOpacity`
   background-color: #1da1f2;
+  opacity: ${props => (props.disabled ? '0.7' : '1')};
+
   border-radius: 25px;
   padding: 5px 10px;
 `;
