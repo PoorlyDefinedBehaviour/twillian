@@ -25,15 +25,9 @@ import {
 
 function Home({ navigation }) {
   useEffect(() => {
-    async function authenticated() {
-      const user = await AsyncStorage.getItem('@twillian:user');
-
-      if (user) {
-        navigation.navigate('Timeline');
-      }
-    }
-
-    authenticated();
+    AsyncStorage.getItem('@twillian:user').then((user) => {
+      if (user) navigation.navigate('Timeline');
+    });
   }, []);
 
   const refs = {};
