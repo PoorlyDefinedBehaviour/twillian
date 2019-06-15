@@ -21,7 +21,8 @@ const User = new Mongoose.Schema(
     avatar: {
       type: String,
       required: false,
-      unique: false
+      unique: false,
+      default: 'http://laurauinteriordesign.com/wp-content/uploads/2018/03/avatar-placeholder.png'
     },
     following: [
       {
