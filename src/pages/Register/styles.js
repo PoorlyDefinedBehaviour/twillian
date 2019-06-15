@@ -10,7 +10,7 @@ export const DefaultUserImage = styled.img`
 export const PageBox = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #e6ecf0;
+  background-color: #f5f8fa;
   display: flex;
   flex-direction: column;
   justify-content: center;

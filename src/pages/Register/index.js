@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import DefaultUser from "../../assets/defaultuser.jpg";
-import AppStore from "../../assets/applestore.png";
-import GooglePlay from "../../assets/googleplay.png";
+import DefaultUser from "../../assets/img/defaultuser.jpg";
+import AppStore from "../../assets/img/applestore.png";
+import GooglePlay from "../../assets/img/googleplay.png";
 
 import {
   Container,
