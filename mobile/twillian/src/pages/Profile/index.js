@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from '~/services/api';
 
 import {
   Container,
@@ -16,143 +18,27 @@ import Tweet from '~/components/Tweet';
 
 function Profile({ navigation }) {
   const user = navigation.getParam('user');
-  const [tweets, setTweets] = useState([
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-    {
-      id: Math.random(),
-      author: {
-        name: 'Willian',
-        username: '@jett',
-        avatar: 'https://pbs.twimg.com/profile_images/1113436678050316289/t-Agpngx_400x400.jpg',
-      },
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      likes: 5,
-      retweets: 12,
-      comments: 3,
-    },
-  ]);
+
+  const [tweets, setTweets] = useState([]);
+
+  useEffect(() => {
+    async function fetchTweets() {
+      try {
+        const response = await api.get(`tweet/${user._id}/`);
+        console.log(response.data);
+        setTweets(response.data);
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
+
+    fetchTweets();
+  }, []);
 
   function renderTweet({ item }) {
     return (
       <Tweet
-        author={item.author}
+        author={user}
         content={item.content}
         likes={item.likes}
         retweets={item.retweets}
@@ -167,23 +53,23 @@ function Profile({ navigation }) {
         <CardHeader>
           <Avatar source={user.avatar} large />
         </CardHeader>
-        <Name>{user.name}</Name>
+        <Name>{user.username}</Name>
         <InfoContainer>
           <Info>
             <InfoHeader>Seguidores</InfoHeader>
-            <InfoValue>{user.followers}</InfoValue>
+            <InfoValue>{user.followers.length}</InfoValue>
           </Info>
           <Info>
             <InfoHeader>Seguindo</InfoHeader>
-            <InfoValue>{user.following}</InfoValue>
+            <InfoValue>{user.following.length}</InfoValue>
           </Info>
           <Info>
             <InfoHeader>Tweets</InfoHeader>
-            <InfoValue>{user.tweets.length}</InfoValue>
+            <InfoValue>{tweets.length}</InfoValue>
           </Info>
         </InfoContainer>
       </Card>
-      <Tweets data={tweets} keyExtractor={item => `tweet-${item.id}`} renderItem={renderTweet} />
+      <Tweets data={tweets} keyExtractor={item => item._id} renderItem={renderTweet} />
     </Container>
   );
 }
