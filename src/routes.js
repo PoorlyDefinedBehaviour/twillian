@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Register from "./pages/Register";
 import Index from "./pages/Index";
-import Timeline from "./pages/Timeline";
 
 export default function Routes() {
   return (
