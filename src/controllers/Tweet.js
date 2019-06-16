@@ -9,6 +9,7 @@ module.exports = new (class TweetController {
       const tweets = await TweetModel.find({
         user: user_id
       })
+        .populate("user")
         .sort("-createdAt")
         .skip(parseInt(page) * TWEETS_PER_PAGE)
         .limit(TWEETS_PER_PAGE);
