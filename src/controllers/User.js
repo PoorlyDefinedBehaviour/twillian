@@ -3,6 +3,23 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
 
 module.exports = new (class UserController {
+  async search(request, response) {
+    try {
+      const users = await UserModel.find({
+        username: {
+          $regex: new RegExp(request.params.username)
+        }
+      })
+        .select("-password")
+        .limit(20);
+
+      return response.json(users);
+    } catch (error) {
+      console.log(error);
+      return response.status(404).json({ message: "no results found" });
+    }
+  }
+
   async get(request, response) {
     try {
       const user = await UserModel.findById(request.params.id).select(

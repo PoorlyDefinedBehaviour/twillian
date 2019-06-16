@@ -42,7 +42,7 @@ const User = new Mongoose.Schema(
   {
     timestamps: true
   }
-);
+).index({username: "text"});
 
 User.pre("save", async function(next) {
   if (this.password && this.isModified("password")) {
