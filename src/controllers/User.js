@@ -39,8 +39,8 @@ module.exports = new (class UserController {
   }
 
   async login(request, response) {
-    const { email, password } = request.body;
-    const user = await UserModel.findOne({ email }).select("+password");
+    const { username, password } = request.body;
+    const user = await UserModel.findOne({ username }).select("+password");
 
     if (!user) {
       return response.status(400).send({ message: "Invalid credentials" });
