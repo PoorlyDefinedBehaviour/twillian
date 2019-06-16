@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import api from "../../services/api";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import * as Yup from "yup";
@@ -20,14 +21,13 @@ import {
 } from "./styles";
 
 export default function Register() {
+  const [isRegistered, setIsRegistered] = useState(false);
   const initialValues = {
     username: "",
     email: "",
     password: "",
     confirm: ""
   };
-
-  const refs = {};
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -51,16 +51,23 @@ export default function Register() {
       setSubmitting(true);
 
       const response = await api.post("signup", data);
-
       const { user, token } = response.data;
+      localStorage.setItem(
+        "@twillian:user",
+        JSON.stringify({ ...user, token })
+      );
 
-      console.log(user);
-
-      localStorage.setItem("@twillian:user", JSON.stringify(...user, token));
-    } catch (error) {}
+      setIsRegistered(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  return (
+  return isRegistered ? (
+    <Redirect to="timeline" />
+  ) : (
     <PageBox>
       <Container>
         <DefaultUserImage src={DefaultUser} />
