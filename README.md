@@ -1,7 +1,7 @@
 # User
 
 <p><strong>GET</strong> api/search/:username</p> 
-<p><strong>GET</strong> api/user</p> 
+<p><strong>GET</strong> api/user/:id</p> 
 <p><strong>POST</strong> api/signup</p> 
 <p><strong>POST</strong> api/login
 

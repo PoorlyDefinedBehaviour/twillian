@@ -45,17 +45,12 @@ module.exports = new (class TweetController {
 
   async create(request, response) {
     try {
-      const user = await UserModel.find({ _id: request.userId });
-
-      if (!user) throw new Error("invalid user id");
-
       const tweet = await TweetModel.create({
         ...request.body,
         user: request.userId
       });
 
       return response.json({
-        user,
         tweet
       });
     } catch (error) {
@@ -80,7 +75,7 @@ module.exports = new (class TweetController {
 
   async like(request, response) {
     try {
-      const tweet = await TweetModel.findById(request.params.id);
+      const tweet = await TweetModel.findOne({ _id: request.params.id });
 
       if (tweet.likes.includes(request.userId)) {
         tweet.likes.splice(tweet.likes.indexOf(request.userId), 1);

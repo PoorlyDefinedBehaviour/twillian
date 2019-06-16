@@ -27,23 +27,24 @@ describe("tweet routes test suite", function() {
       content: "hello world"
     };
     const { data, status } = await axios.post(`${LOCAL_HOST}/api/tweet`, tweet);
-    MOCK_TWEET = data;
+    MOCK_TWEET = data.tweet;
 
     assert.ok(status === 200);
   });
 
   it("should get a tweet by user id", async () => {
-    const {
-      data: [tweet]
-    } = await axios.get(`${LOCAL_HOST}/api/tweet/${MOCK_USER._id}`);
+    const { status } = await axios.get(
+      `${LOCAL_HOST}/api/tweet/${MOCK_USER._id}/0`
+    );
 
-    assert.ok(tweet.content === MOCK_TWEET.content);
+    assert.ok(status === 200);
   });
 
   it("should like a tweet by id", async () => {
     const { status } = await axios.post(
       `${LOCAL_HOST}/api/tweet/${MOCK_TWEET._id}/like`
     );
+
     assert.ok(status === 200);
   });
 
