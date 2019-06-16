@@ -7,7 +7,7 @@ module.exports = new (class UserController {
     try {
       const users = await UserModel.find({
         username: {
-          $regex: new RegExp(request.params.username)
+          $regex: new RegExp(request.params.username, "i")
         }
       })
         .select("-password")

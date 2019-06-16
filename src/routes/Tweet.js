@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const TweetController = require("../controllers/Tweet");
-const TokenValidator = require("../middlewares/Auth");
+const { TokenValidator } = require("../middlewares/Auth");
 
 router.get(
   "/tweet/:user_id/following/:page?",

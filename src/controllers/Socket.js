@@ -1,40 +1,44 @@
+const { TokenDecoder } = require("../middlewares/Auth");
 const UserModel = require("../models/User");
 const connectedUsers = [];
 
-function getSocketId({ email }) {
-  for (const user of connectedUsers)
-    if (user.email === email) return user.socketId;
-  return null;
-}
-
 module.exports = new (class SocketController {
-  saveConnection(user) {
-    connectedUsers.push(user);
-    console.log(connectedUsers);
+  async saveConnection(user) {
+    const _id = await DecodeToken(user.token);
+    if (_id) {
+      connectedUsers.push({ ...user, _id });
+    }
   }
 
-  removeConnection(id) {
-    const index = connectedUsers.findIndex(user => user.socketId == id);
+  removeConnection(socketId) {
+    const index = connectedUsers.findIndex(user => user.socketId == socketId);
     if (index !== -1) connectedUsers.splice(index, 1);
   }
 
   async tweet(socket, data) {
     try {
-      const [user] = await UserModel.find({ email: data.email });
+      const _id = this.getUserId(socket.id);
 
-      for (const follower of user.followers) {
-        const followerSocketId = getSocketId(follower);
+      if (!_id) throw new Error("invalid socket or token");
 
-        if (followerSocketId) {
-          socket.broadcast
-            .to(followerSocketId)
-            .emit("message", "for your eyes only");
-        }
-      }
+      const user = await UserModel.findOne({ _id });
+
+      user.followers.forEach(follower => {
+        socket.broadcast
+          .to(this.getSocketId(follower))
+          .emit("tweet", { ...data, sentBy: user });
+      });
     } catch (error) {
-      /**
-       *
-       */
+      console.log(error);
     }
+  }
+
+  getSocketId(userId) {
+    return connectedUsers.find(user => user.socketId === userId);
+  }
+
+  getUserId(socketId) {
+    const { _id } = connectedUsers.find(user => user.socketId === socketId);
+    return _id;
   }
 })();

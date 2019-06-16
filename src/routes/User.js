@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const UserValidator = require("../middlewares/User");
-const TokenValidator = require("../middlewares/Auth");
+const { TokenValidator } = require("../middlewares/Auth");
 const UserController = require("../controllers/User");
 
 router.get("/search/:username", TokenValidator, UserController.search);
