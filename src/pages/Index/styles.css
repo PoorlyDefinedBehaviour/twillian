@@ -1,6 +1,6 @@
-.form-error {
-  margin-top: -20px;
-  margin-bottom: 20px;
+.login-form-error {
+  margin-top: -40px;
+  margin-bottom: 24px;
   color: red;
   display: block;
   font-size: 12px;
@@ -16,7 +16,7 @@
   font-family: "montserrat", sans-serif;
   background-color: #f4f8fa;
   padding: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
   border-radius: 5px;
   width: 100%;
 }
@@ -25,7 +25,7 @@
   font-family: "montserrat", sans-serif;
   background-color: #f4f8fa;
   padding: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
   border-radius: 5px;
   width: 100%;
 }

@@ -84,7 +84,7 @@ export default function Register() {
               name="username"
             />
             <ErrorMessage
-              className="form-error"
+              className="register-form-error"
               component="span"
               name="username"
             />
@@ -95,7 +95,7 @@ export default function Register() {
               name="email"
             />
             <ErrorMessage
-              className="form-error"
+              className="register-form-error"
               component="span"
               name="email"
             />
@@ -107,7 +107,7 @@ export default function Register() {
               placeholder="Senha"
             />
             <ErrorMessage
-              className="form-error"
+              className="register-form-error"
               component="span"
               name="password"
             />
@@ -119,7 +119,7 @@ export default function Register() {
               placeholder="Confirme sua senha"
             />
             <ErrorMessage
-              className="form-error"
+              className="register-form-error"
               component="span"
               name="confirm"
             />

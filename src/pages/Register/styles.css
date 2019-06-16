@@ -3,9 +3,11 @@
   text-align: center;
 }
 
-.form-error {
+.register-form-error {
   color: red;
   display: block;
+  margin-top: -20px;
+  padding: 2px;
   font-size: 12px;
 }
 
@@ -13,7 +15,8 @@
   font-family: "montserrat", sans-serif;
   background-color: #f4f8fa;
   padding: 15px;
-  margin: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
   border-radius: 5px;
 }
 
@@ -21,7 +24,8 @@
   font-family: "montserrat", sans-serif;
   background-color: #f4f8fa;
   padding: 15px;
-  margin: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
   border-radius: 5px;
 }
 
@@ -29,6 +33,7 @@
   font-family: "montserrat", sans-serif;
   background-color: #f4f8fa;
   padding: 15px;
-  margin: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
   border-radius: 5px;
 }

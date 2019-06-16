@@ -106,7 +106,7 @@ export default function Index() {
                   placeholder="Nome de usuário"
                 />
                 <ErrorMessage
-                  className="form-error"
+                  className="login-form-error"
                   component="span"
                   name="username"
                 />
@@ -117,7 +117,7 @@ export default function Index() {
                   placeholder="Senha"
                 />
                 <ErrorMessage
-                  className="form-error"
+                  className="login-form-error"
                   component="span"
                   name="password"
                 />
