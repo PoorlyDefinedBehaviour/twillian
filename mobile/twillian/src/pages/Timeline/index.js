@@ -26,15 +26,7 @@ function Timeline() {
   }, []);
 
   function renderTweet({ item }) {
-    return (
-      <Tweet
-        author={item.user}
-        content={item.content}
-        likes={item.likes.length}
-        retweets={item.retweets.length}
-        comments={item.comments.length}
-      />
-    );
+    return <Tweet data={item} />;
   }
 
   return (

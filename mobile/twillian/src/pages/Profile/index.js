@@ -25,7 +25,6 @@ function Profile({ navigation }) {
     async function fetchTweets() {
       try {
         const response = await api.get(`tweet/${user._id}/`);
-        console.log(response.data);
         setTweets(response.data);
       } catch (ex) {
         console.log(ex);
@@ -36,15 +35,7 @@ function Profile({ navigation }) {
   }, []);
 
   function renderTweet({ item }) {
-    return (
-      <Tweet
-        author={user}
-        content={item.content}
-        likes={item.likes}
-        retweets={item.retweets}
-        comments={item.comments}
-      />
-    );
+    return <Tweet data={item} />;
   }
 
   return (
