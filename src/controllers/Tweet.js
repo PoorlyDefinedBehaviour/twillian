@@ -118,9 +118,7 @@ module.exports = new (class TweetController {
 
       return response.json(await tweet.save());
     } catch (error) {
-      return response
-        .status(422)
-        .json({ message: "couldn't comment on tweet", error });
+      return response.status(422).json({ message: "couldn't retweet", error });
     }
   }
 })();

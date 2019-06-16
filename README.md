@@ -15,7 +15,7 @@
  <p><strong>GET</strong> api/tweet/:user_id/following/:page
  <p><strong>POST</strong> api/tweet
  <p><strong>POST</strong> api/tweet/:tweet_id/like <strong>TYPE</strong> -> <strong>TOGGLE</strong>
- <p><strong>POST</strong> api/tweet/:tweet_id/comment <strong>TYPE</strong> -> <strong>TOGGLE</strong>
+ <p><strong>POST</strong> api/tweet/:tweet_id/comment</p>
  <p><strong>POST</strong> api/tweet/:tweet_id/retweet <strong>TYPE</strong> -> <strong>TOGGLE</strong>
  <p><strong>DELETE</strong> api/tweet/:tweet_id
 
