@@ -132,11 +132,11 @@ export default function Index() {
                   <LineCenter>ou</LineCenter>
                   <Line />
                 </LineWrap>
+                <Link to="/register">
+                  <SignUpButton>Registrar</SignUpButton>
+                </Link>
               </Form>
             </Formik>
-            <Link to="/register">
-              <SignUpButton>Registrar</SignUpButton>
-            </Link>
           </SignIn>
           <DownloadContainer>
             <AppStoreImage src={AppStore} />
