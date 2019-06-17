@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+
+import api from '~/services/api';
+import { getUser, authenticate } from '~/services/auth';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
-import api from '~/services/api';
 
 import logo from '~/assets/images/logo.png';
 
@@ -25,9 +25,22 @@ import {
 
 function Home({ navigation }) {
   useEffect(() => {
-    AsyncStorage.getItem('@twillian:user').then((user) => {
-      if (user) navigation.navigate('Timeline');
-    });
+    async function refresh() {
+      const user = await getUser();
+
+      if (user) {
+        try {
+          const response = await api.get(`user/${user._id}`);
+          await authenticate(response.data, user.token);
+        } catch (ex) {
+          console.log(ex);
+        } finally {
+          navigation.navigate('Timeline');
+        }
+      }
+    }
+
+    refresh();
   }, []);
 
   const refs = {};
