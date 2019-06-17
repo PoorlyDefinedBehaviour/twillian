@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import api from '~/services/api';
-import { getUser } from '~/services/auth';
+import { getUser, authenticate } from '~/services/auth';
 
 import {
   Container,
@@ -23,12 +23,16 @@ function Profile({ navigation }) {
   const user = navigation.getParam('user');
 
   const [tweets, setTweets] = useState([]);
+  const [following, setFollowing] = useState(false);
 
   useEffect(() => {
     async function fetchTweets() {
       try {
         const response = await api.get(`tweet/${user._id}/`);
         setTweets(response.data);
+
+        const currentUser = await getUser();
+        setFollowing(currentUser.following.includes(user._id));
       } catch (ex) {
         console.log(ex);
       }
@@ -42,14 +46,12 @@ function Profile({ navigation }) {
   }
 
   async function handleFollow() {
-    const currentUser = await getUser();
+    setFollowing(!following);
 
-    const { following } = currentUser;
-    if (following.includes(user)) {
-      following.split(following.indexOf(user), 1);
-    } else {
-      following.push(user);
-    }
+    const currentUser = await getUser();
+    const response = await api.post(`user/${user._id}/follow`);
+
+    await authenticate(response.data, currentUser.token);
   }
 
   return (
@@ -60,7 +62,7 @@ function Profile({ navigation }) {
         </CardHeader>
         <Name>{user.username}</Name>
         <Follow onPress={handleFollow}>
-          <FollowText>Seguir</FollowText>
+          <FollowText>{following ? 'Seguindo' : 'Seguir'}</FollowText>
         </Follow>
         <InfoContainer>
           <Info>
