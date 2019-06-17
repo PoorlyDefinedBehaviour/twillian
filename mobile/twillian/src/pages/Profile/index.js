@@ -60,7 +60,7 @@ function Profile({ navigation }) {
         </CardHeader>
         <Name>{user.username}</Name>
         <Follow onPress={handleFollow}>
-          <FollowText>Seguir</FollowText>;
+          <FollowText>Seguir</FollowText>
         </Follow>
         <InfoContainer>
           <Info>
