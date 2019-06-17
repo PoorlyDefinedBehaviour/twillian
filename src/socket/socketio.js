@@ -5,7 +5,9 @@ const init = app => {
   const io = require("socket.io")(httpServer);
 
   io.on("connection", socket => {
-    socket.on("userconnected", SocketController.saveConnection);
+    socket.on("userconnected", data =>
+      SocketController.saveConnection(socket.id, data.token)
+    );
     socket.on("disconnect", () => SocketController.removeConnection(socket.id));
     socket.on("new-tweet", data => SocketController.tweet(socket, data));
   });

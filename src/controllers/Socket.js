@@ -3,10 +3,10 @@ const UserModel = require("../models/User");
 const connectedUsers = [];
 
 module.exports = new (class SocketController {
-  async saveConnection(user) {
-    const _id = await DecodeToken(user.token);
-    if (_id) {
-      connectedUsers.push({ ...user, _id });
+  async saveConnection(socketId, token) {
+    const { id: userId } = await TokenDecoder(token);
+    if (userId) {
+      connectedUsers.push({ socketId, userId });
     }
   }
 
@@ -19,7 +19,7 @@ module.exports = new (class SocketController {
     try {
       const _id = this.getUserId(socket.id);
 
-      if (!_id) throw new Error("invalid socket or token");
+      if (!_id) return;
 
       const user = await UserModel.findOne({ _id });
 
@@ -34,11 +34,13 @@ module.exports = new (class SocketController {
   }
 
   getSocketId(userId) {
-    return connectedUsers.find(user => user.socketId === userId);
+    const user = connectedUsers.find(user => user.userId === userId);
+
+    return user ? user.socketId : null;
   }
 
   getUserId(socketId) {
-    const { _id } = connectedUsers.find(user => user.socketId === socketId);
-    return _id;
+    const user = connectedUsers.find(user => user.socketId === socketId);
+    return user ? user.userId : null;
   }
 })();
