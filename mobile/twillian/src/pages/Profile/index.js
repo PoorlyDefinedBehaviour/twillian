@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import api from '~/services/api';
+import { getUser } from '~/services/auth';
 
 import {
   Container,
   Card,
   CardHeader,
   Name,
+  Follow,
+  FollowText,
   InfoContainer,
   Info,
   InfoHeader,
@@ -38,6 +41,17 @@ function Profile({ navigation }) {
     return <Tweet data={item} />;
   }
 
+  async function handleFollow() {
+    const currentUser = await getUser();
+
+    const { following } = currentUser;
+    if (following.includes(user)) {
+      following.split(following.indexOf(user), 1);
+    } else {
+      following.push(user);
+    }
+  }
+
   return (
     <Container>
       <Card>
@@ -45,6 +59,9 @@ function Profile({ navigation }) {
           <Avatar source={user.avatar} large />
         </CardHeader>
         <Name>{user.username}</Name>
+        <Follow onPress={handleFollow}>
+          <FollowText>Seguir</FollowText>;
+        </Follow>
         <InfoContainer>
           <Info>
             <InfoHeader>Seguidores</InfoHeader>
