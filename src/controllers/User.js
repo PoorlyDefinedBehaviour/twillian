@@ -100,7 +100,7 @@ module.exports = new (class UserController {
 
       await followedUser.save();
 
-      return response.status(200).json({ message: "user updated" });
+      return response.json(currentUser);
     } catch (error) {
       console.log(error);
       return response
