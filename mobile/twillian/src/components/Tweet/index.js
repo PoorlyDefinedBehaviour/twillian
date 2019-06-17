@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from '~/services/api';
+import { getUser } from '~/services/auth';
 
 import { withNavigation } from 'react-navigation';
 
@@ -12,14 +15,33 @@ import Action from '~/components/Action';
 
 function Tweet({ data, navigation }) {
   const [liked, setLiked] = useState(false);
-
-  function handleLike() {
-    setLiked(!liked);
-  }
+  const [currentUser, setCurrentUser] = useState({});
 
   const {
     _id, user, content, likes, retweets, comments,
   } = data;
+
+  useEffect(() => {
+    getUser().then((currentUser) => {
+      if (likes.includes(currentUser._id)) setLiked(true);
+    });
+  }, []);
+
+  async function handleLike() {
+    setLiked(!liked);
+
+    if (!liked) {
+      likes.push(currentUser._id);
+    } else {
+      likes.splice(likes.indexOf(currentUser._id), 1);
+    }
+
+    try {
+      await api.post(`tweet/${_id}/like`);
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
 
   return (
     <Container>
