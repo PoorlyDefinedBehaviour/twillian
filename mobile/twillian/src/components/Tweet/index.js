@@ -11,6 +11,7 @@ import {
 import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
 import Like from '~/components/Like';
+import Retweet from '~/components/Retweet';
 import Action from '~/components/Action';
 
 function Tweet({ data, navigation }) {
@@ -54,7 +55,7 @@ function Tweet({ data, navigation }) {
       </Body>
       <Actions>
         <Like onPress={handleLike} liked={liked} quantity={likes.length} />
-        <Action name="retweet" color="#14171a" quantity={retweets.length} />
+        <Retweet onPress={() => {}} quantity={retweets.length} />
         <Action name="comment-alt" color="#14171a" quantity={comments.length} />
       </Actions>
     </Container>
