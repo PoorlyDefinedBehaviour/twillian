@@ -99,6 +99,7 @@ function Profile({ navigation }) {
         </InfoContainer>
       </Card>
       <Tweets
+        keyboardShouldPersistTaps="handled"
         data={tweets}
         keyExtractor={item => item._id}
         renderItem={renderTweet}
