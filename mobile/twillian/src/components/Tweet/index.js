@@ -12,7 +12,7 @@ import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
 import Like from '~/components/Like';
 import Retweet from '~/components/Retweet';
-import Action from '~/components/Action';
+import Comment from '~/components/Comment';
 
 function Tweet({ data, navigation }) {
   const [liked, setLiked] = useState(false);
@@ -56,7 +56,7 @@ function Tweet({ data, navigation }) {
       <Actions>
         <Like onPress={handleLike} liked={liked} quantity={likes.length} />
         <Retweet onPress={() => {}} quantity={retweets.length} />
-        <Action name="comment-alt" color="#14171a" quantity={comments.length} />
+        <Comment onPress={() => {}} quantity={comments.length} />
       </Actions>
     </Container>
   );
