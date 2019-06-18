@@ -23,13 +23,13 @@ function Profile({ navigation }) {
   const user = navigation.getParam('user');
 
   const [tweets, setTweets] = useState([]);
-  const [following, setFollowing] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ following: [] });
   const [pagination, setPagination] = useState({});
 
   async function fetchTweets(page = 1) {
     try {
-      const currentUser = await getUser();
-      setFollowing(currentUser.following.includes(user._id));
+      const authenticated = await getUser();
+      setCurrentUser(authenticated);
 
       const response = await api.get(`tweet/${user._id}/?page=${page}`);
 
@@ -61,10 +61,10 @@ function Profile({ navigation }) {
   }
 
   async function handleFollow() {
-    setFollowing(!following);
-
     const currentUser = await getUser();
     const response = await api.post(`user/${user._id}/follow`);
+
+    setCurrentUser(response.data);
 
     await authenticate(response.data, currentUser.token);
   }
@@ -76,9 +76,13 @@ function Profile({ navigation }) {
           <Avatar source={user.avatar} large />
         </CardHeader>
         <Name>{user.username}</Name>
-        <Follow onPress={handleFollow}>
-          <FollowText>{following ? 'Seguindo' : 'Seguir'}</FollowText>
-        </Follow>
+        {currentUser._id !== user._id && (
+          <Follow onPress={handleFollow}>
+            <FollowText>
+              {currentUser.following.includes(user._id) ? 'Seguindo' : 'Seguir'}
+            </FollowText>
+          </Follow>
+        )}
         <InfoContainer>
           <Info>
             <InfoHeader>Seguidores</InfoHeader>
@@ -90,7 +94,7 @@ function Profile({ navigation }) {
           </Info>
           <Info>
             <InfoHeader>Tweets</InfoHeader>
-            <InfoValue>{tweets.length}</InfoValue>
+            <InfoValue>{pagination.total}</InfoValue>
           </Info>
         </InfoContainer>
       </Card>
