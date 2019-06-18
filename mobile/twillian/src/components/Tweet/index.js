@@ -23,9 +23,14 @@ function Tweet({ data, navigation }) {
   } = data;
 
   useEffect(() => {
-    getUser().then((currentUser) => {
+    async function refresh() {
+      const currentUser = await getUser();
       if (likes.includes(currentUser._id)) setLiked(true);
-    });
+
+      setCurrentUser(currentUser);
+    }
+
+    refresh();
   }, []);
 
   async function handleLike() {
