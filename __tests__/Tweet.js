@@ -34,7 +34,7 @@ describe("tweet routes test suite", function() {
 
   it("should get a tweet by user id", async () => {
     const { status } = await axios.get(
-      `${LOCAL_HOST}/api/tweet/${MOCK_USER._id}/0`
+      `${LOCAL_HOST}/api/tweet/${MOCK_USER._id}`
     );
 
     assert.ok(status === 200);
