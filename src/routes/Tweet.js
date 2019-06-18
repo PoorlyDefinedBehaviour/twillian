@@ -3,15 +3,15 @@ const TweetController = require("../controllers/Tweet");
 const { TokenValidator } = require("../middlewares/Auth");
 
 router.get(
-  "/tweet/:user_id/following/:page?",
+  "/tweet/:user_id",
   TokenValidator,
-  TweetController.getFromFollowing
+  TweetController.getFromUser
 );
 
 router.get(
-  "/tweet/:user_id/:page?",
+  "/tweet/:user_id/following",
   TokenValidator,
-  TweetController.getFromUser
+  TweetController.getFromFollowing
 );
 
 router.post("/tweet", TokenValidator, TweetController.create);

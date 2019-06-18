@@ -1,50 +1,52 @@
 const Mongoose = require("../database/mongodb/MongoDB");
+const mongoosePaginate = require("mongoose-paginate");
 
-module.exports = Mongoose.model(
-  "Tweet",
-  new Mongoose.Schema({
-    user: {
+const TweetSchema = new Mongoose.Schema({
+  user: {
+    type: Mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  media: String,
+  retweets: [
+    {
       type: Mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    media: String,
-    retweets: [
-      {
+      required: false
+    }
+  ],
+  likes: [
+    {
+      type: Mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false
+    }
+  ],
+  comments: [
+    {
+      content: {
+        type: String,
+        required: true
+      },
+      user: {
         type: Mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: false
+        required: true
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now
       }
-    ],
-    likes: [
-      {
-        type: Mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: false
-      }
-    ],
-    comments: [
-      {
-        content: {
-          type: String,
-          required: true
-        },
-        user: {
-          type: Mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now
-        }
-      }
-    ],
-  },{
-    timestamps: true
-  })
-);
+    }
+  ],
+},{
+  timestamps: true
+})
+
+TweetSchema.plugin(mongoosePaginate);
+
+module.exports = Mongoose.model("Tweet", TweetSchema);

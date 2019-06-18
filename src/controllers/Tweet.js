@@ -1,18 +1,15 @@
 const TweetModel = require("../models/Tweet");
 const UserModel = require("../models/User");
-const TWEETS_PER_PAGE = 20;
 
 module.exports = new (class TweetController {
   async getFromUser(request, response) {
-    const { user_id, page = 0 } = request.params;
+    const { user_id } = request.params;
+    const { page = 1 } = request.query;
     try {
-      const tweets = await TweetModel.find({
-        user: user_id
-      })
-        .populate("user")
-        .sort("-createdAt")
-        .skip(parseInt(page) * TWEETS_PER_PAGE)
-        .limit(TWEETS_PER_PAGE);
+      const tweets = await TweetModel.paginate(
+        { user: user_id }, 
+        { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
+      );
 
       return response.json(tweets);
     } catch (error) {
@@ -23,16 +20,14 @@ module.exports = new (class TweetController {
 
   async getFromFollowing(request, response) {
     try {
-      const { user_id, page } = request.params;
+      const { user_id } = request.params;
       const currentUser = await UserModel.findOne({ _id: user_id });
-
-      const tweets = await TweetModel.find({
-        user: { $in: currentUser.following }
-      })
-        .populate("user")
-        .sort("-createdAt")
-        .skip(parseInt(page) * TWEETS_PER_PAGE)
-        .limit(TWEETS_PER_PAGE);
+      
+      const { page = 1 } = request.query;
+      const tweets = await TweetModel.paginate(
+        { user: { $in: currentUser.following } }, 
+        { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
+      );
 
       return response.status(200).json(tweets);
     } catch (error) {
