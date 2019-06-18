@@ -9,19 +9,34 @@ import Tweet from '~/components/Tweet';
 
 function Timeline() {
   const [tweets, setTweets] = useState([]);
+  const [pagination, setPagination] = useState({});
+
+  async function fetchTweets(page = 1) {
+    const user = await getUser();
+
+    try {
+      const response = await api.get(`tweet/${user._id}/following/?page=${page}`);
+
+      const { docs, ...pagination } = response.data;
+
+      setTweets([...tweets, ...docs]);
+      setPagination(pagination);
+    } catch (ex) {
+      console.log(ex.response);
+    }
+  }
+
+  function fetchMore() {
+    const { page, pages } = pagination;
+
+    if (Number(page) === pages) return;
+
+    const nextPage = Number(page) + 1;
+
+    fetchTweets(nextPage);
+  }
 
   useEffect(() => {
-    async function fetchTweets() {
-      const user = await getUser();
-
-      try {
-        const response = await api.get(`tweet/${user._id}/following/0`);
-        setTweets(response.data);
-      } catch (ex) {
-        console.log(ex.response);
-      }
-    }
-
     fetchTweets();
   }, []);
 
@@ -32,7 +47,13 @@ function Timeline() {
   return (
     <Container>
       <NewTweet />
-      <Tweets data={tweets} keyExtractor={item => item._id} renderItem={renderTweet} />
+      <Tweets
+        data={tweets}
+        keyExtractor={item => item._id}
+        renderItem={renderTweet}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.3}
+      />
     </Container>
   );
 }

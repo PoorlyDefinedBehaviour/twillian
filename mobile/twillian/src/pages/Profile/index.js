@@ -24,20 +24,35 @@ function Profile({ navigation }) {
 
   const [tweets, setTweets] = useState([]);
   const [following, setFollowing] = useState(false);
+  const [pagination, setPagination] = useState({});
+
+  async function fetchTweets(page = 1) {
+    try {
+      const currentUser = await getUser();
+      setFollowing(currentUser.following.includes(user._id));
+
+      const response = await api.get(`tweet/${user._id}/?page=${page}`);
+
+      const { docs, ...pagination } = response.data;
+
+      setTweets([...tweets, ...docs]);
+      setPagination(pagination);
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+  function fetchMore() {
+    const { page, pages } = pagination;
+
+    if (Number(page) === pages) return;
+
+    const nextPage = Number(page) + 1;
+
+    fetchTweets(nextPage);
+  }
 
   useEffect(() => {
-    async function fetchTweets() {
-      try {
-        const response = await api.get(`tweet/${user._id}/`);
-        setTweets(response.data);
-
-        const currentUser = await getUser();
-        setFollowing(currentUser.following.includes(user._id));
-      } catch (ex) {
-        console.log(ex);
-      }
-    }
-
     fetchTweets();
   }, []);
 
@@ -79,7 +94,13 @@ function Profile({ navigation }) {
           </Info>
         </InfoContainer>
       </Card>
-      <Tweets data={tweets} keyExtractor={item => item._id} renderItem={renderTweet} />
+      <Tweets
+        data={tweets}
+        keyExtractor={item => item._id}
+        renderItem={renderTweet}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.3}
+      />
     </Container>
   );
 }
