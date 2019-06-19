@@ -1,13 +1,13 @@
 const TweetModel = require("../models/Tweet");
 const UserModel = require("../models/User");
 
-module.exports = new (class TweetController {
+class TweetController {
   async getFromUser(request, response) {
     const { user_id } = request.params;
     const { page = 1 } = request.query;
     try {
       const tweets = await TweetModel.paginate(
-        { user: user_id }, 
+        { user: user_id },
         { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
       );
 
@@ -22,10 +22,10 @@ module.exports = new (class TweetController {
     try {
       const { user_id } = request.params;
       const currentUser = await UserModel.findOne({ _id: user_id });
-      
+
       const { page = 1 } = request.query;
       const tweets = await TweetModel.paginate(
-        { user: { $in: currentUser.following } }, 
+        { user: { $in: currentUser.following } },
         { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
       );
 
@@ -118,4 +118,6 @@ module.exports = new (class TweetController {
       return response.status(422).json({ message: "couldn't retweet", error });
     }
   }
-})();
+}
+
+module.exports = new TweetController();

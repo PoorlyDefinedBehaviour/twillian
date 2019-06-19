@@ -1,7 +1,7 @@
 const ImageModel = require("../models/Image");
 const UserModel = require("../models/User");
 
-module.exports = new (class ImageController {
+class ImageController {
   async upload(request, response) {
     const { url } = await ImageModel.create({
       name: request.file.originalname,
@@ -30,4 +30,6 @@ module.exports = new (class ImageController {
         .json({ message: "couldn't delete image", error });
     }
   }
-})();
+}
+
+module.exports = new ImageController();

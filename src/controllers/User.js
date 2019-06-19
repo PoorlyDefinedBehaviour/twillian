@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
 
-module.exports = new (class UserController {
+class UserController {
   async search(request, response) {
     try {
       const users = await UserModel.find({
@@ -135,4 +135,6 @@ module.exports = new (class UserController {
         .json({ message: "couldn't delete user", error });
     }
   }
-})();
+}
+
+module.exports = new UserController();
