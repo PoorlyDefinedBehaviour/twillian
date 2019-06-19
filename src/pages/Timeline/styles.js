@@ -47,7 +47,7 @@ export const NavDot = styled.div`
 
 export const Container = styled.div`
   width: 80%;
-  margin: auto;
+  margin: 30px auto;
   display: flex;
   /* flex-direction: row; */
   justify-content: space-around;
@@ -55,6 +55,7 @@ export const Container = styled.div`
 
 export const Left = styled.div`
   width: 35%;
+  margin-top: 8%;
 `;
 
 export const Right = styled.div`
@@ -110,7 +111,7 @@ export const Avatar = styled.img`
 `;
 
 export const UserImage = styled.img`
-  \width: 40%;
+  width: 40%;
   border-radius: 50%;
   border: 3px solid #fff;
   margin-top: -25%;
