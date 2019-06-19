@@ -1,0 +1,39 @@
+.register-form {
+  width: 80%;
+  text-align: center;
+}
+
+.register-form-error {
+  color: red;
+  display: block;
+  margin-top: -20px;
+  padding: 2px;
+  font-size: 12px;
+}
+
+.username {
+  font-family: "montserrat", sans-serif;
+  background-color: #f4f8fa;
+  padding: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
+  border-radius: 5px;
+}
+
+.email {
+  font-family: "montserrat", sans-serif;
+  background-color: #f4f8fa;
+  padding: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
+  border-radius: 5px;
+}
+
+.password {
+  font-family: "montserrat", sans-serif;
+  background-color: #f4f8fa;
+  padding: 15px;
+  margin: 10px;
+  margin-bottom: 25px;
+  border-radius: 5px;
+}

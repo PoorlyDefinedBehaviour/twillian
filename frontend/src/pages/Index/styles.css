@@ -1,0 +1,31 @@
+.login-form-error {
+  margin-top: -40px;
+  margin-bottom: 24px;
+  color: red;
+  display: block;
+  font-size: 12px;
+}
+
+.signin-form {
+  width: 100%;
+  text-align: center;
+  padding: 10px 40px;
+}
+
+.username-input {
+  font-family: "montserrat", sans-serif;
+  background-color: #f4f8fa;
+  padding: 15px;
+  margin-bottom: 40px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.password-input {
+  font-family: "montserrat", sans-serif;
+  background-color: #f4f8fa;
+  padding: 15px;
+  margin-bottom: 40px;
+  border-radius: 5px;
+  width: 100%;
+}
