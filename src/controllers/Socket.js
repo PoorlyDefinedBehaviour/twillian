@@ -1,46 +1,58 @@
 const { TokenDecoder } = require("../middlewares/Auth");
 const UserModel = require("../models/User");
-const connectedUsers = [];
 
-module.exports = new (class SocketController {
+class SocketController {
+  constructor(ioInstance) {
+    this.connectedUsers = [];
+    this.io = ioInstance;
+  }
   async saveConnection(socketId, token) {
-    const { id: userId } = await TokenDecoder(token);
-    if (userId) {
-      connectedUsers.push({ socketId, userId });
+    try {
+      const { id: userId } = await TokenDecoder(token);
+      if (userId) {
+        this.connectedUsers.push({ socketId, userId });
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   removeConnection(socketId) {
-    const index = connectedUsers.findIndex(user => user.socketId == socketId);
-    if (index !== -1) connectedUsers.splice(index, 1);
+    const index = this.connectedUsers.findIndex(
+      user => user.socketId == socketId
+    );
+    if (index !== -1) this.connectedUsers.splice(index, 1);
   }
 
   async tweet(socket, data) {
     try {
-      const _id = this.getUserId(socket.id);
+      const _id = this.getUserIdBySocketId(socket.id);
 
       if (!_id) return;
 
       const user = await UserModel.findOne({ _id });
 
       user.followers.forEach(follower => {
-        socket.broadcast
-          .to(this.getSocketId(follower))
-          .emit("tweet", { ...data, sentBy: user });
+        const followerSocketId = this.getSocketIdByUserId(follower._id);
+        if (followerSocketId) {
+          this.io.to(`${followerSocketId}`).emit("tweet", data);
+        }
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  getSocketId(userId) {
-    const user = connectedUsers.find(user => user.userId === userId);
+  getSocketIdByUserId(userId) {
+    const user = this.connectedUsers.find(user => user.userId === userId);
 
     return user ? user.socketId : null;
   }
 
-  getUserId(socketId) {
-    const user = connectedUsers.find(user => user.socketId === socketId);
+  getUserIdBySocketId(socketId) {
+    const user = this.connectedUsers.find(user => user.socketId === socketId);
     return user ? user.userId : null;
   }
-})();
+}
+
+module.exports = SocketController;
