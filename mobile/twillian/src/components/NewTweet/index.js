@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Keyboard } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import api from '~/services/api';
-import { getUser } from '~/services/auth';
 
 import { withNavigation } from 'react-navigation';
 
@@ -11,20 +12,20 @@ import {
 import Avatar from '~/components/Avatar';
 
 function NewTweet({ navigation }) {
+  const user = useSelector(state => state.user);
+
   const [content, setContent] = useState('');
   const maxCharacters = 128;
-
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    getUser().then(setUser);
-  }, []);
 
   async function sendTweet() {
     try {
       await api.post('tweet', { content });
+
       setContent('');
+
+      Keyboard.dismiss();
     } catch (ex) {
+      console.log(ex);
       // TODO: Handle exception
     }
   }

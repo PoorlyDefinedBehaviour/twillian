@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import api from '~/services/api';
 import { getUser, authenticate } from '~/services/auth';
@@ -24,19 +25,20 @@ import {
 } from './styles';
 
 function Home({ navigation }) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function refresh() {
       const user = await getUser();
+      if (!user) return;
 
-      if (user) {
-        try {
-          const response = await api.get(`user/${user._id}`);
-          await authenticate(response.data, user.token);
-        } catch (ex) {
-          console.log(ex);
-        } finally {
-          navigation.navigate('Timeline');
-        }
+      navigation.navigate('Timeline');
+
+      try {
+        const response = await api.get(`user/${user._id}`);
+        dispatch({ type: 'SET_USER', user: response.data, token: user.token });
+      } catch (ex) {
+        console.log(ex);
       }
     }
 
@@ -64,9 +66,11 @@ function Home({ navigation }) {
       const response = await api.post('login', data);
 
       const { user, token } = response.data;
-      await AsyncStorage.setItem('@twillian:user', JSON.stringify({ ...user, token }));
+      dispatch({ type: 'SET_USER', user: response.data, token: user.token });
 
       navigation.navigate('Timeline');
+
+      await authenticate(user, token);
     } catch (ex) {
       setErrors({ email: handleException(ex.response) });
     } finally {

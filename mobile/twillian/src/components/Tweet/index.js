@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import api from '~/services/api';
-import { getUser } from '~/services/auth';
 
 import { withNavigation } from 'react-navigation';
 
@@ -15,22 +15,15 @@ import Retweet from '~/components/Retweet';
 import Comment from '~/components/Comment';
 
 function Tweet({ data, navigation }) {
+  const currentUser = useSelector(state => state.user);
   const [liked, setLiked] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
 
   const {
     _id, user, content, likes, retweets, comments,
   } = data;
 
   useEffect(() => {
-    async function refresh() {
-      const currentUser = await getUser();
-      if (likes.includes(currentUser._id)) setLiked(true);
-
-      setCurrentUser(currentUser);
-    }
-
-    refresh();
+    if (likes.includes(currentUser._id)) setLiked(true);
   }, []);
 
   async function handleLike() {
@@ -52,7 +45,7 @@ function Tweet({ data, navigation }) {
   return (
     <Container>
       <Header>
-        <Avatar source={user.avatar} onPress={() => navigation.push('Profile', { user })} />
+        <Avatar source={user.avatar} onPress={() => navigation.navigate('Profile', { user })} />
         <Username>@{user.username}</Username>
       </Header>
       <Body>

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import api from '~/services/api';
-import { getUser, authenticate } from '~/services/auth';
 
+import Avatar from '~/components/Avatar';
+import Tweet from '~/components/Tweet';
+
+import ImagePicker from 'react-native-image-picker';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {
   Container,
   Card,
@@ -16,21 +21,19 @@ import {
   InfoValue,
   Tweets,
 } from './styles';
-import Avatar from '~/components/Avatar';
-import Tweet from '~/components/Tweet';
 
 function Profile({ navigation }) {
+  const dispatch = useDispatch();
+
   const user = navigation.getParam('user');
+  const currentUser = useSelector(state => state.user);
 
   const [tweets, setTweets] = useState([]);
-  const [currentUser, setCurrentUser] = useState({ following: [] });
   const [pagination, setPagination] = useState({});
+  const [sending, setSending] = useState(false);
 
   async function fetchTweets(page = 1) {
     try {
-      const authenticated = await getUser();
-      setCurrentUser(authenticated);
-
       const response = await api.get(`tweet/${user._id}/?page=${page}`);
 
       const { docs, ...pagination } = response.data;
@@ -56,33 +59,92 @@ function Profile({ navigation }) {
     fetchTweets();
   }, []);
 
+  async function handleFollow() {
+    const response = await api.post(`user/${user._id}/follow`);
+    dispatch({ type: 'SET_USER', user: response.data, token: currentUser.token });
+  }
+
+  async function handleAvatar() {
+    ImagePicker.showImagePicker(
+      {
+        title: 'Selecione sua foto de perfil',
+        cancelButtonTitle: 'Cancelar',
+        chooseFromLibraryButtonTitle: 'Escolher da galeria',
+        takePhotoButtonTitle: 'Tirar uma foto',
+        quality: 0.7,
+      },
+      async (response) => {
+        if (response.error || response.didCancel) return;
+
+        setSending(true);
+
+        let prefix;
+        let ext;
+
+        if (response.fileName) {
+          [prefix, ext] = response.fileName.split('.');
+          ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
+        } else {
+          prefix = new Date().getTime();
+          ext = 'jpg';
+        }
+
+        const data = new FormData();
+        data.append('file', {
+          uri: response.uri,
+          type: response.type,
+          name: `${prefix}.${ext}`,
+        });
+
+        try {
+          const response = await api.post('upload', data);
+
+          dispatch({ type: 'CHANGE_AVATAR', avatar: response.data.url });
+          console.log(currentUser);
+        } catch (ex) {
+          console.log(ex);
+        } finally {
+          setSending(false);
+        }
+      },
+    );
+  }
+
   function renderTweet({ item }) {
+    if (item.user._id === currentUser._id) {
+      item.user = currentUser;
+    }
+
     return <Tweet data={item} />;
   }
 
-  async function handleFollow() {
-    const currentUser = await getUser();
-    const response = await api.post(`user/${user._id}/follow`);
+  function renderFollow() {
+    if (currentUser._id !== user._id) {
+      return (
+        <Follow onPress={handleFollow}>
+          <FollowText>
+            {currentUser.following.includes(user._id) ? 'Seguindo' : 'Seguir'}
+          </FollowText>
+        </Follow>
+      );
+    }
 
-    setCurrentUser(response.data);
-
-    await authenticate(response.data, currentUser.token);
+    return null;
   }
 
   return (
     <Container>
+      <Spinner visible={sending} />
       <Card>
         <CardHeader>
-          <Avatar source={user.avatar} large />
+          <Avatar
+            source={user._id === currentUser._id ? currentUser.avatar : user.avatar}
+            large
+            onPress={user._id === currentUser._id ? handleAvatar : undefined}
+          />
         </CardHeader>
         <Name>{user.username}</Name>
-        {currentUser._id !== user._id && (
-          <Follow onPress={handleFollow}>
-            <FollowText>
-              {currentUser.following.includes(user._id) ? 'Seguindo' : 'Seguir'}
-            </FollowText>
-          </Follow>
-        )}
+        {renderFollow()}
         <InfoContainer>
           <Info>
             <InfoHeader>Seguidores</InfoHeader>
