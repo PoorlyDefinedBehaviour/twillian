@@ -27,19 +27,22 @@ function Profile({ navigation }) {
 
   const user = navigation.getParam('user');
   const currentUser = useSelector(state => state.user);
+  const { data: tweets, pagination } = useSelector(state => state.profile);
 
-  const [tweets, setTweets] = useState([]);
-  const [pagination, setPagination] = useState({});
   const [sending, setSending] = useState(false);
 
   async function fetchTweets(page = 1) {
     try {
       const response = await api.get(`tweet/${user._id}/?page=${page}`);
 
-      const { docs, ...pagination } = response.data;
+      const { docs, ...rest } = response.data;
 
-      setTweets([...tweets, ...docs]);
-      setPagination(pagination);
+      dispatch({
+        type: 'FETCH_PROFILE',
+        profile: user,
+        data: page === 1 ? docs : [...tweets, ...docs],
+        pagination: rest,
+      });
     } catch (ex) {
       console.log(ex);
     }
@@ -110,12 +113,42 @@ function Profile({ navigation }) {
     );
   }
 
+  async function handleLike(_id) {
+    try {
+      const response = await api.post(`tweet/${_id}/like`);
+      dispatch({
+        type: 'PROFILE_REFRESH_TWEETS',
+        data: tweets.map(tweet => (tweet._id !== _id ? tweet : response.data)),
+      });
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+  async function handleRetweet(_id) {
+    try {
+      const response = await api.post(`tweet/${_id}/retweet`);
+      dispatch({
+        type: 'PROFILE_REFRESH_TWEETS',
+        data: tweets.map(tweet => (tweet._id !== _id ? tweet : response.data)),
+      });
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
   function renderTweet({ item }) {
     if (item.user._id === currentUser._id) {
       item.user = currentUser;
     }
 
-    return <Tweet data={item} />;
+    return (
+      <Tweet
+        data={item}
+        handleLike={() => handleLike(item._id)}
+        handleRetweet={() => handleRetweet(item._id)}
+      />
+    );
   }
 
   function renderFollow() {

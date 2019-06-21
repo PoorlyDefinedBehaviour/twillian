@@ -13,7 +13,7 @@ export const Card = styled.View`
 
   border-radius: 5px;
   margin: 0 15px;
-  margin-top: 100px;
+  margin-top: 80px;
   margin-bottom: 10px;
   padding: 15px;
 `;
