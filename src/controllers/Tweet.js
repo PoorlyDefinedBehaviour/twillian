@@ -70,7 +70,8 @@ class TweetController {
 
   async like(request, response) {
     try {
-      const tweet = await TweetModel.findOne({ _id: request.params.id });
+      const tweet = await TweetModel.findOne({ _id: request.params.id })
+        .populate("user");
 
       if (tweet.likes.includes(request.userId)) {
         tweet.likes.splice(tweet.likes.indexOf(request.userId), 1);
@@ -89,7 +90,8 @@ class TweetController {
 
   async comment(request, response) {
     try {
-      const tweet = await TweetModel.findById(request.params.id);
+      const tweet = await TweetModel.findById(request.params.id)
+        .populate("user");
 
       tweet.comments.push({ ...request.body, user: request.userId });
 
@@ -104,7 +106,8 @@ class TweetController {
 
   async retweet(request, response) {
     try {
-      const tweet = await TweetModel.findById(request.params.id);
+      const tweet = await TweetModel.findById(request.params.id)
+        .populate("user");
 
       if (tweet.retweets.includes(request.userId)) {
         tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
