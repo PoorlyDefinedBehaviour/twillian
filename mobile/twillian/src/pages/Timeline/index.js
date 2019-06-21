@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import api from '~/services/api';
 import { getUser } from '~/services/auth';
@@ -8,8 +9,8 @@ import NewTweet from '~/components/NewTweet';
 import Tweet from '~/components/Tweet';
 
 function Timeline() {
-  const [tweets, setTweets] = useState([]);
-  const [pagination, setPagination] = useState({});
+  const dispatch = useDispatch();
+  const { data: tweets, pagination } = useSelector(state => state.timeline);
 
   async function fetchTweets(page = 1) {
     const user = await getUser();
@@ -17,10 +18,9 @@ function Timeline() {
     try {
       const response = await api.get(`tweet/${user._id}/following/?page=${page}`);
 
-      const { docs, ...pagination } = response.data;
+      const { docs, ...rest } = response.data;
 
-      setTweets([...tweets, ...docs]);
-      setPagination(pagination);
+      dispatch({ type: 'FETCH_TWEETS', data: docs, pagination: rest });
     } catch (ex) {
       console.log(ex.response);
     }
@@ -40,8 +40,38 @@ function Timeline() {
     fetchTweets();
   }, []);
 
+  async function handleLike(_id) {
+    try {
+      const response = await api.post(`tweet/${_id}/like`);
+      dispatch({
+        type: 'REFRESH_TWEETS',
+        data: tweets.map(tweet => (tweet._id !== _id ? tweet : response.data)),
+      });
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+  async function handleRetweet(_id) {
+    try {
+      const response = await api.post(`tweet/${_id}/retweet`);
+      dispatch({
+        type: 'REFRESH_TWEETS',
+        data: tweets.map(tweet => (tweet._id !== _id ? tweet : response.data)),
+      });
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
   function renderTweet({ item }) {
-    return <Tweet data={item} />;
+    return (
+      <Tweet
+        data={item}
+        handleLike={() => handleLike(item._id)}
+        handleRetweet={() => handleRetweet(item._id)}
+      />
+    );
   }
 
   return (
