@@ -73,6 +73,7 @@ export default function Index() {
   };
 
   const handleException = ({ status }) => {
+    // eslint-disable-next-line
     switch (status) {
       case 400:
         return "Usuário ou senha inválido.";

@@ -22,6 +22,7 @@ import {
 
 export default function Register() {
   const [isRegistered, setIsRegistered] = useState(false);
+
   const initialValues = {
     username: "",
     email: "",
