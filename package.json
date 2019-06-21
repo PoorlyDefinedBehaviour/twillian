@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/PoorlyDefinedBehaviour/twillian.git"
   },
-  "author": "Bruno Felipe Francisco, Rafael Atilio Rossato",
+  "author": "Bruno Felipe Francisco",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PoorlyDefinedBehaviour/twillian/issues"
