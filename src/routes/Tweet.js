@@ -2,16 +2,18 @@ const router = require("express").Router();
 const TweetController = require("../controllers/Tweet");
 const { TokenValidator } = require("../middlewares/Auth");
 
-router.get(
-  "/tweet/:user_id",
-  TokenValidator,
-  TweetController.getFromUser
-);
+router.get("/tweet/:user_id", TokenValidator, TweetController.getFromUser);
 
 router.get(
   "/tweet/:user_id/following",
   TokenValidator,
   TweetController.getFromFollowing
+);
+
+router.get(
+  "/tweet/:user_id/retweets",
+  TokenValidator,
+  TweetController.getRetweets
 );
 
 router.post("/tweet", TokenValidator, TweetController.create);

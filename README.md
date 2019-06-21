@@ -11,8 +11,9 @@
 
 # Tweet
 
-<p><strong>GET</strong> api/tweet/:user_id/:page?
+ <p><strong>GET</strong> api/tweet/:user_id/:page?
  <p><strong>GET</strong> api/tweet/:user_id/following/:page
+ <p><strong>GET</strong> api/tweet/:user_id/retweets
  <p><strong>POST</strong> api/tweet
  <p><strong>POST</strong> api/tweet/:tweet_id/like <strong>TYPE</strong> -> <strong>TOGGLE</strong>
  <p><strong>POST</strong> api/tweet/:tweet_id/comment</p>

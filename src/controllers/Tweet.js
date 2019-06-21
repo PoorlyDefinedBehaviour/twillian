@@ -1,4 +1,5 @@
 const TweetModel = require("../models/Tweet");
+const RetweetModel = require("../models/Retweet");
 const UserModel = require("../models/User");
 
 class TweetController {
@@ -70,8 +71,9 @@ class TweetController {
 
   async like(request, response) {
     try {
-      const tweet = await TweetModel.findOne({ _id: request.params.id })
-        .populate("user");
+      const tweet = await TweetModel.findOne({
+        _id: request.params.id
+      }).populate("user");
 
       if (tweet.likes.includes(request.userId)) {
         tweet.likes.splice(tweet.likes.indexOf(request.userId), 1);
@@ -90,8 +92,9 @@ class TweetController {
 
   async comment(request, response) {
     try {
-      const tweet = await TweetModel.findById(request.params.id)
-        .populate("user");
+      const tweet = await TweetModel.findById(request.params.id).populate(
+        "user"
+      );
 
       tweet.comments.push({ ...request.body, user: request.userId });
 
@@ -106,19 +109,63 @@ class TweetController {
 
   async retweet(request, response) {
     try {
-      const tweet = await TweetModel.findById(request.params.id)
-        .populate("user");
+      const tweet = await TweetModel.findById(request.params.id).populate(
+        "user retweets"
+      );
 
-      if (tweet.retweets.includes(request.userId)) {
-        tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
+      if (!tweet)
+        return response.status(404).json({ message: "tweet not found" });
+
+      if (tweet.user._id == request.userId)
+        return response
+          .status(401)
+          .json({ message: "user can't like his own tweet" });
+
+      const userHasRetweeted = !!tweet.retweets.find(
+        retweet => retweet.user == request.userId
+      );
+
+      if (userHasRetweeted) {
+        const index = tweet.retweets.findIndex(
+          retweet => retweet.user_id == request.userId
+        );
+
+        tweet.retweets.splice(index, 1);
+
+        await RetweetModel.findOneAndDelete({ user: request.userId });
       } else {
-        tweet.retweets.push(request.userId);
+        const retweet = await RetweetModel.create({
+          user: request.userId,
+          tweet: tweet._id
+        });
+
+        tweet.retweets.push(retweet._id);
       }
 
-      return response.json(await tweet.save());
+      await tweet.save();
+      return response.json(
+        await TweetModel.findById(request.params.id).populate("user retweets")
+      );
     } catch (error) {
       console.log(error);
       return response.status(422).json({ message: "couldn't retweet", error });
+    }
+  }
+
+  async getRetweets(request, response) {
+    try {
+      const { user_id } = request.params;
+      const { page = 1 } = request.query;
+
+      const retweets = await RetweetModel.paginate(
+        { user: user_id },
+        { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
+      );
+
+      return response.json(retweets);
+    } catch (error) {
+      console.log(error);
+      return response.status(404).json({ message: "couldn't find retweets" });
     }
   }
 }
