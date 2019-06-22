@@ -2,21 +2,22 @@ import styled from 'styled-components/native';
 
 export const Touchable = styled.TouchableOpacity`
   ${props => props.large && {
-    width: '160px',
-    height: '160px',
-    borderRadius: '150px',
+    width: 160,
+    height: 160,
+    borderRadius: 150,
     backgroundColor: '#f5f8fa',
-    marginTop: '-75px',
+    marginTop: -75,
   }}
-  margin-top: ${props => (props.large ? '-75px' : '0')};
 `;
 
 export const Container = styled.View`
-  width: 160px;
-  height: 160px;
-  border-radius: 150px;
-  background-color: #f5f8fa;
-  margin-top: -75px;
+  ${props => props.large && {
+    width: 160,
+    height: 160,
+    borderRadius: 150,
+    backgroundColor: '#f5f8fa',
+    marginTop: -75,
+  }}
 `;
 
 export const Image = styled.Image`

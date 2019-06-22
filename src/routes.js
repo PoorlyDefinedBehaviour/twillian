@@ -5,8 +5,9 @@ import Timeline from '~/pages/Timeline';
 import Home from '~/pages/Home';
 import Register from '~/pages/Register';
 import Profile from '~/pages/Profile';
+import Search from '~/pages/Search';
 
-import Search from '~/components/Search';
+import SearchField from '~/components/Search';
 
 const HomeNavigator = createStackNavigator(
   { Home, Register },
@@ -21,14 +22,14 @@ const HomeNavigator = createStackNavigator(
 );
 
 const AppNavigator = createStackNavigator(
-  { Timeline, Profile },
+  { Timeline, Profile, Search },
   {
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#1da1f2',
       },
       headerTintColor: '#ffffff',
-      headerRight: <Search />,
+      headerRight: <SearchField />,
     },
   },
 );

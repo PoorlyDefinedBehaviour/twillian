@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import api from '~/services/api';
 
@@ -7,6 +7,7 @@ import { Follow, FollowText } from './styles';
 
 function FollowButton({ user }) {
   const currentUser = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   if (currentUser._id === user._id) {
     return null;

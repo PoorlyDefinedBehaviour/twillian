@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Animated } from 'react-native';
+
+import { withNavigation } from 'react-navigation';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -13,12 +15,15 @@ import {
   ExpandButton,
 } from './styles';
 
-function Search() {
+function Search({ navigation }) {
   const [expanded, setExpanded] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const opacity = new Animated.Value(0);
 
-  Animated.timing(opacity, { toValue: 1, duration: 300 }).start();
+  useEffect(() => {
+    Animated.timing(opacity, { toValue: 1, duration: 300 }).start();
+  }, [expanded]);
 
   if (expanded) {
     return (
@@ -26,9 +31,14 @@ function Search() {
         <CloseButton onPress={() => setExpanded(false)}>
           <Icon name="close" size={16} color="#14171a" />
         </CloseButton>
-        <Input placeholder="Buscar..." />
+        <Input
+          placeholder="Buscar..."
+          value={keyword}
+          onChangeText={setKeyword}
+          onSubmitEditing={() => navigation.navigate('Search', { keyword })}
+        />
         <IconWrapper>
-          <SubmitButton onPress={() => {}}>
+          <SubmitButton onPress={() => navigation.navigate('Search', { keyword })}>
             <Icon name="search" size={25} color="#1da1f2" />
           </SubmitButton>
         </IconWrapper>
@@ -45,4 +55,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default withNavigation(Search);
