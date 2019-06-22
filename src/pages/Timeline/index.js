@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import api from '~/services/api';
-import { getUser } from '~/services/auth';
 
 import { Container, Tweets } from './styles';
 import NewTweet from '~/components/NewTweet';
@@ -10,11 +9,10 @@ import Tweet from '~/components/Tweet';
 
 function Timeline() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const { data: tweets, pagination } = useSelector(state => state.timeline);
 
   async function fetchTweets(page = 1) {
-    const user = await getUser();
-
     try {
       const response = await api.get(`tweet/${user._id}/following/?page=${page}`);
 
