@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Keyboard } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import api from '~/services/api';
@@ -32,14 +33,15 @@ function Home({ navigation }) {
       const user = await getUser();
       if (!user) return;
 
+      dispatch({ type: 'SET_USER', user, token: user.token });
+
       navigation.navigate('Timeline');
 
-      try {
-        const response = await api.get(`user/${user._id}`);
-        dispatch({ type: 'SET_USER', user: response.data, token: user.token });
-      } catch (ex) {
-        console.log(ex);
-      }
+      // try {
+      //   const response = await api.get(`user/${user._id}`);
+      // } catch (ex) {
+      //   console.log(ex);
+      // }
     }
 
     refresh();
@@ -49,13 +51,11 @@ function Home({ navigation }) {
 
   const initialValues = {
     username: '',
-    email: '',
+    password: '',
   };
 
   const schema = Yup.object().shape({
-    email: Yup.string()
-      .required('Digite seu e-mail.')
-      .email('Insira um e-mail válido.'),
+    username: Yup.string().required('Digite seu usuário.'),
     password: Yup.string().required('Digite sua senha.'),
   });
 
@@ -66,13 +66,13 @@ function Home({ navigation }) {
       const response = await api.post('login', data);
 
       const { user, token } = response.data;
-      dispatch({ type: 'SET_USER', user: response.data, token: user.token });
+      dispatch({ type: 'SET_USER', user, token: user.token });
 
       navigation.navigate('Timeline');
 
       await authenticate(user, token);
     } catch (ex) {
-      setErrors({ email: handleException(ex.response) });
+      setErrors({ username: handleException(ex.response) });
     } finally {
       setSubmitting(false);
     }
@@ -104,25 +104,26 @@ function Home({ navigation }) {
           </LogoContainer>
           <Card>
             <Input
-              placeholder="E-mail"
+              placeholder="Usuário"
               returnKeyType="next"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
               onSubmitEditing={() => refs.password.focus()}
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
+              value={values.username}
+              onChangeText={handleChange('username')}
+              onBlur={handleBlur('username')}
               blurOnSubmit={false}
-              error={touched.email && !!errors.email}
+              error={touched.username && !!errors.username}
             />
-            {touched.email && !!errors.email && <Error>{errors.email}</Error>}
+            {touched.username && !!errors.username && <Error>{errors.username}</Error>}
             <Input
               ref={input => (refs.password = input)}
               placeholder="Senha"
               secureTextEntry
               autoCompleteType="password"
               textContentType="password"
+              onSubmitEditing={() => {
+                Keyboard.dismiss();
+                handleSubmit();
+              }}
               value={values.password}
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
