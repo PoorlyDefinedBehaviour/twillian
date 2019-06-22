@@ -5,6 +5,7 @@ import api from '~/services/api';
 
 import Avatar from '~/components/Avatar';
 import Tweet from '~/components/Tweet';
+import FollowButton from '~/components/FollowButton';
 
 import ImagePicker from 'react-native-image-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -13,8 +14,6 @@ import {
   Card,
   CardHeader,
   Name,
-  Follow,
-  FollowText,
   InfoContainer,
   Info,
   InfoHeader,
@@ -61,11 +60,6 @@ function Profile({ navigation }) {
   useEffect(() => {
     fetchTweets();
   }, []);
-
-  async function handleFollow() {
-    const response = await api.post(`user/${user._id}/follow`);
-    dispatch({ type: 'SET_USER', user: response.data, token: currentUser.token });
-  }
 
   async function handleAvatar() {
     ImagePicker.showImagePicker(
@@ -150,20 +144,6 @@ function Profile({ navigation }) {
     );
   }
 
-  function renderFollow() {
-    if (currentUser._id !== user._id) {
-      return (
-        <Follow onPress={handleFollow}>
-          <FollowText>
-            {currentUser.following.includes(user._id) ? 'Seguindo' : 'Seguir'}
-          </FollowText>
-        </Follow>
-      );
-    }
-
-    return null;
-  }
-
   return (
     <Container>
       <Spinner visible={sending} />
@@ -176,7 +156,7 @@ function Profile({ navigation }) {
           />
         </CardHeader>
         <Name>{user.username}</Name>
-        {renderFollow()}
+        <FollowButton user={user} />
         <InfoContainer>
           <Info>
             <InfoHeader>Seguidores</InfoHeader>
