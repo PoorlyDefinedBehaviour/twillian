@@ -59,13 +59,22 @@ class TweetController {
 
   async delete(request, response) {
     try {
-      await TweetModel.findByIdAndDelete(request.params.id);
-      return response.json({ message: "tweet deleted" });
+      const tweet = await TweetModel.findById(request.params.id).populate(
+        "user"
+      );
+
+      if (!tweet)
+        return response.status(404).json({ message: "tweet not found" });
+
+      if (String(tweet.user._id) !== String(request.userId))
+        return response.status(401).json({
+          message: "you're not authorized to delete other users tweets"
+        });
+
+      return response.json(await tweet.delete());
     } catch (error) {
       console.log(error);
-      return response
-        .status(422)
-        .json({ message: "couldn't delete tweet", error });
+      return response.status(500).json({ message: "couldn't delete tweet" });
     }
   }
 
