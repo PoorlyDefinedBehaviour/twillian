@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { withNavigation } from 'react-navigation';
 
+import { parseISO, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import {
-  Header, Username, Body, Content, Actions,
+  Header, Data, Username, Time, Body, Content, Actions,
 } from './styles';
 import Container from '~/components/Container';
 import Avatar from '~/components/Avatar';
@@ -18,14 +20,17 @@ function Tweet({
   const currentUser = useSelector(state => state.user);
 
   const {
-    user, content, likes, retweets, comments,
+    user, content, likes, retweets, comments, createdAt,
   } = data;
 
   return (
     <Container>
       <Header>
-        <Avatar source={user.avatar} onPress={() => navigation.navigate('Profile', { user })} />
-        <Username>@{user.username}</Username>
+        <Data>
+          <Avatar source={user.avatar} onPress={() => navigation.navigate('Profile', { user })} />
+          <Username>@{user.username}</Username>
+        </Data>
+        <Time>há {formatDistanceToNow(parseISO(createdAt), { locale: ptBR })}</Time>
       </Header>
       <Body>
         <Content>{content}</Content>

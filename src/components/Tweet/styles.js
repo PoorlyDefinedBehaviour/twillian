@@ -5,16 +5,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 
   margin-bottom: 5px;
 `;
 
-export const Author = styled.Text`
-  color: #14171a;
-  margin-left: 5px;
-  font-weight: bold;
-  font-size: 16px;
+export const Data = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
+
+export const Time = styled.Text``;
 
 export const Username = styled.Text`
   color: #657786;
