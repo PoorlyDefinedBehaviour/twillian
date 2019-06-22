@@ -4,14 +4,17 @@ const UserModel = require("../models/User");
 
 class UserController {
   async search(request, response) {
+    const { page = 1 } = request.query;
+
     try {
-      const users = await UserModel.find({
-        username: {
-          $regex: new RegExp(request.params.username, "i")
-        }
-      })
-        .select("-password")
-        .limit(20);
+      const users = await UserModel.paginate(
+        {
+          username: {
+            $regex: new RegExp(request.params.username, "i")
+          }
+        }, 
+        { sort: { createdAt: -1 }, page, limit: 10 }
+      );
 
       return response.json(users);
     } catch (error) {

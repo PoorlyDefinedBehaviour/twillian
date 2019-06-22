@@ -1,5 +1,7 @@
-const Mongoose = require("../database/mongodb/MongoDB");
-const bcrypt = require("bcryptjs");
+const Mongoose = require('../database/mongodb/MongoDB');
+const bcrypt = require('bcryptjs');
+
+const mongoosePaginate = require('mongoose-paginate');
 
 const User = new Mongoose.Schema(
   {
@@ -22,19 +24,20 @@ const User = new Mongoose.Schema(
       type: String,
       required: false,
       unique: false,
-      default: 'http://laurauinteriordesign.com/wp-content/uploads/2018/03/avatar-placeholder.png'
+      default:
+        'http://laurauinteriordesign.com/wp-content/uploads/2018/03/avatar-placeholder.png'
     },
     following: [
       {
         type: Mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: false
       }
     ],
     followers: [
       {
         type: Mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: false
       }
     ]
@@ -42,14 +45,16 @@ const User = new Mongoose.Schema(
   {
     timestamps: true
   }
-).index({username: "text"});
+).index({ username: 'text' });
 
-User.pre("save", async function(next) {
-  if (this.password && this.isModified("password")) {
+User.pre('save', async function(next) {
+  if (this.password && this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
   next();
 });
 
-module.exports = Mongoose.model("User", User);
+User.plugin(mongoosePaginate);
+
+module.exports = Mongoose.model('User', User);
