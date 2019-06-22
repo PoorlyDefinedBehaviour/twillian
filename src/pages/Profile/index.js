@@ -103,7 +103,6 @@ function Profile({ navigation }) {
           const response = await api.post('upload', data);
 
           dispatch({ type: 'CHANGE_AVATAR', avatar: response.data.url });
-          console.log(currentUser);
         } catch (ex) {
           console.log(ex);
         } finally {
