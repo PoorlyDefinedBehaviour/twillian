@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MdSearch } from "react-icons/md";
 
 import {
   PageBox,
@@ -17,7 +18,10 @@ import {
   Name,
   Body,
   Content,
-  UserImage
+  UserImage,
+  SearchForm,
+  SearchButton,
+  SearchInput
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
@@ -38,11 +42,14 @@ export default function Timeline() {
     }
   ]);
 
+  const [usernameToSearch, setUsernameToSearch] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [usersFound, setUsersFound] = useState([]);
+
   useEffect(() => {
     async function fecthTweets() {
       try {
         const { data } = await api.get(`tweet/${user._id}/following`);
-        console.log(data);
 
         if (data.docs.length) {
           setTweets(data.docs);
@@ -56,14 +63,47 @@ export default function Timeline() {
     // eslint-disable-next-line
   }, []);
 
-  const handleClick = e => {};
+  useEffect(() => {
+    async function searchForUser() {
+      if (!searching) return;
+
+      try {
+        if (!usernameToSearch) return;
+
+        const { data: users } = await api.get(`search/${usernameToSearch}`);
+        setUsersFound(users);
+      } catch (error) {
+        console.log("handleUsernameSearch", error);
+      } finally {
+        setSearching(false);
+      }
+    }
+
+    searchForUser();
+  }, [usernameToSearch]);
 
   return (
     <PageBox>
       <Navbar>
         <ContainerNav>
           <Logo src={LogoImagem} />
-          <NavMenu onClick={handleClick}>
+          <SearchForm
+            onChange={e => setUsernameToSearch(e.target.value)}
+            onSubmit={event => {
+              event.preventDefault();
+              setSearching(true);
+            }}
+          >
+            <SearchInput
+              placeholder="Procurar"
+              onChange={e => setUsernameToSearch(e.target.value)}
+              value={usernameToSearch}
+            />
+            <SearchButton>
+              <MdSearch />
+            </SearchButton>
+          </SearchForm>
+          <NavMenu>
             <NavDot />
             <NavDot />
             <NavDot />
