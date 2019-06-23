@@ -12,7 +12,7 @@ class UserController {
           username: {
             $regex: new RegExp(request.params.username, "i")
           }
-        }, 
+        },
         { sort: { createdAt: -1 }, page, limit: 10 }
       );
 
@@ -25,7 +25,7 @@ class UserController {
 
   async get(request, response) {
     try {
-      const user = await UserModel.findById(request.params.id).select(
+      const user = await UserModel.findOne({ _id: request.params.id }).select(
         "-password"
       );
       return response.json(user);
