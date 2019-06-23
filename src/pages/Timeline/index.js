@@ -25,6 +25,7 @@ import LogoImagem from "../../assets/img/logo.png";
 import DefaultUser from "../../assets/img/defaultuser.jpg";
 import SearchBar from "../../components/searchbar";
 import UserList from "../../components/userlist";
+import Tweet from "../../components/tweet";
 
 import api from "../../services/api";
 import { getUser } from "../../services/auth";
@@ -33,6 +34,18 @@ export default function Timeline() {
   const user = getUser();
 
   const [tweets, setTweets] = useState([
+    {
+      user: {
+        username: "test"
+      },
+      content: "hello world"
+    },
+    {
+      user: {
+        username: "test"
+      },
+      content: "hello world"
+    },
     {
       user: {
         username: "test"
@@ -121,15 +134,7 @@ export default function Timeline() {
 
           <>
             {tweets.map(tweet => (
-              <Card key={String(Symbol())}>
-                <CardHeader>
-                  <Avatar src={DefaultUser} />
-                  <Name>{tweet.user.username}</Name>
-                </CardHeader>
-                <Body>
-                  <Content>{tweet.content}</Content>
-                </Body>
-              </Card>
+              <Tweet tweet={tweet} />
             ))}
           </>
         </Right>
