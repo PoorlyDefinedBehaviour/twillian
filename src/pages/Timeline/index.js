@@ -17,7 +17,8 @@ import {
   Name,
   UserImage,
   SearchBarContainer,
-  TweetForm
+  TweetForm,
+  SearchResultContainer
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
@@ -111,9 +112,11 @@ export default function Timeline() {
               handleChange={e => setUsernameToSearch(e.target.value)}
               placeholder="Procurar"
             />
-            {searchBarOnFocus && (
-              <UserList data={usersFound} handleClick={goToProfile} />
-            )}
+            <SearchResultContainer>
+              {searchBarOnFocus && (
+                <UserList data={usersFound} handleClick={goToProfile} />
+              )}
+            </SearchResultContainer>
           </SearchBarContainer>
           <NavMenu>
             <NavDot />

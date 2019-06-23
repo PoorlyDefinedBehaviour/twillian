@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const PageBox = styled.div`
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   height: 100vh;
   background-color: #f5f8fa;
@@ -79,6 +80,7 @@ export const CardHeader = styled.div`
 export const TweetForm = styled.form``;
 
 export const CardMessage = styled.input`
+  border: none;
   width: 100%;
   margin-left: 5px;
   padding: 10px;
@@ -124,4 +126,10 @@ export const SearchBarContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+`;
+
+export const SearchResultContainer = styled.div`
+  z-index: 11;
+  margin-top: -20px;
+  margin-left: -40px;
 `;

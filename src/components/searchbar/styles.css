@@ -1,9 +1,12 @@
 .searchbar-form {
   height: 25px;
+  text-decoration: none;
+  border: none;
 }
 
 .searchbar-input {
   transform: scale(1.2);
+  border: none;
 }
 
 .searchbar-input::placeholder {
@@ -11,6 +14,8 @@
 }
 
 .searchbar-button {
+  background: none;
+  border: none;
   cursor: pointer;
   transform: scale(1.2);
   margin-left: 20px;

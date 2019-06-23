@@ -164,3 +164,9 @@ export const UserInfoItemNumber = styled.p`
     cursor: pointer;
   }
 `;
+
+export const SearchResultContainer = styled.div`
+  z-index: 11;
+  margin-top: -20px;
+  margin-left: -40px;
+`;

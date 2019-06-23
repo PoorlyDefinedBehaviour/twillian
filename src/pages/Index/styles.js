@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const PageBox = styled.div`
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   height: 100vh;
   background-color: #f5f8fa;

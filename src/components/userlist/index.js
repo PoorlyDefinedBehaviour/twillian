@@ -7,7 +7,7 @@ const UserList = ({ data, handleClick }) => (
       <li
         className="userlist-element"
         key={user._id}
-        onClick={() => handleClick(user._id)}
+        onClick={() => handleClick(`profile/${user._id}`)}
       >
         <img className="userlist-avatar" src={user.avatar} alt="User avatar" />
         <span className="userlist-username">{user.username}</span>
