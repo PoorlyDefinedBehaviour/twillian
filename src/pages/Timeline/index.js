@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { MdSearch } from "react-icons/md";
 
 import {
   PageBox,
@@ -19,13 +18,13 @@ import {
   Body,
   Content,
   UserImage,
-  SearchForm,
-  SearchButton,
-  SearchInput
+  SearchBarContainer
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
 import DefaultUser from "../../assets/img/defaultuser.jpg";
+import SearchBar from "../../components/searchbar";
+import UserList from "../../components/userlist";
 
 import api from "../../services/api";
 import { getUser } from "../../services/auth";
@@ -43,8 +42,9 @@ export default function Timeline() {
   ]);
 
   const [usernameToSearch, setUsernameToSearch] = useState("");
-  const [searching, setSearching] = useState(false);
   const [usersFound, setUsersFound] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [searchBarOnFocus, setSearchBarOnFocus] = useState(false);
 
   useEffect(() => {
     async function fecthTweets() {
@@ -63,46 +63,37 @@ export default function Timeline() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    async function searchForUser() {
-      if (!searching) return;
+  const searchForUser = async () => {
+    if (!usernameToSearch || searching) return;
 
-      try {
-        if (!usernameToSearch) return;
-
-        const { data: users } = await api.get(`search/${usernameToSearch}`);
-        setUsersFound(users);
-      } catch (error) {
-        console.log("handleUsernameSearch", error);
-      } finally {
-        setSearching(false);
-      }
+    try {
+      setSearching(true);
+      const { data: users } = await api.get(`search/${usernameToSearch}`);
+      setUsersFound(users.docs);
+    } catch (error) {
+    } finally {
+      setSearching(false);
     }
-
-    searchForUser();
-  }, [usernameToSearch]);
+  };
 
   return (
     <PageBox>
       <Navbar>
         <ContainerNav>
           <Logo src={LogoImagem} />
-          <SearchForm
-            onChange={e => setUsernameToSearch(e.target.value)}
-            onSubmit={event => {
-              event.preventDefault();
-              setSearching(true);
-            }}
-          >
-            <SearchInput
+          <SearchBarContainer>
+            <SearchBar
+              handleFocus={() => setSearchBarOnFocus(true)}
+              handleBlur={() => setSearchBarOnFocus(false)}
+              handleSubmit={e => {
+                e.preventDefault();
+                searchForUser();
+              }}
+              handleChange={e => setUsernameToSearch(e.target.value)}
               placeholder="Procurar"
-              onChange={e => setUsernameToSearch(e.target.value)}
-              value={usernameToSearch}
             />
-            <SearchButton>
-              <MdSearch />
-            </SearchButton>
-          </SearchForm>
+            {searchBarOnFocus && <UserList data={usersFound} />}
+          </SearchBarContainer>
           <NavMenu>
             <NavDot />
             <NavDot />

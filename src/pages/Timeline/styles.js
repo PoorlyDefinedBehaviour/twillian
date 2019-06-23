@@ -30,15 +30,6 @@ export const Logo = styled.img`
   cursor: pointer;
 `;
 
-export const SearchBar = styled.input`
-  border-radius: 10px;
-  background-color: #d7d7d7;
-  color: #fff;
-  height: 30px;
-  width: 200px;
-  margin-left: -30%;
-`;
-
 export const NavMenu = styled.div`
   color: #3d3d3d;
   width: 45px;
@@ -126,24 +117,7 @@ export const UserImage = styled.img`
   margin-top: -25%;
 `;
 
-export const SearchForm = styled.form``;
-
-export const SearchInput = styled.input`
-  width: 200px;
-  height: 25px;
-  border-radius: 5px;
+export const SearchBarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
-
-export const SearchButton = styled.button`
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
-`;
-
-export const SearchBarResultContainer = styled.div``;
-
-export const List = styled.ul`
-  text-decoration: none;
-`;
-
-export const ListItem = styled.li``;
