@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
+const TweetModel = require("../models/Tweet");
 
 class UserController {
   async search(request, response) {
@@ -24,11 +25,31 @@ class UserController {
   }
 
   async get(request, response) {
+    /*
+    async getFromUser(request, response) {
+    const { user_id } = request.params;
+    const { page = 1 } = request.query;
+    try {
+      const tweets = await TweetModel.paginate(
+        { user: user_id },
+        { populate: ["user", "retweeted"], sort: { createdAt: -1 }, page, limit: 10 }
+      );
+
+      return response.json(tweets);
+    } catch (error) {
+      console.log(error);
+      return response.json({ message: "couldn't get tweets", error });
+    }
+  }
+  */
     try {
       const user = await UserModel.findOne({ _id: request.params.id }).select(
         "-password"
       );
-      return response.json(user);
+
+      const user_tweets = await TweetModel.find({ user: request.params.id });
+
+      return response.json({ user, user_tweets });
     } catch (error) {
       return response.status(404).send({ message: "user not found", error });
     }
