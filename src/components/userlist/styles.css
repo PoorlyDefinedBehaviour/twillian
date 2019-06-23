@@ -1,0 +1,33 @@
+.userlist {
+  margin-left: -20px;
+  width: 225px;
+  z-index: 10;
+  height: 400px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.userlist-element {
+  background-color: #fff;
+  border: 2px solid #f1f1f1;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.userlist-element:hover {
+  transform: scale(1.1);
+}
+
+.userlist-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.userlist-username {
+  font-size: 12px;
+  font-weight: bold;
+}
