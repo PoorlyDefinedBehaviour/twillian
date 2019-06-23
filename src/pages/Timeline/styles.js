@@ -76,8 +76,11 @@ export const CardHeader = styled.div`
   align-items: center;
 `;
 
+export const TweetForm = styled.form``;
+
 export const CardMessage = styled.input`
   width: 100%;
+  margin-left: 5px;
   padding: 10px;
   font-size: 16px;
   color: #14171a;
@@ -118,6 +121,7 @@ export const UserImage = styled.img`
 `;
 
 export const SearchBarContainer = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;

@@ -15,14 +15,12 @@ import {
   CardMessage,
   Avatar,
   Name,
-  Body,
-  Content,
   UserImage,
-  SearchBarContainer
+  SearchBarContainer,
+  TweetForm
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
-import DefaultUser from "../../assets/img/defaultuser.jpg";
 import SearchBar from "../../components/searchbar";
 import UserList from "../../components/userlist";
 import Tweet from "../../components/tweet";
@@ -33,27 +31,9 @@ import { getUser } from "../../services/auth";
 export default function Timeline() {
   const user = getUser();
 
-  const [tweets, setTweets] = useState([
-    {
-      user: {
-        username: "test"
-      },
-      content: "hello world"
-    },
-    {
-      user: {
-        username: "test"
-      },
-      content: "hello world"
-    },
-    {
-      user: {
-        username: "test"
-      },
-      content: "hello world"
-    }
-  ]);
+  const [tweets, setTweets] = useState([]);
 
+  const [newTweet, setNewTweet] = useState("");
   const [usernameToSearch, setUsernameToSearch] = useState("");
   const [usersFound, setUsersFound] = useState([]);
   const [searching, setSearching] = useState(false);
@@ -67,6 +47,7 @@ export default function Timeline() {
         if (data.docs.length) {
           setTweets(data.docs);
         }
+        console.log("fetchtweets", data.docs);
       } catch (error) {
         console.log("fetchTweets", error);
       }
@@ -86,6 +67,23 @@ export default function Timeline() {
     } catch (error) {
     } finally {
       setSearching(false);
+    }
+  };
+
+  const handleTweetSubmit = async event => {
+    console.log("submitting tweet");
+
+    event.preventDefault();
+
+    if (!newTweet) return;
+
+    try {
+      const { data } = await api.post("tweet", { content: newTweet });
+      console.log("new tweet", data);
+    } catch (error) {
+      console.log("handletweetsubmit", error);
+    } finally {
+      setNewTweet("");
     }
   };
 
@@ -123,18 +121,21 @@ export default function Timeline() {
         </Left>
         <Right>
           <Card>
-            <CardHeader>
-              <Avatar src={DefaultUser} />
-              <CardMessage
-                multiline
-                placeholder="Escreva o que você está pensando..."
-              />
-            </CardHeader>
+            <TweetForm onSubmit={handleTweetSubmit}>
+              <CardHeader>
+                <Avatar src={user.avatar} />
+                <CardMessage
+                  onChange={e => setNewTweet(e.target.value)}
+                  multiline
+                  placeholder="Escreva o que você está pensando..."
+                />
+              </CardHeader>
+            </TweetForm>
           </Card>
 
           <>
             {tweets.map(tweet => (
-              <Tweet tweet={tweet} />
+              <Tweet key={tweet._id} tweet={tweet} />
             ))}
           </>
         </Right>
