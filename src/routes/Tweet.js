@@ -7,7 +7,7 @@ router.get("/tweet/:user_id", TokenValidator, TweetController.getFromUser);
 router.get(
   "/tweet/:user_id/following",
   TokenValidator,
-  TweetController.getFromFollowing
+  TweetController.getTimeline
 );
 
 router.get(

@@ -43,7 +43,11 @@ const TweetSchema = new Mongoose.Schema(
           default: Date.now
         }
       }
-    ]
+    ],
+    retweeted: {
+      type: Mongoose.Schema.Types.ObjectId,
+      ref: "Tweet"
+    }
   },
   {
     timestamps: true
