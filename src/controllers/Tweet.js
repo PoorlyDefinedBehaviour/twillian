@@ -22,15 +22,38 @@ class TweetController {
   async getFromFollowing(request, response) {
     try {
       const { user_id } = request.params;
+      const { page = 1 } = request.query;
+
       const currentUser = await UserModel.findOne({ _id: user_id });
 
-      const { page = 1 } = request.query;
-      const tweets = await TweetModel.paginate(
-        { user: { $in: currentUser.following } },
+      const { docs: currentUserTweets } = await TweetModel.paginate(
+        { user: user_id },
         { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
       );
 
-      return response.status(200).json(tweets);
+      const currentUserIsFollowing = !!currentUser.following.length;
+      const { docs: retweets } = currentUserIsFollowing
+        ? await RetweetModel.paginate(
+            { user: user_id },
+            { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
+          )
+        : [];
+
+      const { docs: tweets } = currentUserIsFollowing
+        ? await TweetModel.paginate(
+            { user: { $in: currentUser.following } },
+            { populate: "user", sort: { createdAt: -1 }, page, limit: 10 }
+          )
+        : [];
+
+      const sortedTweetsAndRetweets = [...tweets, ...retweets].sort((a, b) =>
+        a.createdAt < b.createdAt ? -1 : 1
+      );
+
+      return response.status(200).json({
+        user_tweets: currentUserTweets,
+        tweets_retweets: sortedTweetsAndRetweets
+      });
     } catch (error) {
       console.log(error);
       return response
