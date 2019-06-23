@@ -11,13 +11,14 @@ import {
   Left,
   Right,
   Card,
-  CardHeader,
-  CardMessage,
-  Avatar,
-  Name,
   UserImage,
+  Name,
   SearchBarContainer,
-  TweetForm
+  UserInfoContainer,
+  UserInfoItems,
+  UserInfoItem,
+  UserInfoItemDescription,
+  UserInfoItemNumber
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
@@ -26,34 +27,43 @@ import UserList from "../../components/userlist";
 import Tweet from "../../components/tweet";
 
 import api from "../../services/api";
-import { getUser } from "../../services/auth";
 
-export default function Timeline() {
-  const user = getUser();
-
+export default function Profile(props) {
+  const [user, setUser] = useState({});
   const [tweets, setTweets] = useState([]);
 
-  const [newTweet, setNewTweet] = useState("");
   const [usernameToSearch, setUsernameToSearch] = useState("");
   const [usersFound, setUsersFound] = useState([]);
   const [searching, setSearching] = useState(false);
   const [searchBarOnFocus, setSearchBarOnFocus] = useState(false);
 
   useEffect(() => {
-    async function fecthTweets() {
+    async function getUserById() {
       try {
-        const { data } = await api.get(`tweet/${user._id}/following?page=1`);
+        const { data } = await api.get(`user/${props.match.params.user_id}`);
 
-        if (data.docs.length) {
-          setTweets(data.docs);
-        }
-        console.log("fetchtweets", data.docs);
+        setUser(data);
+        console.log("user", data);
       } catch (error) {
         console.log("fetchTweets", error);
+        // redirect to 404;
       }
     }
 
-    fecthTweets();
+    async function fetchTimeline() {
+      try {
+        const { data } = await api.get(`tweet/${user._id}/following?page=1`);
+
+        console.log("fetchedtweets", data);
+        if (data.length) setTweets(data);
+      } catch (error) {
+        console.log("fetchTweets", error);
+        // show some error
+      }
+    }
+
+    getUserById();
+    fetchTimeline();
     // eslint-disable-next-line
   }, []);
 
@@ -67,23 +77,6 @@ export default function Timeline() {
     } catch (error) {
     } finally {
       setSearching(false);
-    }
-  };
-
-  const handleTweetSubmit = async event => {
-    console.log("submitting tweet");
-
-    event.preventDefault();
-
-    if (!newTweet) return;
-
-    try {
-      const { data } = await api.post("tweet", { content: newTweet });
-      console.log("new tweet", data);
-    } catch (error) {
-      console.log("handletweetsubmit", error);
-    } finally {
-      setNewTweet("");
     }
   };
 
@@ -130,19 +123,26 @@ export default function Timeline() {
           </Card>
         </Left>
         <Right>
-          <Card>
-            <TweetForm onSubmit={handleTweetSubmit}>
-              <CardHeader>
-                <Avatar src={user.avatar} />
-                <CardMessage
-                  onChange={e => setNewTweet(e.target.value)}
-                  multiline
-                  placeholder="Escreva o que você está pensando..."
-                />
-              </CardHeader>
-            </TweetForm>
-          </Card>
-
+          <UserInfoContainer>
+            <UserInfoItems>
+              <UserInfoItem>
+                <UserInfoItemDescription>Tweets</UserInfoItemDescription>
+                <UserInfoItemNumber>{user.tweets.length}</UserInfoItemNumber>
+              </UserInfoItem>
+              <UserInfoItem>
+                <UserInfoItemDescription>
+                  {user.following.length}
+                </UserInfoItemDescription>
+                <UserInfoItemNumber>123</UserInfoItemNumber>
+              </UserInfoItem>
+              <UserInfoItem>
+                <UserInfoItemDescription>
+                  {user.followers.length}
+                </UserInfoItemDescription>
+                <UserInfoItemNumber>123</UserInfoItemNumber>
+              </UserInfoItem>
+            </UserInfoItems>
+          </UserInfoContainer>
           <>
             {tweets.map(tweet => (
               <Tweet key={tweet._id} tweet={tweet} handleClick={goToProfile} />
