@@ -1,6 +1,9 @@
 .userlist {
+  border: none;
+  background-color: transparent;
   margin-left: -20px;
   width: 225px;
+  height: 400px;
   z-index: 10;
   height: 400px;
   overflow: hidden;
