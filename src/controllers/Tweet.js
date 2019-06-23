@@ -28,7 +28,15 @@ class TweetController {
 
       const tweets = await TweetModel.paginate(
         { $or: [{ user: { $in: currentUser.following } }, { user: user_id }] },
-        { populate: ["user", "retweeted"], sort: { createdAt: -1 }, page, limit: 10 }
+        { 
+          populate: [
+            { path: "user" }, 
+            { path: "retweeted", populate: { path: "user" } }
+          ], 
+          sort: { createdAt: -1 }, 
+          page, 
+          limit: 10 
+        }
       );
 
       return response.status(200).json(tweets);
