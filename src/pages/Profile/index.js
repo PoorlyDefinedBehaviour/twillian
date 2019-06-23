@@ -14,6 +14,7 @@ import {
   UserImage,
   Name,
   SearchBarContainer,
+  SearchResultContainer,
   UserInfoContainer,
   UserInfoItems,
   UserInfoItem,
@@ -22,6 +23,7 @@ import {
 } from "./styles";
 
 import LogoImagem from "../../assets/img/logo.png";
+import DefaultUser from "../../assets/img/defaultuser.jpg";
 import SearchBar from "../../components/searchbar";
 import UserList from "../../components/userlist";
 import Tweet from "../../components/tweet";
@@ -29,7 +31,14 @@ import Tweet from "../../components/tweet";
 import api from "../../services/api";
 
 export default function Profile(props) {
-  const [user, setUser] = useState({});
+  const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState({
+    avatar: DefaultUser,
+    followers: [],
+    following: [],
+    tweets: []
+  });
+
   const [tweets, setTweets] = useState([]);
 
   const [usernameToSearch, setUsernameToSearch] = useState("");
@@ -41,9 +50,7 @@ export default function Profile(props) {
     async function getUserById() {
       try {
         const { data } = await api.get(`user/${props.match.params.user_id}`);
-
-        setUser(data);
-        console.log("user", data);
+        setUser({ ...data.user, tweets: data.user_tweets });
       } catch (error) {
         console.log("fetchTweets", error);
         // redirect to 404;
@@ -52,10 +59,11 @@ export default function Profile(props) {
 
     async function fetchTimeline() {
       try {
-        const { data } = await api.get(`tweet/${user._id}/following?page=1`);
+        const { data } = await api.get(
+          `tweet/${props.match.params.user_id}/following?page=1`
+        );
 
-        console.log("fetchedtweets", data);
-        if (data.length) setTweets(data);
+        if (data.docs) setTweets(data.docs);
       } catch (error) {
         console.log("fetchTweets", error);
         // show some error
@@ -64,6 +72,7 @@ export default function Profile(props) {
 
     getUserById();
     fetchTimeline();
+    setMounted(true);
     // eslint-disable-next-line
   }, []);
 
@@ -80,76 +89,78 @@ export default function Profile(props) {
     }
   };
 
-  const goToProfile = user_id => {
-    // redirect to profile
-    console.log("gotoprofile user_id", user_id);
-    console.log(tweets);
+  const redirect = path => {
+    // redirect somewhere
   };
 
   return (
-    <PageBox>
-      <Navbar>
-        <ContainerNav>
-          <Logo src={LogoImagem} />
-          <SearchBarContainer>
-            <SearchBar
-              handleFocus={() => setSearchBarOnFocus(true)}
-              handleBlur={() =>
-                setTimeout(() => setSearchBarOnFocus(false), 100)
-              }
-              handleSubmit={e => {
-                e.preventDefault();
-                searchForUser();
-              }}
-              handleChange={e => setUsernameToSearch(e.target.value)}
-              placeholder="Procurar"
-            />
-            {searchBarOnFocus && (
-              <UserList data={usersFound} handleClick={goToProfile} />
-            )}
-          </SearchBarContainer>
-          <NavMenu>
-            <NavDot />
-            <NavDot />
-            <NavDot />
-          </NavMenu>
-        </ContainerNav>
-      </Navbar>
-      <Container>
-        <Left>
-          <Card>
-            <UserImage src={user.avatar} />
-            <Name>{user.username}</Name>
-          </Card>
-        </Left>
-        <Right>
-          <UserInfoContainer>
-            <UserInfoItems>
-              <UserInfoItem>
-                <UserInfoItemDescription>Tweets</UserInfoItemDescription>
-                <UserInfoItemNumber>{user.tweets.length}</UserInfoItemNumber>
-              </UserInfoItem>
-              <UserInfoItem>
-                <UserInfoItemDescription>
-                  {user.following.length}
-                </UserInfoItemDescription>
-                <UserInfoItemNumber>123</UserInfoItemNumber>
-              </UserInfoItem>
-              <UserInfoItem>
-                <UserInfoItemDescription>
-                  {user.followers.length}
-                </UserInfoItemDescription>
-                <UserInfoItemNumber>123</UserInfoItemNumber>
-              </UserInfoItem>
-            </UserInfoItems>
-          </UserInfoContainer>
-          <>
-            {tweets.map(tweet => (
-              <Tweet key={tweet._id} tweet={tweet} handleClick={goToProfile} />
-            ))}
-          </>
-        </Right>
-      </Container>
-    </PageBox>
+    mounted && (
+      <PageBox>
+        <Navbar>
+          <ContainerNav>
+            <Logo src={LogoImagem} onClick={() => redirect("timeline")} />
+            <SearchBarContainer>
+              <SearchBar
+                handleFocus={() => setSearchBarOnFocus(true)}
+                handleBlur={() =>
+                  setTimeout(() => setSearchBarOnFocus(false), 100)
+                }
+                handleSubmit={e => {
+                  e.preventDefault();
+                  searchForUser();
+                }}
+                handleChange={e => setUsernameToSearch(e.target.value)}
+                placeholder="Procurar"
+              />
+              <SearchResultContainer>
+                {searchBarOnFocus && (
+                  <UserList data={usersFound} handleClick={redirect} />
+                )}
+              </SearchResultContainer>
+            </SearchBarContainer>
+            <NavMenu>
+              <NavDot />
+              <NavDot />
+              <NavDot />
+            </NavMenu>
+          </ContainerNav>
+        </Navbar>
+        <Container>
+          <Left>
+            <Card>
+              <UserImage src={user.avatar} />
+              <Name>{user.username}</Name>
+            </Card>
+          </Left>
+          <Right>
+            <UserInfoContainer>
+              <UserInfoItems>
+                <UserInfoItem>
+                  <UserInfoItemDescription>Tweets</UserInfoItemDescription>
+                  <UserInfoItemNumber>{user.tweets.length}</UserInfoItemNumber>
+                </UserInfoItem>
+                <UserInfoItem>
+                  <UserInfoItemDescription>Following</UserInfoItemDescription>
+                  <UserInfoItemNumber>
+                    {user.following.length}
+                  </UserInfoItemNumber>
+                </UserInfoItem>
+                <UserInfoItem>
+                  <UserInfoItemDescription>Followers</UserInfoItemDescription>
+                  <UserInfoItemNumber>
+                    {user.followers.length}
+                  </UserInfoItemNumber>
+                </UserInfoItem>
+              </UserInfoItems>
+            </UserInfoContainer>
+            <>
+              {tweets.map(tweet => (
+                <Tweet key={tweet._id} tweet={tweet} handleClick={redirect} />
+              ))}
+            </>
+          </Right>
+        </Container>
+      </PageBox>
+    )
   );
 }
