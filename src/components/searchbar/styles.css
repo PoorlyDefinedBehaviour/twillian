@@ -1,0 +1,17 @@
+.searchbar-form {
+  height: 25px;
+}
+
+.searchbar-input {
+  transform: scale(1.2);
+}
+
+.searchbar-input::placeholder {
+  padding: 5px;
+}
+
+.searchbar-button {
+  cursor: pointer;
+  transform: scale(1.2);
+  margin-left: 20px;
+}
