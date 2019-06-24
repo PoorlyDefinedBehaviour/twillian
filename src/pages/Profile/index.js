@@ -32,6 +32,7 @@ import api from "../../services/api";
 
 export default function Profile(props) {
   const [mounted, setMounted] = useState(false);
+  const [should_reload, set_should_reload] = useState(false);
   const [user, setUser] = useState({
     avatar: DefaultUser,
     followers: [],
@@ -74,7 +75,7 @@ export default function Profile(props) {
     fetchTimeline();
     setMounted(true);
     // eslint-disable-next-line
-  }, []);
+  }, [should_reload]);
 
   const searchForUser = async () => {
     if (!usernameToSearch || searching) return;
@@ -89,9 +90,9 @@ export default function Profile(props) {
     }
   };
 
-  const redirect = path => {
-    // redirect somewhere
-  };
+  const redirect = path => props.history.push(path, null);
+
+  const force_reload = () => set_should_reload(!should_reload);
 
   return (
     mounted && (
@@ -114,7 +115,11 @@ export default function Profile(props) {
               />
               <SearchResultContainer>
                 {searchBarOnFocus && (
-                  <UserList data={usersFound} handleClick={redirect} />
+                  <UserList
+                    data={usersFound}
+                    path_extractor={user => user._id}
+                    force_reload={force_reload}
+                  />
                 )}
               </SearchResultContainer>
             </SearchBarContainer>
@@ -155,7 +160,12 @@ export default function Profile(props) {
             </UserInfoContainer>
             <>
               {tweets.map(tweet => (
-                <Tweet key={tweet._id} tweet={tweet} handleClick={redirect} />
+                <Tweet
+                  key={tweet._id}
+                  tweet={tweet}
+                  path_extractor={tweet => tweet.user._id}
+                  force_reload={force_reload}
+                />
               ))}
             </>
           </Right>

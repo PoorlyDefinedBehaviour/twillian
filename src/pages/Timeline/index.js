@@ -48,7 +48,6 @@ export default function Timeline(props) {
         if (data.docs.length) {
           setTweets(data.docs);
         }
-        console.log("fetchtweets", data.docs);
       } catch (error) {
         console.log("fetchTweets", error);
       }
@@ -88,10 +87,7 @@ export default function Timeline(props) {
     }
   };
 
-  const redirect = path => {
-    console.log(props);
-    props.history.push(path, null);
-  };
+  const redirect = path => props.history.push(path, null);
 
   return (
     <PageBox>
@@ -113,7 +109,10 @@ export default function Timeline(props) {
             />
             <SearchResultContainer>
               {searchBarOnFocus && (
-                <UserList data={usersFound} handleClick={redirect} />
+                <UserList
+                  data={usersFound}
+                  path_extractor={user => `profile/${user._id}`}
+                />
               )}
             </SearchResultContainer>
           </SearchBarContainer>
@@ -154,7 +153,7 @@ export default function Timeline(props) {
             <Tweet
               key={tweet._id}
               tweet={tweet}
-              handleClick={() => redirect(`profile/${tweet.user._id}`)}
+              path_extractor={tweet => `profile/${tweet.user._id}`}
             />
           ))}
         </Right>

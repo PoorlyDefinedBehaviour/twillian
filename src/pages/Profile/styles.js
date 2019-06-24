@@ -92,6 +92,7 @@ export const Name = styled.h2`
   color: #14171a;
   margin-left: 15px;
   font-size: 18px;
+  cursor: pointer;
 `;
 export const Body = styled.div`
   width: 100%;
@@ -112,6 +113,7 @@ export const Avatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50px;
+  cursor: pointer;
 `;
 
 export const UserImage = styled.img`
@@ -119,6 +121,7 @@ export const UserImage = styled.img`
   border-radius: 50%;
   border: 3px solid #fff;
   margin-top: -25%;
+  cursor: pointer;
 `;
 
 export const SearchBarContainer = styled.div`
@@ -167,6 +170,4 @@ export const UserInfoItemNumber = styled.p`
 
 export const SearchResultContainer = styled.div`
   z-index: 11;
-  margin-top: -20px;
-  margin-left: -40px;
 `;

@@ -1,17 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
-const UserList = ({ data, handleClick }) => (
+const UserList = ({ data, path_extractor, force_reload }) => (
   <ul className="userlist">
     {data.map(user => (
-      <li
-        className="userlist-element"
+      <Link
+        to={`${path_extractor(user)}`}
         key={user._id}
-        onClick={() => handleClick(`profile/${user._id}`)}
+        onClick={force_reload}
       >
-        <img className="userlist-avatar" src={user.avatar} alt="User avatar" />
-        <span className="userlist-username">{user.username}</span>
-      </li>
+        <li className="userlist-element">
+          <img
+            className="userlist-avatar"
+            src={user.avatar}
+            alt="User avatar"
+          />
+          <span className="userlist-username">{user.username}</span>
+        </li>
+      </Link>
     ))}
   </ul>
 );
