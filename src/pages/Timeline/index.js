@@ -29,7 +29,7 @@ import Tweet from "../../components/tweet";
 import api from "../../services/api";
 import { getUser } from "../../services/auth";
 
-export default function Timeline() {
+export default function Timeline(props) {
   const user = getUser();
 
   const [tweets, setTweets] = useState([]);
@@ -88,10 +88,9 @@ export default function Timeline() {
     }
   };
 
-  const goToProfile = user_id => {
-    // redirect to profile
-    console.log("gotoprofile user_id", user_id);
-    console.log(tweets);
+  const redirect = path => {
+    console.log(props);
+    props.history.push(path, null);
   };
 
   return (
@@ -114,7 +113,7 @@ export default function Timeline() {
             />
             <SearchResultContainer>
               {searchBarOnFocus && (
-                <UserList data={usersFound} handleClick={goToProfile} />
+                <UserList data={usersFound} handleClick={redirect} />
               )}
             </SearchResultContainer>
           </SearchBarContainer>
@@ -128,8 +127,13 @@ export default function Timeline() {
       <Container>
         <Left>
           <Card>
-            <UserImage src={user.avatar} />
-            <Name>{user.username}</Name>
+            <UserImage
+              src={user.avatar}
+              onClick={() => redirect(`profile/${user._id}`)}
+            />
+            <Name onClick={() => redirect(`profile/${user._id}`)}>
+              {user.username}
+            </Name>
           </Card>
         </Left>
         <Right>
@@ -146,11 +150,13 @@ export default function Timeline() {
             </TweetForm>
           </Card>
 
-          <>
-            {tweets.map(tweet => (
-              <Tweet key={tweet._id} tweet={tweet} handleClick={goToProfile} />
-            ))}
-          </>
+          {tweets.map(tweet => (
+            <Tweet
+              key={tweet._id}
+              tweet={tweet}
+              handleClick={() => redirect(`profile/${tweet.user._id}`)}
+            />
+          ))}
         </Right>
       </Container>
     </PageBox>
