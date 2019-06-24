@@ -173,3 +173,11 @@ export const SearchResultContainer = styled.div`
   z-index: 11;
   margin-top: 5px;
 `;
+
+export const UsernameAndFollowButtonContainer = styled.div`
+  display: flex;
+  margin-top: -50px;
+  margin-left: 120px;
+  align-items: center;
+  justify-content: space-around;
+`;

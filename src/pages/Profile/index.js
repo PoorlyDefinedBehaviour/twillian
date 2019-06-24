@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { getUser } from "../../services/auth";
+
 import {
   PageBox,
   ContainerNav,
@@ -12,6 +14,7 @@ import {
   Left,
   Right,
   Card,
+  UsernameAndFollowButtonContainer,
   UserImage,
   Name,
   SearchBarContainer,
@@ -28,6 +31,7 @@ import DefaultUser from "../../assets/img/defaultuser.jpg";
 import SearchBar from "../../components/searchbar";
 import UserList from "../../components/userlist";
 import Tweet from "../../components/tweet";
+import FollowButton from "../../components/followbutton";
 
 import api from "../../services/api";
 
@@ -41,6 +45,9 @@ export default function Profile(props) {
     tweets: []
   });
 
+  const { _id: logged_user_id } = getUser();
+  const [current_profile_id, set_current_profile_id] = useState("");
+
   const [tweets, setTweets] = useState([]);
 
   const [usernameToSearch, setUsernameToSearch] = useState("");
@@ -53,6 +60,7 @@ export default function Profile(props) {
       try {
         const { data } = await api.get(`user/${props.match.params.user_id}`);
         setUser({ ...data.user, tweets: data.user_tweets });
+        set_current_profile_id(props.match.params.user_id);
       } catch (error) {
         console.log("fetchTweets", error);
         // redirect to 404;
@@ -89,6 +97,10 @@ export default function Profile(props) {
     } finally {
       setSearching(false);
     }
+  };
+
+  const follow_user = () => {
+    console.log("follow user...");
   };
 
   const force_reload = () => set_should_reload(!should_reload);
@@ -135,7 +147,12 @@ export default function Profile(props) {
           <Left>
             <Card>
               <UserImage src={user.avatar} />
-              <Name>@{user.username}</Name>
+              <UsernameAndFollowButtonContainer>
+                <Name>@{user.username}</Name>
+                {current_profile_id !== logged_user_id && (
+                  <FollowButton clickHandler={follow_user} />
+                )}
+              </UsernameAndFollowButtonContainer>
             </Card>
           </Left>
           <Right>
@@ -146,13 +163,13 @@ export default function Profile(props) {
                   <UserInfoItemNumber>{user.tweets.length}</UserInfoItemNumber>
                 </UserInfoItem>
                 <UserInfoItem>
-                  <UserInfoItemDescription>Following</UserInfoItemDescription>
+                  <UserInfoItemDescription>Seguindo</UserInfoItemDescription>
                   <UserInfoItemNumber>
                     {user.following.length}
                   </UserInfoItemNumber>
                 </UserInfoItem>
                 <UserInfoItem>
-                  <UserInfoItemDescription>Followers</UserInfoItemDescription>
+                  <UserInfoItemDescription>Seguidores</UserInfoItemDescription>
                   <UserInfoItemNumber>
                     {user.followers.length}
                   </UserInfoItemNumber>
