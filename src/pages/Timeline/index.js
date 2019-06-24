@@ -130,7 +130,7 @@ export default function Timeline(props) {
               onClick={() => redirect(`profile/${user._id}`)}
             />
             <Name onClick={() => redirect(`profile/${user._id}`)}>
-              {user.username}
+              @{user.username}
             </Name>
           </Card>
         </Left>

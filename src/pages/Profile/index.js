@@ -135,7 +135,7 @@ export default function Profile(props) {
           <Left>
             <Card>
               <UserImage src={user.avatar} />
-              <Name>{user.username}</Name>
+              <Name>@{user.username}</Name>
             </Card>
           </Left>
           <Right>

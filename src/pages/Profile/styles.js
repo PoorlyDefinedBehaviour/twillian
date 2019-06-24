@@ -133,6 +133,7 @@ export const SearchBarContainer = styled.div`
 export const UserInfoContainer = styled.div`
   width: 100%;
   margin-top: 30px;
+  margin-bottom: 10px;
 `;
 
 export const UserInfoItems = styled.ul`
