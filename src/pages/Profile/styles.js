@@ -171,4 +171,5 @@ export const UserInfoItemNumber = styled.p`
 
 export const SearchResultContainer = styled.div`
   z-index: 11;
+  margin-top: 5px;
 `;

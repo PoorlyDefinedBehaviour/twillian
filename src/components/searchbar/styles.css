@@ -1,16 +1,24 @@
 .searchbar-form {
   height: 25px;
   text-decoration: none;
-  border: none;
 }
 
 .searchbar-input {
   transform: scale(1.2);
-  border: none;
+  padding: 5px;
+  border-radius: 35px;
+  background-color: #f5f8fa;
+  border: 1px solid #e6ecf0;
+}
+
+.searchbar-input:focus {
+  outline: none;
+  border: 1px solid #1da1f3;
 }
 
 .searchbar-input::placeholder {
   padding: 5px;
+  font-size: 12px;
 }
 
 .searchbar-button {

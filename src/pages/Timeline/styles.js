@@ -132,4 +132,5 @@ export const SearchBarContainer = styled.div`
 
 export const SearchResultContainer = styled.div`
   z-index: 11;
+  margin-top: 5px;
 `;
