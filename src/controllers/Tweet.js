@@ -169,7 +169,8 @@ class TweetController {
   async retweet(request, response) {
     try {
       const tweet = await TweetModel.findById(request.params.id)
-        .populate("user");
+        .populate("user")
+        .populate("retweeted");
 
       if (tweet.retweets.includes(request.userId)) {
         tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
@@ -180,8 +181,8 @@ class TweetController {
 
         await TweetModel.create({
           user: request.userId,
-          content: 'some shit',
-          retweeted: tweet._id
+          content: "empty",
+          retweeted: tweet.retweeted ? tweet.retweeted._id : tweet._id
         });
       }
 
