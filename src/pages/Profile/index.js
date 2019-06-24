@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import {
   PageBox,
@@ -99,7 +100,9 @@ export default function Profile(props) {
       <PageBox>
         <Navbar>
           <ContainerNav>
-            <Logo src={LogoImagem} onClick={() => redirect("timeline")} />
+            <Link to="/timeline">
+              <Logo src={LogoImagem} />
+            </Link>
             <SearchBarContainer>
               <SearchBar
                 handleFocus={() => setSearchBarOnFocus(true)}
