@@ -3,8 +3,7 @@ import styled from 'styled-components/native';
 import RawContainer from '~/components/Container';
 
 export const Container = styled(RawContainer)`
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 `;
 
 export const Header = styled.View`

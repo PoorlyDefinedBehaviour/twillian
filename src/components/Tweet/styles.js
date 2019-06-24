@@ -6,7 +6,7 @@ export const TweetContainer = styled.View`
   background-color: #f5f8fa;
   border-radius: 5px;
 
-  margin: 5px 15px;
+  margin: 5px 0;
   padding: 10px 15px;
 `;
 
@@ -14,7 +14,8 @@ export const RetweetWrapper = styled.View`
   background-color: #f5f8fa;
   border-radius: 5px;
 
-  margin: 5px 15px 2px 15px;
+  margin-top: 5px;
+  margin-bottom: 2px;
   padding: 10px 15px;
 
   flex-direction: row;
