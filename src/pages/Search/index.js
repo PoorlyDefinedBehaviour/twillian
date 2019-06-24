@@ -22,7 +22,7 @@ function Search({ navigation }) {
 
       setUsers({ data: [...users.data, ...docs], pagination });
     } catch (ex) {
-      console.log(ex.response);
+      console.log(ex);
     }
   }
 

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { RefreshControl } from 'react-native';
 
 import api from '~/services/api';
 
@@ -12,6 +13,8 @@ function Timeline() {
   const user = useSelector(state => state.user);
   const { data: tweets, pagination } = useSelector(state => state.timeline);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   async function fetchTweets(page = 1) {
     try {
       const response = await api.get(`tweet/${user._id}/following/?page=${page}`);
@@ -20,7 +23,7 @@ function Timeline() {
 
       dispatch({ type: 'FETCH_TWEETS', data: docs, pagination: rest });
     } catch (ex) {
-      console.log(ex.response);
+      console.log(ex);
     }
   }
 
@@ -32,6 +35,22 @@ function Timeline() {
     const nextPage = Number(page) + 1;
 
     fetchTweets(nextPage);
+  }
+
+  async function reloadTweets() {
+    try {
+      setRefreshing(true);
+
+      const response = await api.get(`tweet/${user._id}/following/?page=1`);
+
+      const { docs, ...rest } = response.data;
+
+      dispatch({ type: 'RELOAD_TWEETS', data: docs, pagination: rest });
+    } catch (ex) {
+      console.log(ex);
+    } finally {
+      setRefreshing(false);
+    }
   }
 
   useEffect(() => {
@@ -67,7 +86,7 @@ function Timeline() {
       <Tweet
         data={item}
         handleLike={() => handleLike(item._id)}
-        handleRetweet={() => handleRetweet(item._id)}
+        handleRetweet={() => (item.retweeted ? undefined : handleRetweet(item._id))}
       />
     );
   }
@@ -82,6 +101,9 @@ function Timeline() {
         renderItem={renderTweet}
         onEndReached={fetchMore}
         onEndReachedThreshold={0.3}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} colors={['#1da1f2']} onRefresh={reloadTweets} />
+        }
       />
     </Container>
   );

@@ -36,7 +36,7 @@ function Home({ navigation }) {
       try {
         const response = await api.get(`user/${user._id}`);
 
-        dispatch({ type: 'SET_USER', user: response.data, token: user.token });
+        dispatch({ type: 'SET_USER', user: response.data.user, token: user.token });
 
         navigation.navigate('Timeline');
       } catch (ex) {
