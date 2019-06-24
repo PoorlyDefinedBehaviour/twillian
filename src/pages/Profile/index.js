@@ -91,8 +91,6 @@ export default function Profile(props) {
     }
   };
 
-  const redirect = path => props.history.push(path, null);
-
   const force_reload = () => set_should_reload(!should_reload);
 
   return (

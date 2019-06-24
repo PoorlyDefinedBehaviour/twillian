@@ -71,15 +71,14 @@ export default function Timeline(props) {
   };
 
   const handleTweetSubmit = async event => {
-    console.log("submitting tweet");
-
     event.preventDefault();
 
     if (!newTweet) return;
 
     try {
       const { data } = await api.post("tweet", { content: newTweet });
-      console.log("new tweet", data);
+      console.log(data.tweet);
+      setTweets([data.tweet, ...tweets]);
     } catch (error) {
       console.log("handletweetsubmit", error);
     } finally {
