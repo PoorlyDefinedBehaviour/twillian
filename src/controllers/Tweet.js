@@ -175,18 +175,25 @@ class TweetController {
       if (tweet.retweets.includes(request.userId)) {
         tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
 
-        await TweetModel.deleteOne({ retweeted: tweet._id, user: request.userId });
-      } else {
-        tweet.retweets.push(request.userId);
-
-        await TweetModel.create({
-          user: request.userId,
-          content: "empty",
-          retweeted: tweet.retweeted ? tweet.retweeted._id : tweet._id
+        return response.json({ 
+          tweet: await tweet.save(), 
+          retweet: await TweetModel.deleteOne({ retweeted: tweet._id, user: request.userId }),
+          deleted: true,
         });
       }
 
-      return response.json(await tweet.save());
+      tweet.retweets.push(request.userId);
+
+      const retweet = await TweetModel.create({
+        user: request.userId,
+        content: "empty",
+        retweeted: tweet.retweeted ? tweet.retweeted._id : tweet._id
+      });
+
+      return response.json({ 
+        tweet: await tweet.save(), 
+        retweet
+      });
     } catch (error) {
       console.log(error);
       return response.status(422).json({ message: "couldn't retweet", error });
