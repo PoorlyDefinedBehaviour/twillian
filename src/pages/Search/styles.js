@@ -4,7 +4,7 @@ export const Container = styled.View``;
 
 export const Users = styled.FlatList``;
 
-export const User = styled.View`
+export const User = styled.TouchableOpacity`
   border-bottom-color: #eee;
   border-bottom-width: 1px;
 

@@ -42,7 +42,7 @@ function Search({ navigation }) {
 
   function renderUser({ item }) {
     return (
-      <User>
+      <User onPress={() => navigation.navigate('Profile', { user: item })}>
         <Data>
           <Avatar source={item.avatar} />
           <Username>@{item.username}</Username>
