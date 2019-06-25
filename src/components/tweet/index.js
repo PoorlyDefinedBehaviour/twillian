@@ -1,24 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "./styles.css";
+import {
+  Card,
+  CardHeader,
+  AvatarImage,
+  Username,
+  CardContentContainer,
+  CardContent
+} from "./styles";
 
 const Tweet = ({ tweet, path_extractor, force_reload }) => (
-  <div className="tweet-card">
-    <div className="tweet-card-header">
+  <Card>
+    <CardHeader>
       <Link to={path_extractor(tweet)} onClick={force_reload}>
-        <img
-          className="tweet-avatar"
-          src={tweet.user.avatar}
-          alt="Tweet owner avatar"
-        />
-        <h2 className="tweet-username">{tweet.user.username}</h2>
+        <AvatarImage src={tweet.user.avatar} alt="Tweet owner avatar" />
+        <Username>{tweet.user.username}</Username>
       </Link>
-    </div>
-    <div className="tweet-card-content-container">
-      <div className="tweet-card-content">{tweet.content}</div>
-    </div>
-  </div>
+    </CardHeader>
+    <CardContentContainer>
+      <CardContent>{tweet.content}</CardContent>
+    </CardContentContainer>
+  </Card>
 );
 
 export default Tweet;

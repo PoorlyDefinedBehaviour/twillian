@@ -1,7 +1,7 @@
 import React from "react";
 import { MdSearch } from "react-icons/md";
 
-import "./styles.css";
+import { Form, TextInput, Button } from "./styles";
 
 const SearchBar = ({
   handleSubmit,
@@ -10,21 +10,12 @@ const SearchBar = ({
   handleBlur,
   placeholder
 }) => (
-  <form
-    className="searchbar-form"
-    onSubmit={handleSubmit}
-    onFocus={handleFocus}
-    onBlur={handleBlur}
-  >
-    <input
-      className="searchbar-input"
-      type="text"
-      placeholder={placeholder}
-      onChange={handleChange}
-    />
-    <button className="searchbar-button">
+  <Form onSubmit={handleSubmit} onFocus={handleFocus} onBlur={handleBlur}>
+    <TextInput type="text" placeholder={placeholder} onChange={handleChange} />
+    <Button>
       <MdSearch />
-    </button>
-  </form>
+    </Button>
+  </Form>
 );
+
 export default SearchBar;

@@ -1,10 +1,9 @@
 import React from "react";
-import "./styles.css";
+
+import { Button } from "./styles.js";
 
 const FollowButton = ({ clickHandler }) => (
-  <button className="follow-button" onClick={clickHandler}>
-    Seguir
-  </button>
+  <Button onClick={clickHandler}>Seguir</Button>
 );
 
 export default FollowButton;

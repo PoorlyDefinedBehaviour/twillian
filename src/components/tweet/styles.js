@@ -1,36 +1,38 @@
-.tweet-card {
+import styled from "styled-components";
+
+export const Card = styled.div`
   background-color: #fff;
   padding: 10px;
   width: 100%;
   box-shadow: 0px 3px 62px -52px rgba(0, 0, 0, 0.75);
   border-radius: 5px;
   margin-bottom: 20px;
-}
+`;
 
-.tweet-card-header {
+export const CardHeader = styled.div`
   display: flex;
   align-items: center;
-}
+`;
 
-.tweet-avatar {
+export const AvatarImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50px;
   cursor: pointer;
-}
+`;
 
-.tweet-username {
+export const Username = styled.h2`
   color: #14171a;
   margin-left: 15px;
   font-size: 18px;
   cursor: pointer;
-}
+`;
 
-.tweet-card-content-container {
+export const CardContentContainer = styled.div`
   width: 100%;
-}
+`;
 
-.tweet-card-content {
+export const CardContent = styled.div`
   padding: 10px;
   color: #657786;
-}
+`;
