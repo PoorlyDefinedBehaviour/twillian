@@ -69,12 +69,15 @@ function Timeline() {
     }
   }
 
-  async function handleRetweet(_id) {
+  async function handleRetweet(item) {
+    const _id = item.retweeted ? item.retweeted._id : item._id;
+
     try {
       const response = await api.post(`tweet/${_id}/retweet`);
+
       dispatch({
         type: 'REFRESH_TWEETS',
-        data: tweets.map(tweet => (tweet._id !== _id ? tweet : response.data)),
+        data: tweets.map(tweet => (tweet._id === _id ? response.data.tweet : tweet)),
       });
     } catch (ex) {
       console.log(ex);
@@ -86,7 +89,7 @@ function Timeline() {
       <Tweet
         data={item}
         handleLike={() => handleLike(item._id)}
-        handleRetweet={() => (item.retweeted ? undefined : handleRetweet(item._id))}
+        handleRetweet={() => handleRetweet(item)}
       />
     );
   }
