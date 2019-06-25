@@ -9,7 +9,12 @@ class TweetController {
     try {
       const tweets = await TweetModel.paginate(
         { user: user_id },
-        { populate: ["user", "retweeted"], sort: { createdAt: -1 }, page, limit: 10 }
+        {
+          populate: ["user", "retweeted"],
+          sort: { createdAt: -1 },
+          page,
+          limit: 10
+        }
       );
 
       return response.json(tweets);
@@ -24,25 +29,25 @@ class TweetController {
       const { user_id } = request.params;
       const { page = 1 } = request.query;
 
-      const currentUser = await UserModel.findOne({ _id: user_id });      
+      const currentUser = await UserModel.findOne({ _id: user_id });
 
       const tweets = await TweetModel.paginate(
         { $or: [{ user: { $in: currentUser.following } }, { user: user_id }] },
-        { 
+        {
           populate: [
-            { path: "user" }, 
+            { path: "user" },
             { path: "retweeted", populate: { path: "user" } }
-          ], 
-          sort: { createdAt: -1 }, 
-          page, 
-          limit: 10 
+          ],
+          sort: { createdAt: -1 },
+          page,
+          limit: 10
         }
       );
 
       return response.status(200).json(tweets);
     } catch (error) {
       console.log(error);
-      return response.json({ message: "couldn't get timeline", error })
+      return response.json({ message: "couldn't get timeline", error });
     }
   }
 
@@ -96,8 +101,12 @@ class TweetController {
         user: request.userId
       });
 
+      const populated_tweet = await TweetModel.findOne({
+        _id: tweet._id
+      }).populate("user");
+
       return response.json({
-        tweet
+        tweet: populated_tweet
       });
     } catch (error) {
       console.log(error);
