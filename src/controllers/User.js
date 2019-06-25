@@ -7,12 +7,15 @@ class UserController {
   async search(request, response) {
     const { page = 1 } = request.query;
 
+    console.log(request.userId);
+
     try {
       const users = await UserModel.paginate(
         {
-          username: {
-            $regex: new RegExp(request.params.username, "i")
-          }
+          $and: [
+            { username: { $regex: new RegExp(request.params.username, "i") } },
+            { _id: { $ne: request.userId } }
+          ]
         },
         { sort: { createdAt: -1 }, page, limit: 10 }
       );
