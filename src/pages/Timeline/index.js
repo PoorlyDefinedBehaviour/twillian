@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 import {
   PageBox,
   ContainerNav,
-  Navbar,
   NavMenu,
   Logo,
   NavDot,
@@ -19,23 +18,23 @@ import {
   SearchBarContainer,
   TweetForm,
   SearchResultContainer
-} from "./styles";
+} from './styles';
 
-import LogoImagem from "../../assets/img/logo.png";
-import SearchBar from "../../components/searchbar";
-import UserList from "../../components/userlist";
-import Tweet from "../../components/tweet";
+import LogoImagem from '../../assets/img/logo.png';
+import UserList from '../../components/userlist';
+import Tweet from '../../components/tweet';
+import Navbar from '../../components/Navbar';
 
-import api from "../../services/api";
-import { getUser } from "../../services/auth";
+import api from '../../services/api';
+import { getUser } from '../../services/auth';
 
 export default function Timeline(props) {
   const user = getUser();
 
   const [tweets, setTweets] = useState([]);
 
-  const [newTweet, setNewTweet] = useState("");
-  const [usernameToSearch, setUsernameToSearch] = useState("");
+  const [newTweet, setNewTweet] = useState('');
+  const [usernameToSearch, setUsernameToSearch] = useState('');
   const [usersFound, setUsersFound] = useState([]);
   const [searching, setSearching] = useState(false);
   const [searchBarOnFocus, setSearchBarOnFocus] = useState(false);
@@ -49,7 +48,7 @@ export default function Timeline(props) {
           setTweets(data.docs);
         }
       } catch (error) {
-        console.log("fetchTweets", error);
+        console.log('fetchTweets', error);
       }
     }
 
@@ -76,13 +75,13 @@ export default function Timeline(props) {
     if (!newTweet) return;
 
     try {
-      const { data } = await api.post("tweet", { content: newTweet });
+      const { data } = await api.post('tweet', { content: newTweet });
       console.log(data.tweet);
       setTweets([data.tweet, ...tweets]);
     } catch (error) {
-      console.log("handletweetsubmit", error);
+      console.log('handletweetsubmit', error);
     } finally {
-      setNewTweet("");
+      setNewTweet('');
     }
   };
 
@@ -90,38 +89,35 @@ export default function Timeline(props) {
 
   return (
     <PageBox>
-      <Navbar>
-        <ContainerNav>
-          <Logo src={LogoImagem} />
-          <SearchBarContainer>
-            <SearchBar
-              handleFocus={() => setSearchBarOnFocus(true)}
-              handleBlur={() =>
-                setTimeout(() => setSearchBarOnFocus(false), 100)
-              }
-              handleSubmit={e => {
-                e.preventDefault();
-                searchForUser();
-              }}
-              handleChange={e => setUsernameToSearch(e.target.value)}
-              placeholder="Procurar"
-            />
-            <SearchResultContainer>
-              {searchBarOnFocus && (
-                <UserList
-                  data={usersFound}
-                  path_extractor={user => `profile/${user._id}`}
-                />
-              )}
-            </SearchResultContainer>
-          </SearchBarContainer>
-          <NavMenu>
-            <NavDot />
-            <NavDot />
-            <NavDot />
-          </NavMenu>
-        </ContainerNav>
-      </Navbar>
+      <Navbar />
+      {/* <ContainerNav>
+        <Logo src={LogoImagem} />
+        <SearchBarContainer>
+          <SearchBar
+            handleFocus={() => setSearchBarOnFocus(true)}
+            handleBlur={() => setTimeout(() => setSearchBarOnFocus(false), 100)}
+            handleSubmit={e => {
+              e.preventDefault();
+              searchForUser();
+            }}
+            handleChange={e => setUsernameToSearch(e.target.value)}
+            placeholder="Procurar"
+          />
+          <SearchResultContainer>
+            {searchBarOnFocus && (
+              <UserList
+                data={usersFound}
+                path_extractor={user => `profile/${user._id}`}
+              />
+            )}
+          </SearchResultContainer>
+        </SearchBarContainer>
+        <NavMenu>
+          <NavDot />
+          <NavDot />
+          <NavDot />
+        </NavMenu>
+      </ContainerNav> */}
       <Container>
         <Left>
           <Card>

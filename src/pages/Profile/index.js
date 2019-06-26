@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { getUser } from "../../services/auth";
+import { getUser } from '../../services/auth';
 
 import {
   PageBox,
@@ -24,16 +24,16 @@ import {
   UserInfoItem,
   UserInfoItemDescription,
   UserInfoItemNumber
-} from "./styles";
+} from './styles';
 
-import LogoImagem from "../../assets/img/logo.png";
-import DefaultUser from "../../assets/img/defaultuser.jpg";
-import SearchBar from "../../components/searchbar";
-import UserList from "../../components/userlist";
-import Tweet from "../../components/tweet";
-import FollowButton from "../../components/followbutton";
+import LogoImagem from '../../assets/img/logo.png';
+import DefaultUser from '../../assets/img/defaultuser.jpg';
+import SearchBar from '../../components/SearchBar';
+import UserList from '../../components/userlist';
+import Tweet from '../../components/tweet';
+import FollowButton from '../../components/followbutton';
 
-import api from "../../services/api";
+import api from '../../services/api';
 
 export default function Profile(props) {
   const [mounted, setMounted] = useState(false);
@@ -46,11 +46,11 @@ export default function Profile(props) {
   });
 
   const { _id: logged_user_id } = getUser();
-  const [current_profile_id, set_current_profile_id] = useState("");
+  const [current_profile_id, set_current_profile_id] = useState('');
 
   const [tweets, setTweets] = useState([]);
 
-  const [usernameToSearch, setUsernameToSearch] = useState("");
+  const [usernameToSearch, setUsernameToSearch] = useState('');
   const [usersFound, setUsersFound] = useState([]);
   const [searching, setSearching] = useState(false);
   const [searchBarOnFocus, setSearchBarOnFocus] = useState(false);
@@ -62,7 +62,7 @@ export default function Profile(props) {
         setUser({ ...data.user, tweets: data.user_tweets });
         set_current_profile_id(props.match.params.user_id);
       } catch (error) {
-        console.log("fetchTweets", error);
+        console.log('fetchTweets', error);
         // redirect to 404;
       }
     }
@@ -75,7 +75,7 @@ export default function Profile(props) {
 
         if (data.docs) setTweets(data.docs);
       } catch (error) {
-        console.log("fetchTweets", error);
+        console.log('fetchTweets', error);
         // show some error
       }
     }
@@ -100,7 +100,7 @@ export default function Profile(props) {
   };
 
   const follow_user = () => {
-    console.log("follow user...");
+    console.log('follow user...');
   };
 
   const force_reload = () => set_should_reload(!should_reload);
