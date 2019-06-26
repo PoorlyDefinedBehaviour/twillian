@@ -1,4 +1,4 @@
-export const APP_KEY = "@twillian";
+export const APP_KEY = '@twillian';
 
 export function getUser() {
   return JSON.parse(localStorage.getItem(`${APP_KEY}:user`));
@@ -15,4 +15,8 @@ export function getToken() {
 
 export function authenticate(user, token) {
   localStorage.setItem(`${APP_KEY}:user`, JSON.stringify({ ...user, token }));
+}
+
+export function logout() {
+  localStorage.removeItem(`${APP_KEY}:user`);
 }
