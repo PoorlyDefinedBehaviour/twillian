@@ -1,66 +1,18 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const PageBox = styled.div`
-  font-family: "Montserrat", sans-serif;
-  width: 100%;
+  background-color: ${({ theme }) => theme.colors.extra_extra_light_gray};
   height: 100vh;
-  background-color: #f5f8fa;
+
   display: flex;
   flex-direction: column;
 `;
 
-export const Navbar = styled.nav`
-  width: 100%;
-  height: 50px;
-  background-color: #fff;
-`;
-
-export const ContainerNav = styled.div`
-  padding: 10px;
-  width: 80%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0px 3px 62px -52px rgba(0, 0, 0, 0.75);
-  border-radius: 5px;
-`;
-
-export const Logo = styled.img`
-  width: 30px;
-  height: 25px;
-  cursor: pointer;
-`;
-
-export const NavMenu = styled.div`
-  color: #3d3d3d;
-  width: 45px;
-  line-height: 30px;
-`;
-
-export const NavDot = styled.div`
-  height: 8px;
-  width: 8px;
-  background-color: #1da1f2;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 2px;
-`;
-
 export const Container = styled.div`
-  width: 80%;
-  margin: 30px auto;
   display: flex;
-  /* flex-direction: row; */
-  justify-content: space-around;
-`;
+  justify-content: center;
 
-export const Left = styled.div`
-  width: 35%;
-  margin-top: 8%;
-`;
-
-export const Right = styled.div`
-  width: 60%;
+  padding: 50px;
 `;
 
 export const Card = styled.div`
@@ -133,4 +85,8 @@ export const SearchBarContainer = styled.div`
 export const SearchResultContainer = styled.div`
   z-index: 11;
   margin-top: 5px;
+`;
+
+export const Feed = styled.div`
+  margin-left: 80px;
 `;

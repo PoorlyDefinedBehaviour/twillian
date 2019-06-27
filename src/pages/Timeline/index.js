@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from 'react';
 
+import api from '../../services/api';
+import { getUser } from '../../services/auth';
+
 import {
   PageBox,
-  ContainerNav,
-  NavMenu,
-  Logo,
-  NavDot,
   Container,
   Left,
   Right,
   Card,
   CardHeader,
   CardMessage,
-  Avatar,
   Name,
   UserImage,
-  SearchBarContainer,
   TweetForm,
-  SearchResultContainer
+  Feed
 } from './styles';
 
-import LogoImagem from '../../assets/img/logo.png';
-import UserList from '../../components/userlist';
 import Tweet from '../../components/tweet';
 import Navbar from '../../components/Navbar';
+import CardProfile from '../../components/CardProfile';
+import NewTweet from '../../components/NewTweet';
 
-import api from '../../services/api';
-import { getUser } from '../../services/auth';
-
-export default function Timeline(props) {
+export default function Timeline({ history }) {
   const user = getUser();
 
   const [tweets, setTweets] = useState([]);
 
   const [newTweet, setNewTweet] = useState('');
-  const [usernameToSearch, setUsernameToSearch] = useState('');
-  const [usersFound, setUsersFound] = useState([]);
   const [searching, setSearching] = useState(false);
-  const [searchBarOnFocus, setSearchBarOnFocus] = useState(false);
 
   useEffect(() => {
     async function fecthTweets() {
@@ -56,19 +47,6 @@ export default function Timeline(props) {
     // eslint-disable-next-line
   }, []);
 
-  const searchForUser = async () => {
-    if (!usernameToSearch || searching) return;
-
-    try {
-      setSearching(true);
-      const { data: users } = await api.get(`search/${usernameToSearch}`);
-      setUsersFound(users.docs);
-    } catch (error) {
-    } finally {
-      setSearching(false);
-    }
-  };
-
   const handleTweetSubmit = async event => {
     event.preventDefault();
 
@@ -85,7 +63,7 @@ export default function Timeline(props) {
     }
   };
 
-  const redirect = path => props.history.push(path, null);
+  const redirect = path => history.push(path, null);
 
   return (
     <PageBox>
@@ -119,22 +97,15 @@ export default function Timeline(props) {
         </NavMenu>
       </ContainerNav> */}
       <Container>
-        <Left>
-          <Card>
-            <UserImage
-              src={user.avatar}
-              onClick={() => redirect(`profile/${user._id}`)}
-            />
-            <Name onClick={() => redirect(`profile/${user._id}`)}>
-              @{user.username}
-            </Name>
-          </Card>
-        </Left>
-        <Right>
+        <CardProfile user={user} history={history} />
+        <Feed>
+          <NewTweet user={user} />
+        </Feed>
+        {/* <Right>
           <Card>
             <TweetForm onSubmit={handleTweetSubmit}>
               <CardHeader>
-                <Avatar src={user.avatar} />
+                <Avatar source={user.avatar} size={75} />
                 <CardMessage
                   onChange={e => setNewTweet(e.target.value)}
                   multiline
@@ -142,16 +113,15 @@ export default function Timeline(props) {
                 />
               </CardHeader>
             </TweetForm>
-          </Card>
+          </Card> */}
 
-          {tweets.map(tweet => (
-            <Tweet
-              key={tweet._id}
-              tweet={tweet}
-              path_extractor={tweet => `profile/${tweet.user._id}`}
-            />
-          ))}
-        </Right>
+        {/* {tweets.map(tweet => (
+          <Tweet
+            key={tweet._id}
+            tweet={tweet}
+            path_extractor={tweet => `profile/${tweet.user._id}`}
+          />
+        ))} */}
       </Container>
     </PageBox>
   );

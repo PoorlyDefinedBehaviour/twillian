@@ -7,6 +7,8 @@ export const Container = styled.nav`
 
   background-color: #fff;
 
+  margin-bottom: 30px;
+
   width: 100vw;
   height: 50px;
 `;
