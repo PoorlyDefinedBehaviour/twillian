@@ -30,7 +30,7 @@ import LogoImagem from '../../assets/img/logo.png';
 import DefaultUser from '../../assets/img/defaultuser.jpg';
 import SearchBar from '../../components/SearchBar';
 import UserList from '../../components/userlist';
-import Tweet from '../../components/tweet';
+import Tweet from '../../components/Tweet';
 import FollowButton from '../../components/followbutton';
 
 import api from '../../services/api';

@@ -8,5 +8,5 @@ export default {
     extra_extra_light_gray: '#f5f8fa',
     error: '#e74c3c'
   },
-  shadow: '0px 0px 50px 0px rgba(0,0,0,0.3)'
+  shadow: '0px 10px 35px -20px rgba(0, 0, 0, .75)'
 };
