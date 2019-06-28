@@ -5,12 +5,10 @@ export const Touchable = styled.a`
 `;
 
 export const Image = styled.img`
-  border: 3px solid #fff;
+  ${({ size }) => size >= 100 && 'border: 3px solid #fff;'};
 
   border-radius: 50%;
 
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
-
-  ${({ profile }) => profile && 'transform: translateY(-65px);'}
 `;
