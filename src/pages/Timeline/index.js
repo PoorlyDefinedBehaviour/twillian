@@ -5,7 +5,7 @@ import { getUser } from '../../services/auth';
 
 import io from 'socket.io-client';
 
-import { Container, Wrapper, Feed, Tweets } from './styles';
+import { Container, CardWrapper, Wrapper, Feed, Tweets } from './styles';
 
 import Tweet from '../../components/Tweet';
 import Navbar from '../../components/Navbar';
@@ -38,19 +38,21 @@ export default function Timeline({ history }) {
   }, []);
 
   function renderTweet(data) {
-    return <Tweet data={data} />;
+    return <Tweet key={data._id} data={data} />;
   }
 
   return (
-    <Container>
+    <>
       <Navbar />
       <Wrapper>
-        <CardProfile user={user} history={history} />
+        <CardWrapper>
+          <CardProfile user={user} history={history} />
+        </CardWrapper>
         <Feed>
           <NewTweet user={user} />
           <Tweets>{tweets.map(renderTweet)}</Tweets>
         </Feed>
       </Wrapper>
-    </Container>
+    </>
   );
 }

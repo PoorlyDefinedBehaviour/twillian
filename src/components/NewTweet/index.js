@@ -12,7 +12,6 @@ function NewTweet({ user }) {
   async function sendTweet() {
     try {
       const response = await api.post('tweet', { content });
-      console.log(response);
     } catch (ex) {
       console.log(ex);
     }

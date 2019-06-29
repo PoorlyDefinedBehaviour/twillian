@@ -5,9 +5,11 @@ export const Container = styled.div``;
 export const TweetContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.extra_light_gray}99;
 
+  box-shadow: ${({ theme }) => theme.shadow};
+
   border-radius: 5px;
 
-  margin: 5px 0;
+  margin: 10px 0;
   padding: 10px 15px;
 `;
 

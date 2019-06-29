@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Helvetica Neue", "Open Sans", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    background-color: ${({ theme }) => theme.colors.extra_extra_light_gray};
   }
 `;
 

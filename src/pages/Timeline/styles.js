@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.extra_extra_light_gray};
+export const Container = styled.div``;
 
-  height: 100vh;
-`;
+export const CardWrapper = styled.div``;
 
 export const Wrapper = styled.div`
   display: flex;
