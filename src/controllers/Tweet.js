@@ -198,7 +198,10 @@ class TweetController {
         retweeted: tweet.retweeted ? tweet.retweeted._id : tweet._id
       });
 
-      retweet = await retweet.populate("user").execPopulate();
+      retweet = await retweet
+        .populate("user")
+        .populate({ path: "retweeted", populate: { path: "user" } })
+        .execPopulate();
 
       request.io.emit("tweet", retweet);
 
