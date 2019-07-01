@@ -182,9 +182,10 @@ class TweetController {
       if (tweet.retweets.includes(request.userId)) {
         tweet.retweets.splice(tweet.retweets.indexOf(request.userId), 1);
 
+        const retweet = await TweetModel.findOne({ retweeted: tweet._id, user: request.userId });
         return response.json({ 
           tweet: await tweet.save(), 
-          retweet: await TweetModel.deleteOne({ retweeted: tweet._id, user: request.userId }),
+          retweet: await retweet.delete(),
           deleted: true,
         });
       }
