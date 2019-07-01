@@ -89,10 +89,20 @@ function Timeline() {
     try {
       const response = await api.post(`tweet/${_id}/retweet`);
 
-      dispatch({
-        type: 'REFRESH_TWEETS',
-        data: tweets.map(tweet => (tweet._id === _id ? response.data.tweet : tweet)),
-      });
+      if (response.data.deleted) {
+        dispatch({
+          type: 'REFRESH_TWEETS',
+          data: tweets
+            .filter(tweet => tweet._id !== response.data.retweet._id)
+            .map(tweet => (tweet._id === _id ? response.data.tweet : tweet)),
+        });
+      } else {
+        dispatch({
+          type: 'REFRESH_RETWEET',
+          tweet: response.data.retweet,
+          data: tweets.map(tweet => (tweet._id === _id ? response.data.tweet : tweet)),
+        });
+      }
     } catch (ex) {
       console.log(ex);
     }

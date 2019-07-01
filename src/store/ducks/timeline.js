@@ -13,6 +13,8 @@ function reducer(state = INITIAL_STATE, action) {
       return { data: action.data, pagination: action.pagination };
     case 'NEW_TWEET':
       return { ...state, data: [action.tweet, ...state.data] };
+    case 'REFRESH_RETWEET':
+      return { ...state, data: [action.tweet, ...action.data] };
     default:
       return state;
   }
