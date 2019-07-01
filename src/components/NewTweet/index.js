@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Keyboard } from 'react-native';
-import { useSelector } from 'react-redux';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import api from '~/services/api';
 
@@ -12,6 +13,7 @@ import {
 import Avatar from '~/components/Avatar';
 
 function NewTweet({ navigation }) {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
   const [content, setContent] = useState('');
@@ -19,11 +21,13 @@ function NewTweet({ navigation }) {
 
   async function sendTweet() {
     try {
-      await api.post('tweet', { content });
+      const response = await api.post('tweet', { content });
 
       setContent('');
 
       Keyboard.dismiss();
+
+      dispatch({ type: 'NEW_TWEET', tweet: response.data });
     } catch (ex) {
       console.log(ex);
       // TODO: Handle exception

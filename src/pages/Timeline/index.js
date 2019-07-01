@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { RefreshControl } from 'react-native';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import api from '~/services/api';
+
+import io from 'socket.io-client';
 
 import { Container, Tweets } from './styles';
 import NewTweet from '~/components/NewTweet';
@@ -26,6 +29,21 @@ function Timeline() {
       console.log(ex);
     }
   }
+
+  useEffect(() => {
+    function subscribe() {
+      const socket = io('https://twillian-api.herokuapp.com');
+
+      socket.on('tweet', (tweet) => {
+        if (user.following.includes(tweet.user._id)) {
+          dispatch({ type: 'NEW_TWEET', tweet });
+        }
+      });
+    }
+
+    fetchTweets();
+    subscribe();
+  }, []);
 
   function fetchMore() {
     const { page, pages } = pagination;
@@ -52,10 +70,6 @@ function Timeline() {
       setRefreshing(false);
     }
   }
-
-  useEffect(() => {
-    fetchTweets();
-  }, []);
 
   async function handleLike(_id) {
     try {
