@@ -192,11 +192,15 @@ class TweetController {
 
       tweet.retweets.push(request.userId);
 
-      const retweet = await TweetModel.create({
+      let retweet = await TweetModel.create({
         user: request.userId,
         content: "empty",
         retweeted: tweet.retweeted ? tweet.retweeted._id : tweet._id
       });
+
+      retweet = await retweet.populate("user").execPopulate();
+
+      request.io.emit("tweet", retweet);
 
       return response.json({ 
         tweet: await tweet.save(), 
