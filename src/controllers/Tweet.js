@@ -96,18 +96,16 @@ class TweetController {
 
   async create(request, response) {
     try {
-      const tweet = await TweetModel.create({
+      let tweet = await TweetModel.create({
         ...request.body,
         user: request.userId
       });
 
-      const populated_tweet = await TweetModel.findOne({
-        _id: tweet._id
-      }).populate("user");
+      tweet = await tweet.populate("user").execPopulate();
 
-      return response.json({
-        tweet: populated_tweet
-      });
+      request.io.sockets.emit("tweet", tweet);
+
+      return response.json(tweet);
     } catch (error) {
       console.log(error);
       return response
