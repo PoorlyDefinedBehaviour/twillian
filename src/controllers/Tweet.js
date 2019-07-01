@@ -103,7 +103,7 @@ class TweetController {
 
       tweet = await tweet.populate("user").execPopulate();
 
-      request.io.sockets.emit("tweet", tweet);
+      request.io.emit("tweet", tweet);
 
       return response.json(tweet);
     } catch (error) {
