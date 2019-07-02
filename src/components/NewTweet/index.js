@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import api from '../../services/api';
 
@@ -6,12 +7,18 @@ import { Container, Message, Wrapper, SendWrapper, Send } from './styles';
 
 import Avatar from '../Avatar';
 
-function NewTweet({ user }) {
+function NewTweet() {
+  const dispatch = useDispatch();
+  const user = useSelector(store => store.user);
+
   const [content, setContent] = useState('');
 
   async function sendTweet() {
     try {
       const response = await api.post('tweet', { content });
+      
+      setContent('');
+      dispatch({ type: 'NEW_TWEET', tweet: response.data.tweet });
     } catch (ex) {
       console.log(ex);
     }

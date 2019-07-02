@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.extra_light_gray}99;
+  background-color: #fff;
 
   box-shadow: ${({ theme }) => theme.shadow};
 
@@ -20,8 +20,9 @@ export const Wrapper = styled.div`
 `;
 
 export const Message = styled.textarea`
-  background-color: #fff;
+  background-color: transparent;
 
+  border: 2px solid ${({ theme }) => theme.colors.primary}55;
   border-radius: 5px;
 
   letter-spacing: -1px;

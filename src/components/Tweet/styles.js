@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div``;
 
 export const TweetContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.extra_light_gray}99;
+  background-color: #fff;
 
   box-shadow: ${({ theme }) => theme.shadow};
 
@@ -19,13 +19,32 @@ export const RetweetWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 
-  background-color: ${({ theme }) => theme.colors.extra_light_gray}99;
+  background-color: #fff;
+
+  box-shadow: ${({ theme }) => theme.shadow};
 
   border-radius: 5px;
 
   margin-bottom: 2px;
-  margin-top: 5px;
   padding: 10px 15px;
+
+  position: relative;
+
+  ::after {
+    content: ' ';
+
+    background-color: ${({ theme }) => theme.colors.primary};
+
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    width: 5px;
+    height: 65px;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `;
 
 export const Retweeted = styled.span`

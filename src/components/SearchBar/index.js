@@ -17,7 +17,6 @@ function SearchBar() {
       setSearching(true);
 
       const response = await api.get(`search/${keyword}`);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Container,
@@ -12,7 +13,8 @@ import {
 
 import Avatar from '../Avatar';
 
-function CardProfile({ user, history }) {
+function CardProfile({ history }) {
+  const user = useSelector(store => store.user);
 
   return (
     <Container>

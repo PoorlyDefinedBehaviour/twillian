@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import api from '../../services/api';
-import { getUser } from '../../services/auth';
 
 import io from 'socket.io-client';
 
-import { Container, CardWrapper, Wrapper, Feed, Tweets } from './styles';
+import InfiniteScroll from 'react-infinite-scroller';
+
+import { Container, Wrapper, Feed, Tweets } from './styles';
 
 import Tweet from '../../components/Tweet';
 import Navbar from '../../components/Navbar';
@@ -13,44 +16,66 @@ import CardProfile from '../../components/CardProfile';
 import NewTweet from '../../components/NewTweet';
 
 export default function Timeline({ history }) {
-  const user = getUser();
+  const dispatch = useDispatch();
+  const { data: tweets, pagination } = useSelector(store => store.timeline);
+  const user = useSelector(store => store.user);
 
-  const [tweets, setTweets] = useState([]);
+  async function fetchTweets(page = 1) {
+    try {
+      const response = await api.get(
+        `tweet/${user._id}/following/?page=${page}`
+      );
+
+      const { docs, ...rest } = response.data;
+
+      dispatch({ type: 'FETCH_TWEETS', data: docs, pagination: rest });
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+  function fetchMore() {
+    const { page, pages } = pagination;
+
+    if (Number(page) === pages) return;
+
+    const nextPage = Number(page) + 1;
+
+    fetchTweets(nextPage);
+  }
 
   useEffect(() => {
-    async function fetchTweets() {
-      try {
-        const { data } = await api.get(`tweet/${user._id}/following?page=1`);
-
-        if (data.docs.length) {
-          setTweets(data.docs);
-        }
-      } catch (error) {
-        console.log('fetchTweets', error);
-      }
-    }
-
     fetchTweets();
 
-    const socket = io('http://localhost:3333');
-    socket.on('tweet', data => console.log(data));
-    // eslint-disable-next-line
-  }, []);
+    function subscribe() {
+      const socket = io('https://twillian-api.herokuapp.com');
+
+      socket.on('tweet', tweet => console.log(tweet));
+    }
+
+    subscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   function renderTweet(data) {
-    return <Tweet key={data._id} data={data} />;
+    return <Tweet key={data._id} data={data} history={history} />;
   }
 
   return (
     <>
       <Navbar />
       <Wrapper>
-        <CardWrapper>
-          <CardProfile user={user} history={history} />
-        </CardWrapper>
+        <Container>
+          <CardProfile history={history} />
+        </Container>
         <Feed>
-          <NewTweet user={user} />
-          <Tweets>{tweets.map(renderTweet)}</Tweets>
+          <NewTweet />
+          <InfiniteScroll
+            loadMore={fetchMore}
+            hasMore={Number(pagination.page) < pagination.pages}
+          >
+            <Tweets>{tweets.map(renderTweet)}</Tweets>
+          </InfiniteScroll>
         </Feed>
       </Wrapper>
     </>

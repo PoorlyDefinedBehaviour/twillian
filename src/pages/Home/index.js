@@ -1,7 +1,7 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import api from '../../services/api';
-import { authenticate } from '../../services/auth';
+import { authenticate, getUser } from '../../services/auth';
 
 import * as Yup from 'yup';
 
@@ -26,11 +26,12 @@ import Input from '../../components/Input';
 import image from '../../assets/img/app.png';
 
 function Home({ history }) {
-  useLayoutEffect(() => {
-    if (localStorage.getItem('@twillian:user')) {
-      history.push('/timeline');
-    }
-  }, [history]);
+  useEffect(() => {
+    const user = getUser();
+    if (!user) return;
+
+    history.push('/timeline');
+  });
 
   const initialValues = {
     username: '',
